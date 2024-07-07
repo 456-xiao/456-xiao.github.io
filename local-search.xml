@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  
+  
+  
+  <entry>
+    <title>test_page</title>
+    <link href="/2024/07/06/test-page/"/>
+    <url>/2024/07/06/test-page/</url>
+    
+    <content type="html"><![CDATA[<h1 id="波函数">波函数</h1><p>粒子的波函数<span class="math inline">\(\Psi(x,t)\)</span>（一维）或<span class="math inline">\(\Psi(\boldsymbol{r},t)\)</span>（三维）是复域函数，不能直接平方。而应该用模平方<spanclass="math inline">\(|\Psi(\boldsymbol{r}, t)|^2 \equiv \Psi^*\Psi\)</span>。<spanclass="math inline">\(\Psi\)</span>的共轭复数是<spanclass="math inline">\(\Psi^{*}\)</span>。全空间的概率密度积分为1，即<spanclass="math inline">\(\int \Psi^* \Psi dV = 1\)</span></p><h1 id="量子力学的基本假设">量子力学的基本假设</h1><p>粒子的波函数<span class="math inline">\(\Psi(\boldsymbol{r},t) =\psi_0 e^{i(\boldsymbol{k\cdot r}-wt)}\)</span></p><p>能量、动量变换<span class="math inline">\(E\)</span> -&gt; <spanclass="math inline">\(i\hbar\frac{\partial}{\partial t}\)</span>， <spanclass="math inline">\(\boldsymbol{P}\)</span> -&gt; <spanclass="math inline">\(-i\hbar \nabla\)</span></p><h1 id="薛定谔方程一般形式">薛定谔方程一般形式</h1><p>薛定谔方程一般形式： <span class="math display">\[\left[ -\frac{\hbar^2}{2m} \nabla^2 + V(\boldsymbol{r}) \right]\Psi(\boldsymbol{r}, t) = i\hbar\frac{\partial}{\partialt}\Psi(\boldsymbol{r}, t)\]</span> 其对应粒子质量<spanclass="math inline">\(m\)</span>，动量<spanclass="math inline">\(\boldsymbol{p}\)</span>，在势场<spanclass="math inline">\(V(\boldsymbol{r})\)</span>中的粒子能量表达式：<span class="math display">\[E = \frac{\boldsymbol{p}^2}{2m} + V(\boldsymbol{r})\]</span></p><p>薛定谔方程为线性微分方程，所以方程的解可以线性叠加，波函数是方程的解，所以波函数可以线性叠加</p><h1 id="定态薛定谔方程">定态薛定谔方程</h1><p><spanclass="math inline">\(V(\boldsymbol{r})\)</span>不显含时间t，可以用变数分离法求薛定谔方程特解。令<spanclass="math inline">\(\Psi(\boldsymbol{r}, t) =\psi(\boldsymbol{r})T(t)\)</span> 两边除以<spanclass="math inline">\(\psi T\)</span>得到 <span class="math display">\[\frac{1}{\psi} \left[ -\frac{\hbar^2}{2m} \nabla^2 + V(\boldsymbol{r})\right]\psi = \frac{i\hbar}{T} \frac{dT}{dt}\]</span> 令<spanclass="math inline">\(E\)</span>为分离常数，其具有能量量纲，与<spanclass="math inline">\(\boldsymbol{r},t\)</span>无关 <spanclass="math display">\[\frac{i\hbar}{T} \frac{dT}{dt} = E \quad (1)\]</span> <span class="math display">\[\frac{1}{\psi} \left[ -\frac{\hbar^2}{2m} \nabla^2 + V(\boldsymbol{r})\right]\psi = E \quad (2)\]</span> 解<span class="math inline">\((1)\)</span>得<spanclass="math inline">\(T=T_0e^{-iEt/\hbar}\)</span>。把常数<spanclass="math inline">\(T_0\)</span>归到<spanclass="math inline">\(\psi\)</span>中，<spanclass="math inline">\(\Psi(\boldsymbol{r}, t) =\psi(\boldsymbol{r})e^{-iEt/\hbar}\)</span>。</p><p>概率密度<span class="math inline">\(\Psi^*\Psi =\psi^*\psi\)</span>与时间无关</p><p>式<span class="math inline">\((2)\)</span>就是定态薛定谔方程 <spanclass="math display">\[\left[ -\frac{\hbar^2}{2m} \nabla^2 + V(\boldsymbol{r}) \right]\psi =E\psi\]</span></p>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Hello World</title>
+    <link href="/2024/07/06/hello-world/"/>
+    <url>/2024/07/06/hello-world/</url>
+    
+    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your veryfirst post. Check <a href="https://hexo.io/docs/">documentation</a> formore info. If you get any problems when using Hexo, you can find theanswer in <ahref="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> oryou can ask me on <ahref="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><h2 id="quick-start">Quick Start</h2><h3 id="create-a-new-post">Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span><br></code></pre></td></tr></table></figure><p>More info: <ahref="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="run-server">Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo server<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="generate-static-files">Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo generate<br></code></pre></td></tr></table></figure><p>More info: <ahref="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="deploy-to-remote-sites">Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo deploy<br></code></pre></td></tr></table></figure><p>More info: <ahref="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  
+</search>

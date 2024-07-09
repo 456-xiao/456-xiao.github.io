@@ -1,0 +1,904 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="xyh">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="z变换，基于matlab z变换由来 对连续信号\(x(t)\)进行采样\(x_s(t) &#x3D; \sum_{n&#x3D;-\infty}^{+\infty} x(nT)\delta(t-nT)\)，对采样信号做拉普拉斯变换 \[ X(s) &#x3D; \mathcal{L} \left[\sum_{n&#x3D;-\infty}^{+\infty} x(nT)\delta(t-nT) \right] &#x3D; \sum_">
+<meta property="og:type" content="article">
+<meta property="og:title" content="matlab_learning_2">
+<meta property="og:url" content="http://456-xiao.github.io/2024/07/08/matlab-learning-2/index.html">
+<meta property="og:site_name" content="菜鸡研究生的自救记录">
+<meta property="og:description" content="z变换，基于matlab z变换由来 对连续信号\(x(t)\)进行采样\(x_s(t) &#x3D; \sum_{n&#x3D;-\infty}^{+\infty} x(nT)\delta(t-nT)\)，对采样信号做拉普拉斯变换 \[ X(s) &#x3D; \mathcal{L} \left[\sum_{n&#x3D;-\infty}^{+\infty} x(nT)\delta(t-nT) \right] &#x3D; \sum_">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-07-08T02:28:31.000Z">
+<meta property="article:modified_time" content="2024-07-09T09:50:02.414Z">
+<meta property="article:author" content="xyh">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>matlab_learning_2 - 菜鸡研究生的自救记录</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"456-xiao.github.io","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>菜鸡研究生的自救记录</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/death-stranding.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="matlab_learning_2"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-07-08 10:28" pubdate>
+          2024年7月8日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          14 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">matlab_learning_2</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="z变换基于matlab">z变换，基于matlab</h1>
+<h2 id="z变换由来">z变换由来</h2>
+<p>对连续信号<span class="math inline">\(x(t)\)</span>进行采样<span
+class="math inline">\(x_s(t) = \sum_{n=-\infty}^{+\infty}
+x(nT)\delta(t-nT)\)</span>，对采样信号做拉普拉斯变换 <span
+class="math display">\[
+X(s) = \mathcal{L} \left[\sum_{n=-\infty}^{+\infty} x(nT)\delta(t-nT)
+\right] = \sum_{n=-\infty}^{+\infty} x(nT)\mathcal{L} [\delta(t-nT)] =
+\sum_{n=-\infty}^{+\infty} x(nT) e^{-nTs}
+\]</span></p>
+<p>令<span class="math inline">\(z = e^{Ts}\)</span>带入上式，得到<span
+class="math inline">\(X(s) = \sum_{n=-\infty}^{+\infty} x(nT)
+z^{-n}\)</span></p>
+<h2 id="z变换定义">z变换定义</h2>
+<p><span class="math inline">\(x[n]\)</span>为离散信号 <span
+class="math display">\[
+X(z) = \mathcal{Z}[x[n]] = \sum_{n=-\infty}^{+\infty} x[n]z^{-n}
+\]</span></p>
+<h2 id="z反变换定义">z反变换定义</h2>
+<p><span class="math display">\[
+x[n] = \mathcal{Z}^{-1}[X(z)] = \frac{1}{2\pi j} \oint_c X(z)z^{n-1}dz
+\]</span></p>
+<h2 id="收敛的充要条件">收敛的充要条件</h2>
+<p><span class="math display">\[
+\sum_{n=-\infty}^{+\infty} | x[n]z^{-n} | = M &lt; +\infty
+\]</span></p>
+<h2
+id="由充要条件推得不同情况下z变换的收敛域">由充要条件推得不同情况下z变换的收敛域</h2>
+<ol type="1">
+<li><p>有限长序列</p>
+<p><span class="math inline">\(x[n]\)</span> 只在 <span
+class="math inline">\(n_1 \leq n \leq n_2\)</span>
+有值，则z变换是有限项之和。<span
+class="math inline">\(x[n]\)</span>有界，只要<span
+class="math inline">\(0 &lt; |z| &lt; \infty\)</span>，<span
+class="math inline">\(X(z)\)</span>收敛。 有限长序列的收敛域<span
+class="math inline">\(0 &lt; |z| &lt; \infty\)</span>被称为有限<span
+class="math inline">\(z\)</span>平面。 <span class="math display">\[
+X(z) = \sum_{n=n_1}^{n_2} x[n]z^{-n}
+\]</span></p>
+<p>不管什么样的序列，若在<span
+class="math inline">\(n&gt;0\)</span>处序列有值，则在<span
+class="math inline">\(z=0\)</span>处不收敛。若在<span
+class="math inline">\(n&lt;0\)</span>处序列有值，则在<span
+class="math inline">\(z=\infty\)</span>处不收敛。</p></li>
+<li><p>右边序列</p>
+<p><span class="math inline">\(x[n]\)</span>在<span
+class="math inline">\(n \geq n_1\)</span>时有值，其它为0。其z变换为
+<span class="math display">\[
+X(z) = \sum_{n=n_1}^{-1} x[n]z^{-n} + \sum_{n=0}^{\infty} x[n]z^{-n}
+\]</span> 等式右边第一项收敛域为<span class="math inline">\(0 \leq |z|
+&lt; \infty\)</span>，等式右边第二项收敛域为<span
+class="math inline">\(R_{x-} &lt; |z| \leq
+\infty\)</span>。收敛域合一起是<span class="math inline">\(R_{x-} &lt;
+|z| &lt; \infty\)</span></p></li>
+<li><p>因果序列</p>
+<p><span class="math inline">\(x[n]\)</span>在<span
+class="math inline">\(n \geq 0\)</span>时有值，其它为0。其z变换为 <span
+class="math display">\[
+X(z) = \sum_{n=0}^{\infty} x[n]z^{-n}
+\]</span> 收敛域为<span class="math inline">\(R_{x-} &lt; |z| \leq
+\infty\)</span></p></li>
+<li><p>左边序列</p>
+<p><span class="math inline">\(x[n]\)</span>在<span
+class="math inline">\(n \leq n_2\)</span>时有值，其它为0。其z变换为
+<span class="math display">\[
+X(z) = \sum_{n=-\infty}^{0} x[n]z^{-n} + \sum_{n=1}^{n_2} x[n]z^{-n}
+\]</span> 等式右边第二项收敛域为<span class="math inline">\(0 &lt; |z|
+\leq \infty\)</span>，等式右边第一项收敛域为<span
+class="math inline">\(0 &lt; |z| &lt;
+R_{x+}\)</span>。收敛域合一起是<span class="math inline">\(0 &lt; |z|
+&lt; R_{x+}\)</span></p></li>
+<li><p>反因果序列</p>
+<p><span class="math inline">\(x[n]\)</span>在<span
+class="math inline">\(n &lt; 0\)</span>时有值，其它为0。其z变换为 <span
+class="math display">\[
+X(z) = \sum_{n=-\infty}^{-1} x[n]z^{-n}
+\]</span> 收敛域为<span class="math inline">\(0 \leq |z| &lt;
+R_{x+}\)</span></p></li>
+<li><p>双边序列 <span
+class="math inline">\(x[n]\)</span>在任意位置都有值。其z变换为 <span
+class="math display">\[
+X(z) = \sum_{n=-\infty}^{+\infty} x[n]z^{-n}
+\]</span> 收敛域为<span class="math inline">\(R_{x-} &lt; |z| &lt;
+R_{x+}\)</span></p></li>
+</ol>
+<h2 id="z变换性质">z变换性质</h2>
+<table>
+
+<thead>
+<tr class="header">
+<th>性质</th>
+<th>信号</th>
+<th>z变换</th>
+<th>收敛域</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td></td>
+<td><span class="math inline">\(x[n]\)</span></td>
+<td><span class="math inline">\(X(z)\)</span></td>
+<td><span class="math inline">\(R\)</span></td>
+</tr>
+<tr class="even">
+<td></td>
+<td><span class="math inline">\(x_1[n]\)</span></td>
+<td><span class="math inline">\(X_2(z)\)</span></td>
+<td><span class="math inline">\(R_1\)</span></td>
+</tr>
+<tr class="odd">
+<td></td>
+<td><span class="math inline">\(x_2[n]\)</span></td>
+<td><span class="math inline">\(X_3(z)\)</span></td>
+<td><span class="math inline">\(R_2\)</span></td>
+</tr>
+<tr class="even">
+<td>线性</td>
+<td><span class="math inline">\(ax_1[n] + bx_2[n]\)</span></td>
+<td><span class="math inline">\(aX_1(z) + bX_2(z)\)</span></td>
+<td>至少是<span class="math inline">\(R_1，R_2\)</span>相交</td>
+</tr>
+<tr class="odd">
+<td>时移</td>
+<td><span class="math inline">\(x[n-n_0]\)</span></td>
+<td><span class="math inline">\(z^{-n_0}X(z)\)</span></td>
+<td><span class="math inline">\(R\)</span>可能增加或去除0和<span
+class="math inline">\(\infty\)</span>点</td>
+</tr>
+<tr class="even">
+<td>z域尺度变换</td>
+<td><span class="math inline">\(e^{jw_0 n}x[n]\)</span></td>
+<td><span class="math inline">\(X(e^{-jw_0}z)\)</span></td>
+<td><span class="math inline">\(R\)</span></td>
+</tr>
+<tr class="odd">
+<td></td>
+<td><span class="math inline">\(z_0^n x[n]\)</span></td>
+<td><span class="math inline">\(X(z z_0^{-1})\)</span></td>
+<td><span class="math inline">\(z_0 R\)</span></td>
+</tr>
+<tr class="even">
+<td></td>
+<td><span class="math inline">\(a^n x[n]\)</span></td>
+<td><span class="math inline">\(X(a^{-1}z)\)</span></td>
+<td><span class="math inline">\(R\)</span>的比例伸缩</td>
+</tr>
+<tr class="odd">
+<td>时间反转</td>
+<td><span class="math inline">\(x[-n]\)</span></td>
+<td><span class="math inline">\(X(z^{-1})\)</span></td>
+<td><span class="math inline">\(R^{-1}\)</span></td>
+</tr>
+<tr class="even">
+<td>时间扩展</td>
+<td><span class="math inline">\(x_{(k)}[n] = x[r], n = rk; ~~ x_{(k)}[n]
+= 0, n \neq rk\)</span></td>
+<td><span class="math inline">\(X(z^k)\)</span></td>
+<td><span class="math inline">\(R^{1/k}\)</span></td>
+</tr>
+<tr class="odd">
+<td>共轭</td>
+<td><span class="math inline">\(x^*[n]\)</span></td>
+<td><span class="math inline">\(X^*(z^*)\)</span></td>
+<td><span class="math inline">\(R\)</span></td>
+</tr>
+<tr class="even">
+<td>卷积</td>
+<td><span class="math inline">\(x_1[n] * x_2[n]\)</span></td>
+<td><span class="math inline">\(X_1(z)X_2(z)\)</span></td>
+<td>至少是<span class="math inline">\(R_1,R_2\)</span>相交</td>
+</tr>
+<tr class="odd">
+<td>一次差分</td>
+<td><span class="math inline">\(x[n] - x[n-1]\)</span></td>
+<td><span class="math inline">\((1 - z^{-1})X(z)\)</span></td>
+<td>至少是<span class="math inline">\(R\)</span>和<span
+class="math inline">\(| z| &gt; 0\)</span>的相交</td>
+</tr>
+<tr class="even">
+<td>累加</td>
+<td><span class="math inline">\(\sum_{k = -\infty}^{n}
+x[k]\)</span></td>
+<td><span class="math inline">\(\frac{1}{1 - z^{-1}} X(z)\)</span></td>
+<td>至少是<span class="math inline">\(R\)</span>和<span
+class="math inline">\(| z| &gt;1\)</span>的相交</td>
+</tr>
+<tr class="odd">
+<td>z域微分</td>
+<td><span class="math inline">\(nx[n]\)</span></td>
+<td><span class="math inline">\(-z\frac{dX(z)}{dz}\)</span></td>
+<td><span class="math inline">\(R\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>初值定理：若<span
+class="math inline">\(n&lt;0,x[n]=0\)</span>，则<span
+class="math inline">\(x[0] = \lim_{z\to \infty} X(z)\)</span></p>
+<h2
+id="z变换与离散时间傅里叶变换关系">z变换与离散时间傅里叶变换关系</h2>
+<p>当<span class="math inline">\(|z| =
+1\)</span>时，z变换就是离散时间傅里叶变换。当z变换的收敛域包括单位圆时，其离散时间傅里叶变换收敛。</p>
+<h2 id="z变换matlab代码">z变换matlab代码</h2>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs matlab">syms n         <span class="hljs-comment">% n是符号变量，后面的运算都是符号运算</span><br>f = <span class="hljs-built_in">sin</span>(n);<br>F = ztrans(f);<br><span class="hljs-built_in">disp</span>(F);<br>w0 = <span class="hljs-number">2</span>*<span class="hljs-built_in">pi</span>/<span class="hljs-number">800</span>;<br>A  = <span class="hljs-number">10</span>;<br>phi= <span class="hljs-built_in">pi</span>/<span class="hljs-number">6</span>;<br><br>y = <span class="hljs-built_in">cos</span>(w0*n + phi) + A*<span class="hljs-built_in">sin</span>(w0*n);<br>Y = ztrans(y);<br><span class="hljs-built_in">disp</span>(Y);<br>subplot(<span class="hljs-number">1</span>,<span class="hljs-number">3</span>,<span class="hljs-number">1</span>);<br>fplot(F);<br>subplot(<span class="hljs-number">1</span>,<span class="hljs-number">3</span>,<span class="hljs-number">2</span>);<br>fplot(Y);<br><br>st = heaviside(n); <span class="hljs-comment">% 阶跃信号的符号函数</span><br>ST = ztrans(st);<br><span class="hljs-built_in">disp</span>(ST);<br>subplot(<span class="hljs-number">1</span>,<span class="hljs-number">3</span>,<span class="hljs-number">3</span>);<br>fplot(ST);<br></code></pre></td></tr></table></figure>
+<h2 id="matlab中的z逆变换">matlab中的z逆变换</h2>
+<p>matlab中的z逆变换结果都是因果序列，所以不用指定收敛域</p>
+<p>参考https://ww2.mathworks.cn/help/symbolic/sym.iztrans.html
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs matlab">syms z n;<br>a = <span class="hljs-number">2</span>;<br><br>F = a*z^(<span class="hljs-number">-1</span>) / (<span class="hljs-number">1</span> - a*z^(<span class="hljs-number">-1</span>))^<span class="hljs-number">2</span>;<br>f = iztrans(F, n);<br><span class="hljs-built_in">disp</span>(f);<br><br></code></pre></td></tr></table></figure></p>
+<h2 id="lti系统与z变换">LTI系统与z变换</h2>
+<p>在离散线性时不变系统的分析和表示中，z变换发挥特别重要的作用 <span
+class="math display">\[
+Y(z) = X(z)H(z)
+\]</span></p>
+<p><span
+class="math inline">\(H(z)\)</span>称为传递函数，是系统单位脉冲响应的z变换。
+只要单位圆在传函的收敛域内，将<span class="math inline">\(z =
+e^{jw}\)</span>带入<span class="math inline">\(H(z)\)</span>，则<span
+class="math inline">\(H(z)\)</span>变成系统的频率响应（z变换与傅里叶变换的关系）。</p>
+<h3 id="因果系统">因果系统</h3>
+<p>一个离散线性时不变系统，<span
+class="math inline">\(H(z)\)</span>的收敛域在某个圆的外边，包括无穷远点，该系统是因果的。对应前文因果序列的收敛域。h(n)为因果序列。</p>
+<p>若<span
+class="math inline">\(H(z)\)</span>表示成多项式之比，其分子阶次不能高于分母阶次。</p>
+<p>因果系统的初始松弛条件：<span class="math inline">\(if ~ x[n] = 0, n
+&lt; n_0 ~~ then ~ y[n] = 0, n &lt; n_0\)</span>，其中<span
+class="math inline">\(y[n] = \sum_{k = n_0}^{\infty}
+x[k]h[n-k]\)</span></p>
+<p>满足因果性的LTI系统在未开始输入的情况下是不会有输出的</p>
+<p>如果一个LTI系统是因果的，那么该系统就满足初始松弛条件；如果一个系统由线性常系数差分方程表征，并满足初始松弛条件，那么这就是一个满足因果性的LTI系统。</p>
+<h2
+id="lti系统的差分方程与matlab代码">LTI系统的差分方程与matlab代码</h2>
+<p>matlab中系统的差分方程一般形式： <span class="math display">\[
+\sum_{k = 1}^{N} a[k]y[n-(k-1)] = \sum_{m = 1}^{M} b[m]x[n - (m-1)]
+\]</span> 利用z变换的时移性质，其系统传函表示为： <span
+class="math display">\[
+Y(z) = \frac{ b[1] + b[2]z^{-1} + b[3]z^{-2} ... + b[M]z^{-(M-1)} }{
+a[1] + a[2]z^{-1} + a[3]z^{-2} ... + a[N]z^{-(N-1) }} X(z)
+\]</span></p>
+<p>一个离散线性时不变系统的稳定性等效于单位脉冲响应是绝对可和的。这种情况下h[n]的傅里叶变换收敛，所以传递函数的收敛域要包括单位圆。</p>
+<p>以下代码分别演示了稳定与不稳定系统的分析：</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><code class="hljs matlab">b1 = [<span class="hljs-number">-4</span> <span class="hljs-number">5</span>];<br>a1 = [<span class="hljs-number">1</span> <span class="hljs-number">-6</span> <span class="hljs-number">9</span>]; <span class="hljs-comment">% 不稳定系统</span><br><br>[r,p,k] = residuez(b1,a1);<br><br><span class="hljs-built_in">disp</span>(r);<br><span class="hljs-built_in">disp</span>(p);<br><span class="hljs-built_in">disp</span>(k);<br><br><span class="hljs-built_in">figure</span>(<span class="hljs-number">1</span>);<br><br>zplane(b1,a1);<br><br>h=[<span class="hljs-built_in">zeros</span>(<span class="hljs-number">1</span>,<span class="hljs-number">20</span>),<span class="hljs-number">1</span>,<span class="hljs-built_in">zeros</span>(<span class="hljs-number">1</span>,<span class="hljs-number">1000</span>)];<br><br>y=filter(b1,a1,h);<br>n=<span class="hljs-number">-20</span>:<span class="hljs-number">1000</span>;<br><br><span class="hljs-built_in">figure</span>(<span class="hljs-number">2</span>);<br><br>stem(n,y);<br>xlabel(<span class="hljs-string">&#x27;n&#x27;</span>);<br>ylabel(<span class="hljs-string">&#x27;h(n)&#x27;</span>);<br><br>b2=<span class="hljs-number">1</span>;<br>a2=[<span class="hljs-number">1</span>,<span class="hljs-number">-1</span>,<span class="hljs-number">0.9</span>]; <span class="hljs-comment">% 稳定系统</span><br><span class="hljs-built_in">figure</span>(<span class="hljs-number">3</span>);<br>zplane(b2,a2);<br><br><span class="hljs-built_in">figure</span>(<span class="hljs-number">4</span>);<br>y2 = filter(b2,a2,h);<br>stem(n,y2);<br></code></pre></td></tr></table></figure>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>matlab_learning_2</div>
+      <div>http://456-xiao.github.io/2024/07/08/matlab-learning-2/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>xyh</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年7月8日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/07/08/matlab-learning-1/" title="matlab_learning_1">
+                        <span class="hidden-mobile">matlab_learning_1</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

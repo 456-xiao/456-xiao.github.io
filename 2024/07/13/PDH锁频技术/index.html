@@ -16,21 +16,24 @@
   <meta name="author" content="xyh">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.">
+    <meta name="description" content="PDH激光稳频技术 介绍 基于频率调制（FM）。PHD技术是提高激光频率稳定性的技术。激光频率由FP腔测得，测量结果反馈到激光器中抑制频率漂移。好处是系统不会被FP腔的响应时间限制，频率浮动比腔的响应速度快。 概念模型 很多现代激光器是可调谐的，自带能反馈电信号的输入接口调节输出频率。如果能精确测量激光频率，并反馈回调谐接口，借助控制系统，能保持频率不变。 FP腔原理 在光学中，法布里">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="http://456-xiao.github.io/2024/07/06/hello-world/index.html">
+<meta property="og:title" content="PDH锁频技术">
+<meta property="og:url" content="http://456-xiao.github.io/2024/07/13/PDH%E9%94%81%E9%A2%91%E6%8A%80%E6%9C%AF/index.html">
 <meta property="og:site_name" content="菜鸡研究生的自救记录">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.">
+<meta property="og:description" content="PDH激光稳频技术 介绍 基于频率调制（FM）。PHD技术是提高激光频率稳定性的技术。激光频率由FP腔测得，测量结果反馈到激光器中抑制频率漂移。好处是系统不会被FP腔的响应时间限制，频率浮动比腔的响应速度快。 概念模型 很多现代激光器是可调谐的，自带能反馈电信号的输入接口调节输出频率。如果能精确测量激光频率，并反馈回调谐接口，借助控制系统，能保持频率不变。 FP腔原理 在光学中，法布里">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-07-06T13:37:47.612Z">
-<meta property="article:modified_time" content="2024-07-06T13:37:47.612Z">
+<meta property="og:image" content="http://456-xiao.github.io/images/M1M2.jpg">
+<meta property="article:published_time" content="2024-07-13T12:35:21.000Z">
+<meta property="article:modified_time" content="2024-07-13T14:36:45.346Z">
 <meta property="article:author" content="xyh">
+<meta property="article:tag" content="光学">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://456-xiao.github.io/images/M1M2.jpg">
   
   
   
-  <title>Hello World - 菜鸡研究生的自救记录</title>
+  <title>PDH锁频技术 - 菜鸡研究生的自救记录</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -200,7 +203,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Hello World"></span>
+            <span id="subtitle" data-typed-text="PDH锁频技术"></span>
           
         </div>
 
@@ -211,8 +214,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-07-06 21:37" pubdate>
-          2024年7月6日 晚上
+        <time datetime="2024-07-13 20:35" pubdate>
+          2024年7月13日 晚上
         </time>
       </span>
     
@@ -223,7 +226,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          18 字
+          793 字
         
       </span>
     
@@ -234,7 +237,7 @@
         
         
         
-          1 分钟
+          7 分钟
         
       </span>
     
@@ -271,34 +274,78 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">Hello World</h1>
+            <h1 id="seo-header">PDH锁频技术</h1>
             
             
               <div class="markdown-body">
                 
-                <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very
-first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for
-more info. If you get any problems when using Hexo, you can find the
-answer in <a
-target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or
-you can ask me on <a
-target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="quick-start">Quick Start</h2>
-<h3 id="create-a-new-post">Create a new post</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span><br></code></pre></td></tr></table></figure>
-<p>More info: <a
-target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="run-server">Run server</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo server<br></code></pre></td></tr></table></figure>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="generate-static-files">Generate static files</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo generate<br></code></pre></td></tr></table></figure>
-<p>More info: <a
-target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="deploy-to-remote-sites">Deploy to remote sites</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo deploy<br></code></pre></td></tr></table></figure>
-<p>More info: <a
-target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+                <h1 id="pdh激光稳频技术">PDH激光稳频技术</h1>
+<h2 id="介绍">介绍</h2>
+<p>基于频率调制（FM）。PHD技术是提高激光频率稳定性的技术。激光频率由FP腔测得，测量结果反馈到激光器中抑制频率漂移。好处是系统不会被FP腔的响应时间限制，频率浮动比腔的响应速度快。</p>
+<h2 id="概念模型">概念模型</h2>
+<p>很多现代激光器是可调谐的，自带能反馈电信号的输入接口调节输出频率。如果能精确测量激光频率，并反馈回调谐接口，借助控制系统，能保持频率不变。</p>
+<h3 id="fp腔原理">FP腔原理</h3>
+<p>在光学中，法布里－佩罗干涉仪（英文：Fabry–Pérot
+interferometer）是一种由两块平行的玻璃板组成的多光束干涉仪，其中两块玻璃板相对的内表面都具有高反射率。法布里－佩罗干涉仪也经常称作法布里－佩罗谐振腔、F-P腔或法-珀腔（英語：F-P
+Cavity），并且当两块玻璃板间用固定长度的空心间隔物来间隔固定时，它也被称作法布里－佩罗标准具或直接简称为标准具（来自法语étalon，
+意为“测量规范”或“标准”），但这些术语在使用时并不严格区分。这一干涉仪的特性为，当入射光的频率满足其共振条件时，其透射频谱会出现很高的峰值，对应着很高的透射率。法布里－佩罗干涉仪这一名称来自法国物理学家夏尔·法布里和阿尔弗雷德·佩罗（摘自wiki）。</p>
+<p>当FP腔尺寸远大于入射波长，可用多光束干涉进行描述。</p>
+<figure>
+<img src="/images/M1M2.jpg" srcset="/img/loading.gif" lazyload title="FP图片" alt="FP图片" />
+<figcaption aria-hidden="true">FP图片</figcaption>
+</figure>
+<p>如图，入射光为<span
+class="math inline">\(E_{in}\)</span>，两镜透射系数和反射系数分别为<span
+class="math inline">\(T_1, ~ T_2\)</span>和<span
+class="math inline">\(R_1, ~ R_2\)</span>。两镜间隔为<span
+class="math inline">\(L\)</span>。</p>
+<p>不考虑吸收有<span class="math inline">\(T_1 + R_1=1; ~ T_2 + R_2 =
+1\)</span>，入射光被<span
+class="math inline">\(M_1\)</span>外侧反射为<span
+class="math inline">\(E_{ in }\sqrt{R_1}\)</span>。在薄膜介质折射率<span
+class="math inline">\(n_1, n_2\)</span>相等条件下，折射率有如下关系<span
+class="math inline">\(r = -r&#39;\)</span>，相位反转180度。</p>
+<p>反射光强</p>
+<p><span class="math display">\[
+\begin{aligned}
+    E_{ref} &amp;= -E_{in}\sqrt{R_1} +
+E_{in}T_1\sqrt{R_2}e^{iw\frac{2L}{C}} + E_{in}T_1\sqrt{R_2}\sqrt{R_1
+R_2}e^{iw\frac{4L}{C}} + ... \\
+            &amp;= -E_{in}\sqrt{R_1} +
+E_{in}T_1\sqrt{R_2}e^{iw\frac{2L}{C}} \left( 1 + \sqrt{R_1
+R_2}e^{iw\frac{2L}{C}} + R_1 R_2e^{iw\frac{4L}{C}} + ... \right) \\
+            &amp;= -E_{in}\sqrt{R_1} +
+E_{in}T_1\sqrt{R_2}e^{iw\frac{2L}{C}} \cdot \frac{1}{ 1 - \sqrt{R_1
+R_2}e^{iw\frac{2L}{C}} }
+\end{aligned}
+\]</span></p>
+<p>若两个镜子反射率相同，即<span class="math inline">\(R_1 = R_2 =
+r^2\)</span>，其中<span
+class="math inline">\(R\)</span>为光强反射率，r为振幅反射率。则原式
+<span class="math display">\[
+\begin{aligned}
+    &amp;= -E_{in}r + \frac{ E_{in}(1 - R_1 )r e^{iw\frac{2L}{C}} }{ 1 -
+r^2 e^{iw\frac{2L}{C}} }, ~~~~ \Delta\nu_{fsr} = \frac{C}{2L} \\
+    &amp;= -E_{in}r + \frac{ E_{in}(1 - r^2 )r
+e^{iw\frac{1}{\Delta\nu_{fsr}}} }{ 1 - r^2
+e^{iw\frac{1}{\Delta\nu_{fsr}}} }
+\end{aligned}
+\]</span></p>
+<p>故电场反射耦合系数 <span class="math display">\[
+\begin{aligned}
+F(w) &amp;= \frac{ E_{ref} }{ E_{in} } = -r + \frac{ (1-r^2)r e^{iw
+\frac{1}{\Delta\nu_{fsr}}} }{ 1 - r^2e^{iw\frac{1}{\Delta\nu_{fsr}} }}
+\\
+     &amp;= \frac{ E_{ref} }{ E_{in} } = \frac{ r (e^{iw
+\frac{1}{\Delta\nu_{fsr}}} - 1) }{ 1 - r^2e^{iw\frac{1}{\Delta\nu_{fsr}}
+}}
+\end{aligned}
+\]</span> 线宽 <span class="math display">\[
+\Delta\nu_c = \frac{\Delta\nu_{fsr}}{F}
+\]</span></p>
+<p>精细度 <span class="math display">\[
+F=\frac{\pi r}{1-r^2}
+\]</span></p>
 
                 
               </div>
@@ -307,6 +354,34 @@ target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment
             <div>
               <div class="post-metas my-3">
   
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%BF%80%E5%85%89%E7%A8%B3%E9%A2%91/" class="category-chain-item">激光稳频</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%85%89%E5%AD%A6/" class="print-no-link">#光学</a>
+      
+    </div>
   
 </div>
 
@@ -316,8 +391,8 @@ target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Hello World</div>
-      <div>http://456-xiao.github.io/2024/07/06/hello-world/</div>
+      <div>PDH锁频技术</div>
+      <div>http://456-xiao.github.io/2024/07/13/PDH锁频技术/</div>
     </div>
     <div class="license-meta">
       
@@ -329,7 +404,7 @@ target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年7月6日</div>
+          <div>2024年7月13日</div>
         </div>
       
       
@@ -361,15 +436,21 @@ target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/07/06/test-page/" title="test_page">
+                      <a href="/2024/07/15/%E7%8B%BC%E4%B8%8E%E9%A6%99%E8%BE%9B%E6%96%99/" title="狼与香辛料">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">test_page</span>
+                        <span class="hidden-mobile">狼与香辛料</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
                   </article>
                   <article class="post-next col-6">
                     
+                    
+                      <a href="/2024/07/13/%E9%87%8F%E5%AD%90%E5%8A%9B%E5%AD%A6%E7%9A%84%E7%AC%A6%E5%8F%B7%E4%B8%8E%E7%AE%97%E7%AC%A6/" title="量子力学的符号与算符">
+                        <span class="hidden-mobile">量子力学的符号与算符</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
                     
                   </article>
                 </div>

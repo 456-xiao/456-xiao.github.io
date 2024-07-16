@@ -4,6 +4,56 @@
   
   
   <entry>
+    <title>通信笔记2</title>
+    <link href="/2024/07/16/%E9%80%9A%E4%BF%A1%E7%AC%94%E8%AE%B02/"/>
+    <url>/2024/07/16/%E9%80%9A%E4%BF%A1%E7%AC%94%E8%AE%B02/</url>
+    
+    <content type="html"><![CDATA[<p>功率信号频谱表达式： <span class="math display">\[C_n = \frac{1}{T_0} \int_{-T_0/2}^{T_0/2} s(t) e^{-j2\pi nf_0 t} dt\]</span> 能量信号频谱表达式： <span class="math display">\[\begin{aligned}S(f) = \int_{-\infty}^{\infty} s(t) e^{-j2\pi f t} dt \\s(t) = \int_{-\infty}^{\infty} S(f) e^{j2\pi f t} df\end{aligned}\]</span> 能量信号能量谱密度：</p><p>总能量： <span class="math display">\[E = \int_{-\infty}^{\infty} s^2(t) dt = \int_{-\infty}^{\infty} \left|S(f) \right|^2 df\]</span> 能量谱密度： <span class="math display">\[\left| S(f) \right|^2\]</span></p><p>功率信号功率谱密度：</p><p>能量： <span class="math display">\[E = \int_{-T/2}^{T/2} s_T^2(t) dt = \int_{-\infty}^{\infty} \left|S_T(f) \right|^2 df\]</span> 功率谱密度： <span class="math display">\[\lim_{T-&gt;\infty} \frac{1}{T} \left| S_T(f) \right|^2 = P(f)\]</span> 信号功率： <span class="math display">\[P = \int_{-\infty}^{\infty} P(f) df\]</span> 若有周期性<span class="math inline">\(T_0\)</span>： <spanclass="math display">\[P = \frac{1}{T_0} \int_{-T_0/2}^{T_0/2} s^2(t) dt = \sum_{n =-\infty}^{\infty} \left| C_n \right|^2\]</span> <span class="math inline">\(C_n\)</span>是傅里叶级数系数</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>通信原理</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>通信原理</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>通信笔记1</title>
+    <link href="/2024/07/16/%E9%80%9A%E4%BF%A1%E7%AC%94%E8%AE%B01/"/>
+    <url>/2024/07/16/%E9%80%9A%E4%BF%A1%E7%AC%94%E8%AE%B01/</url>
+    
+    <content type="html"><![CDATA[<h1 id="信息">信息</h1><p>信息定义：消息中蕴含的内容，原来未知而待知的内容。</p><p>通信目标：利用电信号传输消息中包含的信息，收端获得信息后，不确定性被消除。</p><p>一般通信系统模型：</p><ul><li><p>信源-&gt;发送设备-&gt;信道-&gt;接收设备-&gt;信宿</p></li><li><p>噪声源-&gt;信道</p></li></ul><p>数字通信系统模型：</p><ul><li><p>信源-&gt; 信源编码 -&gt; 加密 -&gt; 信道编码 -&gt; 数字调制-&gt;信道-&gt; 数字解调-&gt; 信道译码-&gt; 解密-&gt; 信源译码-&gt;信宿</p></li><li><p>噪声源-&gt;信道</p></li></ul><p>信源编码：A/D转换，通过数据压缩去冗余，提高通信系统有效性。</p><p>信道编码：提高系统抗干扰能力。</p><h2 id="信息量">信息量</h2><p>对接收者来说，只有消息中不确定的内容才构成信息。信息量的多少与接收者收到消息时感到的惊讶程度有关。</p><p>消息所表达的事件越不可能发生、越不可预测，信息量越大。</p><p>设<span class="math inline">\(P(x)\)</span>表示消息发生的概率，<spanclass="math inline">\(I\)</span>表示消息中所含的信息量 <spanclass="math display">\[I = I[P(x)]\]</span></p><p><span class="math inline">\(I\)</span>的两个特性：</p><ul><li><span class="math inline">\(P(x)\)</span>减小，<spanclass="math inline">\(I\)</span>增大。<spanclass="math inline">\(P(x)=1,~~~I=0;~~~~~~P(x)=0,~~~I=\infty\)</span></li><li><span class="math inline">\(I[P(x_1)P(x_2)P(x_3)...] = I[P(x_1)] +I[P(x_2)] + I[P(x_3)] + ...\)</span></li></ul><p><span class="math inline">\(I\)</span>的表达式：<spanclass="math inline">\(I = \log_a \frac{1}{P(x)} = - \log_aP(x)\)</span></p><p>信息量的单位和式中对数的底<spanclass="math inline">\(a\)</span>有关。若<spanclass="math inline">\(a=2\)</span>，则信息量的单位为比特（<spanclass="math inline">\(bit\)</span>）简记为<spanclass="math inline">\(b\)</span>。若<spanclass="math inline">\(a=e\)</span>，则信息量的单位为奈特（<spanclass="math inline">\(nat\)</span>）。</p><h2 id="等概率离散消息度量">等概率离散消息度量</h2><p>有一离散信源，以相等概率发送二进制数字“0”，“1”，则每个数字信息量为<span class="math display">\[I(0) = I(1) = \log_2 \frac{1}{1/2} = 1 ~ (b)\]</span> 一个二进制码元称为1b。</p><p>同理，传送等概率四进制波形之一（<spanclass="math inline">\(P=1/4\)</span>）的信息量为<spanclass="math inline">\(2b\)</span>， 传送等概率八进制波形之一（<spanclass="math inline">\(P=1/8\)</span>）的信息量为<spanclass="math inline">\(3b\)</span>， 传送等概率<spanclass="math inline">\(M\)</span>进制波形之一（<spanclass="math inline">\(P=1/M\)</span>）的信息量为<spanclass="math inline">\(\log_2 M ~~ (b)\)</span>。</p><p>考虑非等概率情况：<span class="math inline">\(x_i~(i =1,2,3...M)\)</span>对应<span class="math inline">\(P(x_i)~(i =1,2,3...M)\)</span>。且<span class="math inline">\(\sum_{i=1}^M P(x_i) =1\)</span>。 <span class="math display">\[I(x_i) = -\log_2 P(x_i)\]</span></p><p>每个符号所含信息量的统计平均值，即平均信息量为： <spanclass="math display">\[H(x) = -\sum_{i=1}^M P(x_i)\log_2 P(x_i) ~~~~ (b/符号)\]</span> 由于<spanclass="math inline">\(H\)</span>同热力学中的熵的形式相似，故常称他为信息源的熵，单位为“<spanclass="math inline">\(b/符号\)</span>”</p><p>显然，<spanclass="math inline">\(P(x_i)=\frac{1}{M}\)</span>时，熵有最大值。</p><p>一般用平均信息量（熵）乘某条消息的符号总数计算该条消息的信息量。</p><p>连续消息的平均信息量为： <span class="math display">\[H(x) = -\int_{-\infty}^{\infty} f(x) \log_a f(x) dx\]</span> <spanclass="math inline">\(f(x)\)</span>为连续消息出现的概率密度。</p><h1 id="通信系统的性能指标">通信系统的性能指标</h1><table><thead><tr class="header"><th></th><th>有效性</th><th>可靠性</th></tr></thead><tbody><tr class="odd"><td>模拟通信</td><td>传输带宽</td><td>输出信噪比</td></tr><tr class="even"><td>数字通信</td><td>码元速率<span class="math inline">\(R_B\)</span></td><td>差错概率（误码率）</td></tr><tr class="odd"><td></td><td>信息速率<span class="math inline">\(R_b\)</span></td><td>差错概率（误信率）</td></tr><tr class="even"><td></td><td>频带利用率<span class="math inline">\(\eta\)</span></td><td></td></tr></tbody></table><p>频带利用率： <span class="math inline">\(\eta = R_B/B ~~(Baud/Hz)\)</span>，或者，<span class="math inline">\(\eta_b = R_b/B ~~(b/(s\cdot Hz))\)</span></p><p><spanclass="math inline">\(R_B\)</span>是码元传输速率（传码率），单位时间传输码元数目，单位（<spanclass="math inline">\(Baud\)</span>）。 <spanclass="math inline">\(R_b\)</span>是信息传输速率（传信率），单位时间传输平均信息量，单位（<spanclass="math inline">\(b/s\)</span>）。</p><p><span class="math inline">\(M\)</span>进制码元携带<spanclass="math inline">\(\log_2 M\)</span>比特的信息量： <spanclass="math display">\[\begin{aligned}R_b &amp;= R_B \log_2 M ~~(b/s) \\R_B &amp;= R_b / \log_2 M ~~(Baud)\end{aligned}\]</span></p><p>可靠性：</p><ul><li>模拟：接收端输出信号与噪声功率比（<spanclass="math inline">\(S/N\)</span>）</li><li>数字：用差错概率衡量（误码率、误信率）</li></ul><p>误码率： <span class="math display">\[P_e = \frac{错误码元数量}{传输总码元数量}\]</span></p><p>误信率： <span class="math display">\[P_b = \frac{错误比特数量}{传输总比特数量}\]</span></p><p>当使用二进制编码时，<span class="math inline">\(P_e =P_b\)</span></p><p>使用八进制编码时，码元有三位，假设收到<spanclass="math inline">\(9bit\)</span>，错<spanclass="math inline">\(1bit\)</span>，即收到三个符号，错一个符号。这种情况下，<spanclass="math inline">\(P_e=1/3, ~~ P_b = 1/9, ~~ P_e &gt;P_b\)</span></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>通信原理</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>通信原理</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>狼与香辛料</title>
     <link href="/2024/07/15/%E7%8B%BC%E4%B8%8E%E9%A6%99%E8%BE%9B%E6%96%99/"/>
     <url>/2024/07/15/%E7%8B%BC%E4%B8%8E%E9%A6%99%E8%BE%9B%E6%96%99/</url>

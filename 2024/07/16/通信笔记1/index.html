@@ -1,0 +1,841 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="xyh">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="信息 信息定义：消息中蕴含的内容，原来未知而待知的内容。 通信目标：利用电信号传输消息中包含的信息，收端获得信息后，不确定性被消除。 一般通信系统模型：  信源-&gt;发送设备-&gt;信道-&gt;接收设备-&gt;信宿 噪声源-&gt;信道  数字通信系统模型：  信源-&gt; 信源编码 -&gt; 加密 -&gt; 信道编码 -&gt; 数字调制-&gt; 信道-&amp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="通信笔记1">
+<meta property="og:url" content="http://456-xiao.github.io/2024/07/16/%E9%80%9A%E4%BF%A1%E7%AC%94%E8%AE%B01/index.html">
+<meta property="og:site_name" content="菜鸡研究生的自救记录">
+<meta property="og:description" content="信息 信息定义：消息中蕴含的内容，原来未知而待知的内容。 通信目标：利用电信号传输消息中包含的信息，收端获得信息后，不确定性被消除。 一般通信系统模型：  信源-&gt;发送设备-&gt;信道-&gt;接收设备-&gt;信宿 噪声源-&gt;信道  数字通信系统模型：  信源-&gt; 信源编码 -&gt; 加密 -&gt; 信道编码 -&gt; 数字调制-&gt; 信道-&amp;">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-07-16T10:01:34.000Z">
+<meta property="article:modified_time" content="2024-07-16T10:01:34.348Z">
+<meta property="article:author" content="xyh">
+<meta property="article:tag" content="通信原理">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>通信笔记1 - 菜鸡研究生的自救记录</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"456-xiao.github.io","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>菜鸡研究生的自救记录</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/death-stranding.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="通信笔记1"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-07-16 18:01" pubdate>
+          2024年7月16日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          975 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          9 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">通信笔记1</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="信息">信息</h1>
+<p>信息定义：消息中蕴含的内容，原来未知而待知的内容。</p>
+<p>通信目标：利用电信号传输消息中包含的信息，收端获得信息后，不确定性被消除。</p>
+<p>一般通信系统模型：</p>
+<ul>
+<li><p>信源-&gt;发送设备-&gt;信道-&gt;接收设备-&gt;信宿</p></li>
+<li><p>噪声源-&gt;信道</p></li>
+</ul>
+<p>数字通信系统模型：</p>
+<ul>
+<li><p>信源-&gt; 信源编码 -&gt; 加密 -&gt; 信道编码 -&gt; 数字调制-&gt;
+信道-&gt; 数字解调-&gt; 信道译码-&gt; 解密-&gt; 信源译码-&gt;
+信宿</p></li>
+<li><p>噪声源-&gt;信道</p></li>
+</ul>
+<p>信源编码：A/D转换，通过数据压缩去冗余，提高通信系统有效性。</p>
+<p>信道编码：提高系统抗干扰能力。</p>
+<h2 id="信息量">信息量</h2>
+<p>对接收者来说，只有消息中不确定的内容才构成信息。信息量的多少与接收者收到消息时感到的惊讶程度有关。</p>
+<p>消息所表达的事件越不可能发生、越不可预测，信息量越大。</p>
+<p>设<span class="math inline">\(P(x)\)</span>表示消息发生的概率，<span
+class="math inline">\(I\)</span>表示消息中所含的信息量 <span
+class="math display">\[
+I = I[P(x)]
+\]</span></p>
+<p><span class="math inline">\(I\)</span>的两个特性：</p>
+<ul>
+<li><span class="math inline">\(P(x)\)</span>减小，<span
+class="math inline">\(I\)</span>增大。<span
+class="math inline">\(P(x)=1,~~~I=0;
+~~~~~~P(x)=0,~~~I=\infty\)</span></li>
+<li><span class="math inline">\(I[P(x_1)P(x_2)P(x_3)...] = I[P(x_1)] +
+I[P(x_2)] + I[P(x_3)] + ...\)</span></li>
+</ul>
+<p><span class="math inline">\(I\)</span>的表达式：<span
+class="math inline">\(I = \log_a \frac{1}{P(x)} = - \log_a
+P(x)\)</span></p>
+<p>信息量的单位和式中对数的底<span
+class="math inline">\(a\)</span>有关。若<span
+class="math inline">\(a=2\)</span>，则信息量的单位为比特（<span
+class="math inline">\(bit\)</span>）简记为<span
+class="math inline">\(b\)</span>。若<span
+class="math inline">\(a=e\)</span>，则信息量的单位为奈特（<span
+class="math inline">\(nat\)</span>）。</p>
+<h2 id="等概率离散消息度量">等概率离散消息度量</h2>
+<p>有一离散信源，以相等概率发送二进制数字“0”，“1”，则每个数字信息量为
+<span class="math display">\[
+I(0) = I(1) = \log_2 \frac{1}{1/2} = 1 ~ (b)
+\]</span> 一个二进制码元称为1b。</p>
+<p>同理，传送等概率四进制波形之一（<span
+class="math inline">\(P=1/4\)</span>）的信息量为<span
+class="math inline">\(2b\)</span>， 传送等概率八进制波形之一（<span
+class="math inline">\(P=1/8\)</span>）的信息量为<span
+class="math inline">\(3b\)</span>， 传送等概率<span
+class="math inline">\(M\)</span>进制波形之一（<span
+class="math inline">\(P=1/M\)</span>）的信息量为<span
+class="math inline">\(\log_2 M ~~ (b)\)</span>。</p>
+<p>考虑非等概率情况：<span class="math inline">\(x_i~(i =
+1,2,3...M)\)</span>对应<span class="math inline">\(P(x_i)~(i =
+1,2,3...M)\)</span>。且<span class="math inline">\(\sum_{i=1}^M P(x_i) =
+1\)</span>。 <span class="math display">\[
+I(x_i) = -\log_2 P(x_i)
+\]</span></p>
+<p>每个符号所含信息量的统计平均值，即平均信息量为： <span
+class="math display">\[
+H(x) = -\sum_{i=1}^M P(x_i)\log_2 P(x_i) ~~~~ (b/符号)
+\]</span> 由于<span
+class="math inline">\(H\)</span>同热力学中的熵的形式相似，故常称他为信息源的熵，单位为“<span
+class="math inline">\(b/符号\)</span>”</p>
+<p>显然，<span
+class="math inline">\(P(x_i)=\frac{1}{M}\)</span>时，熵有最大值。</p>
+<p>一般用平均信息量（熵）乘某条消息的符号总数计算该条消息的信息量。</p>
+<p>连续消息的平均信息量为： <span class="math display">\[
+H(x) = -\int_{-\infty}^{\infty} f(x) \log_a f(x) dx
+\]</span> <span
+class="math inline">\(f(x)\)</span>为连续消息出现的概率密度。</p>
+<h1 id="通信系统的性能指标">通信系统的性能指标</h1>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th>有效性</th>
+<th>可靠性</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>模拟通信</td>
+<td>传输带宽</td>
+<td>输出信噪比</td>
+</tr>
+<tr class="even">
+<td>数字通信</td>
+<td>码元速率<span class="math inline">\(R_B\)</span></td>
+<td>差错概率（误码率）</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>信息速率<span class="math inline">\(R_b\)</span></td>
+<td>差错概率（误信率）</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>频带利用率<span class="math inline">\(\eta\)</span></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>频带利用率： <span class="math inline">\(\eta = R_B/B ~~
+(Baud/Hz)\)</span>，或者，<span class="math inline">\(\eta_b = R_b/B ~~
+(b/(s\cdot Hz))\)</span></p>
+<p><span
+class="math inline">\(R_B\)</span>是码元传输速率（传码率），单位时间传输码元数目，单位（<span
+class="math inline">\(Baud\)</span>）。 <span
+class="math inline">\(R_b\)</span>是信息传输速率（传信率），单位时间传输平均信息量，单位（<span
+class="math inline">\(b/s\)</span>）。</p>
+<p><span class="math inline">\(M\)</span>进制码元携带<span
+class="math inline">\(\log_2 M\)</span>比特的信息量： <span
+class="math display">\[
+\begin{aligned}
+R_b &amp;= R_B \log_2 M ~~(b/s) \\
+R_B &amp;= R_b / \log_2 M ~~(Baud)
+\end{aligned}
+\]</span></p>
+<p>可靠性：</p>
+<ul>
+<li>模拟：接收端输出信号与噪声功率比（<span
+class="math inline">\(S/N\)</span>）</li>
+<li>数字：用差错概率衡量（误码率、误信率）</li>
+</ul>
+<p>误码率： <span class="math display">\[
+P_e = \frac{错误码元数量}{传输总码元数量}
+\]</span></p>
+<p>误信率： <span class="math display">\[
+P_b = \frac{错误比特数量}{传输总比特数量}
+\]</span></p>
+<p>当使用二进制编码时，<span class="math inline">\(P_e =
+P_b\)</span></p>
+<p>使用八进制编码时，码元有三位，假设收到<span
+class="math inline">\(9bit\)</span>，错<span
+class="math inline">\(1bit\)</span>，即收到三个符号，错一个符号。这种情况下，<span
+class="math inline">\(P_e=1/3, ~~ P_b = 1/9, ~~ P_e &gt;
+P_b\)</span></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E9%80%9A%E4%BF%A1%E5%8E%9F%E7%90%86/" class="category-chain-item">通信原理</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E9%80%9A%E4%BF%A1%E5%8E%9F%E7%90%86/" class="print-no-link">#通信原理</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>通信笔记1</div>
+      <div>http://456-xiao.github.io/2024/07/16/通信笔记1/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>xyh</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年7月16日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/07/16/%E9%80%9A%E4%BF%A1%E7%AC%94%E8%AE%B02/" title="通信笔记2">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">通信笔记2</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/07/15/%E7%8B%BC%E4%B8%8E%E9%A6%99%E8%BE%9B%E6%96%99/" title="狼与香辛料">
+                        <span class="hidden-mobile">狼与香辛料</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

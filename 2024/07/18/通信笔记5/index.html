@@ -16,12 +16,12 @@
   <meta name="author" content="xyh">
   <meta name="keywords" content="">
   
-    <meta name="description" content="模拟调制与解调（配合matlab） 调制：把消息信号寄托在载波的某个参数上，形成已调信号。 解调：调制的逆过程，从已调信号中恢复消息信号。 调制目的：  匹配信道特性，减小天线尺寸，提高辐射效率 通过频谱搬移，实现信道的多路复用，提高信道利用率 拓展信号带宽，提高抗干扰能力 实现带宽与信噪比的互换  调制分类   调制分类https:&#x2F;&#x2F;www.bilibili.com&#x2F;">
+    <meta name="description" content="模拟调制与解调 调制：把消息信号寄托在载波的某个参数上，形成已调信号。 解调：调制的逆过程，从已调信号中恢复消息信号。 调制目的：  匹配信道特性，减小天线尺寸，提高辐射效率 通过频谱搬移，实现信道的多路复用，提高信道利用率 拓展信号带宽，提高抗干扰能力 实现带宽与信噪比的互换  调制分类   调制分类https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;BV1w">
 <meta property="og:type" content="article">
 <meta property="og:title" content="通信笔记5">
 <meta property="og:url" content="http://456-xiao.github.io/2024/07/18/%E9%80%9A%E4%BF%A1%E7%AC%94%E8%AE%B05/index.html">
 <meta property="og:site_name" content="菜鸡研究生的自救记录">
-<meta property="og:description" content="模拟调制与解调（配合matlab） 调制：把消息信号寄托在载波的某个参数上，形成已调信号。 解调：调制的逆过程，从已调信号中恢复消息信号。 调制目的：  匹配信道特性，减小天线尺寸，提高辐射效率 通过频谱搬移，实现信道的多路复用，提高信道利用率 拓展信号带宽，提高抗干扰能力 实现带宽与信噪比的互换  调制分类   调制分类https:&#x2F;&#x2F;www.bilibili.com&#x2F;">
+<meta property="og:description" content="模拟调制与解调 调制：把消息信号寄托在载波的某个参数上，形成已调信号。 解调：调制的逆过程，从已调信号中恢复消息信号。 调制目的：  匹配信道特性，减小天线尺寸，提高辐射效率 通过频谱搬移，实现信道的多路复用，提高信道利用率 拓展信号带宽，提高抗干扰能力 实现带宽与信噪比的互换  调制分类   调制分类https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;BV1w">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://456-xiao.github.io/images/%E8%B0%83%E5%88%B6%E5%88%86%E7%B1%BB.png">
 <meta property="og:image" content="http://456-xiao.github.io/images/%E8%B0%83%E5%88%B6%E5%88%86%E7%B1%BB2.png">
@@ -39,10 +39,18 @@
 <meta property="og:image" content="http://456-xiao.github.io/images/%E8%B0%83%E9%A2%91%E9%A2%91%E8%B0%B1.jpg">
 <meta property="og:image" content="http://456-xiao.github.io/images/%E8%B0%83%E9%A2%91%E7%B3%BB%E7%BB%9F%E6%A1%86%E5%9B%BE.jpg">
 <meta property="og:image" content="http://456-xiao.github.io/images/%E9%98%BF%E5%A7%86%E6%96%AF%E7%89%B9%E6%9C%97.jpg">
+<meta property="og:image" content="http://456-xiao.github.io/images/%E5%99%AA%E5%A3%B0%E5%88%86%E6%9E%90%E6%A8%A1%E5%9E%8B.png">
+<meta property="og:image" content="http://456-xiao.github.io/images/%E5%B8%A6%E9%80%9A%E6%BB%A4%E6%B3%A2%E5%99%A8%E4%B8%AD%E5%BF%83%E9%A2%91%E7%8E%87.png">
+<meta property="og:image" content="http://456-xiao.github.io/images/DSB%E5%99%AA%E5%A3%B0.png">
+<meta property="og:image" content="http://456-xiao.github.io/images/DSB%E4%BF%A1%E5%99%AA%E6%AF%94.png">
+<meta property="og:image" content="http://456-xiao.github.io/images/SSB%E5%99%AA%E5%A3%B0.png">
+<meta property="og:image" content="http://456-xiao.github.io/images/SSB%E4%BF%A1%E5%99%AA%E6%AF%94.png">
+<meta property="og:image" content="http://456-xiao.github.io/images/FM%E9%89%B4%E9%A2%91%E5%99%A8%E6%8A%97%E5%99%AA%E5%A3%B0%E6%80%A7%E8%83%BD.png">
+<meta property="og:image" content="http://456-xiao.github.io/images/%E6%80%A7%E8%83%BD%E6%AF%94%E8%BE%83.png">
+<meta property="og:image" content="http://456-xiao.github.io/images/%E9%A2%91%E5%88%86%E5%A4%8D%E7%94%A8FDM.png">
 <meta property="article:published_time" content="2024-07-18T15:39:10.000Z">
-<meta property="article:modified_time" content="2024-07-19T08:43:17.252Z">
+<meta property="article:modified_time" content="2024-07-20T02:08:44.665Z">
 <meta property="article:author" content="xyh">
-<meta property="article:tag" content="matlab">
 <meta property="article:tag" content="通信原理">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="http://456-xiao.github.io/images/%E8%B0%83%E5%88%B6%E5%88%86%E7%B1%BB.png">
@@ -242,7 +250,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          3.9k 字
+          4.7k 字
         
       </span>
     
@@ -253,7 +261,7 @@
         
         
         
-          33 分钟
+          40 分钟
         
       </span>
     
@@ -295,7 +303,7 @@
             
               <div class="markdown-body">
                 
-                <h1 id="模拟调制与解调配合matlab">模拟调制与解调（配合matlab）</h1>
+                <h1 id="模拟调制与解调">模拟调制与解调</h1>
 <p>调制：把消息信号寄托在载波的某个参数上，形成已调信号。</p>
 <p>解调：调制的逆过程，从已调信号中恢复消息信号。</p>
 <p>调制目的：</p>
@@ -777,6 +785,155 @@ s_d (t) = \frac{A}{2} K_f \int m(\tau)]d\tau
 m_o(t) = \frac{ AK_f  }{ 2 } m(t)
 \]</span></p>
 <h2 id="抗噪声性能">抗噪声性能</h2>
+<p>信道中加性高斯白噪声是普遍存在的噪声。加性噪声被认为只对已调信号的接收产生影响。<strong>通信系统的抗噪声性能可以用解调器的抗噪声性能衡量</strong></p>
+<figure>
+<img src="/images/噪声分析模型.png" srcset="/img/loading.gif" lazyload title="噪声分析模型"
+alt="噪声分析模型https://www.bilibili.com/video/BV1wA4y1f7Co?p=24" />
+<figcaption
+aria-hidden="true">噪声分析模型https://www.bilibili.com/video/BV1wA4y1f7Co?p=24</figcaption>
+</figure>
+<p>一般认为图中<span
+class="math inline">\(n_i(t)\)</span>是平稳窄带高斯噪声 <span
+class="math display">\[
+n_i(t) = n_c(t) \cos w_0 t - n_s(t) \sin w_0 t
+\]</span> <span
+class="math inline">\(w_0\)</span>是带通滤波器的中心频率</p>
+<p><span class="math display">\[
+\overline{ n_i^2(t) } = \overline{ n_c^2(t) } = \overline{ n_s^2(t) } =
+N_i = n_0 B
+\]</span> <span
+class="math inline">\(n_0\)</span>是白噪声功率谱密度，<span
+class="math inline">\(B\)</span>是带通滤波器带宽也是已调信号频带宽度。</p>
+<p>信噪比 <span class="math display">\[
+\frac{S_o}{N_o} = \frac{ 解调器输出有用信号的平均功率 }{
+解调器输出噪声的平均功率 } = \frac{ \overline{m_o^2(t)} }{ n_o^2(t) }
+\]</span></p>
+<p>为了便于比较同类调制系统采用不同解调器时的性能，引入输出信噪比和输入信噪比的比值——调制制度增益或信噪比增益<span
+class="math inline">\(G\)</span> <span class="math display">\[
+G = \frac{ S_o/N_o }{ S_i / N_i }
+\]</span> <span
+class="math inline">\(G\)</span>的大小反应调制制度的优劣。</p>
+<p><span class="math display">\[
+\frac{S_i}{N_i} = \frac{ 解调器输入已调信号的平均功率 }{
+解调器输入噪声的平均功率 } = \frac{ \overline{s_m^2(t)} }{ n_i^2(t) }
+\]</span></p>
+<h3 id="线性系统抗噪声性能">线性系统抗噪声性能</h3>
+<figure>
+<img src="/images/带通滤波器中心频率.png" srcset="/img/loading.gif" lazyload title="带通滤波器中心频率"
+alt="带通滤波器中心频率https://www.bilibili.com/video/BV1wA4y1f7Co?p=24" />
+<figcaption
+aria-hidden="true">带通滤波器中心频率https://www.bilibili.com/video/BV1wA4y1f7Co?p=24</figcaption>
+</figure>
+<h4 id="dsb系统噪声">DSB系统噪声</h4>
+<figure>
+<img src="/images/DSB噪声.png" srcset="/img/loading.gif" lazyload title="DSB噪声" alt="DSB噪声" />
+<figcaption aria-hidden="true">DSB噪声</figcaption>
+</figure>
+<figure>
+<img src="/images/DSB信噪比.png" srcset="/img/loading.gif" lazyload title="DSB信噪比" alt="DSB信噪比" />
+<figcaption aria-hidden="true">DSB信噪比</figcaption>
+</figure>
+<h4 id="ssb系统噪声">SSB系统噪声</h4>
+<figure>
+<img src="/images/SSB噪声.png" srcset="/img/loading.gif" lazyload title="SSB噪声" alt="SSB噪声" />
+<figcaption aria-hidden="true">SSB噪声</figcaption>
+</figure>
+<figure>
+<img src="/images/SSB信噪比.png" srcset="/img/loading.gif" lazyload title="SSB信噪比" alt="SSB信噪比" />
+<figcaption aria-hidden="true">SSB信噪比</figcaption>
+</figure>
+<h4 id="dsbssb抗噪声性能比较">DSB,SSB抗噪声性能比较</h4>
+<p>输入功率<span class="math inline">\(S_i\)</span>，功率谱密度<span
+class="math inline">\(n_0\)</span>，基带信号最高频率<span
+class="math inline">\(f_H\)</span>都相同时</p>
+<p>DSB带宽<span class="math inline">\(B=2f_H\)</span>，SSB带宽<span
+class="math inline">\(B=f_H\)</span></p>
+<p><span class="math display">\[
+\left( \frac{S_o}{N_o} \right)_{DSB} = 2 \frac{S_i}{N_i} =
+\frac{S_i}{n_0 f_H}
+\]</span></p>
+<p><span class="math display">\[
+\left( \frac{S_o}{N_o} \right)_{SSB} = \frac{S_i}{N_i} = \frac{S_i}{n_0
+f_H}
+\]</span></p>
+<p><strong>DSB,SSB抗噪声性能相同</strong></p>
+<h4 id="am系统噪声">AM系统噪声</h4>
+<p>输入信号 <span class="math display">\[
+s_m(t) = [A_0 + m(t)] \cos w_ct
+\]</span> 噪声 <span class="math display">\[
+n_i(t) = n_c(t)\cos w_c t - n_s(t) \sin w_c t
+\]</span></p>
+<p><span class="math display">\[
+S_i = \overline{ s_m^2(t) } = \frac{A_0}{2} + \frac{ \overline{ m^2(t) }
+}{2}
+\]</span> <span class="math display">\[
+N_i = \overline{ n_i^2(t) } = n_0 B
+\]</span></p>
+<p><span class="math display">\[
+\frac{S_i}{N_i} = \frac{ A_0^2 + \overline{ m^2(t) } }{ 2n_0 B }
+\]</span></p>
+<p>解调器输入的时混合波形 <span class="math display">\[
+s_m (t) + n_i (t) = E(t) \cos [ w_c t + \Phi(t) ]
+\]</span> <span class="math display">\[
+E(t) = \sqrt{ [ A_0 + m(t) + n_c(t) ]^2  + n_s^2(t)}
+\]</span> <span class="math display">\[
+\Phi(t) = \arctan \left[ \frac{n_s(t)}{  A_0 + m(t) + n_c(t) } \right]
+\]</span></p>
+<p>显然<span class="math inline">\(E(t)\)</span>是所求包络。</p>
+<p>大信噪比情况：</p>
+<p><span class="math display">\[
+[A_0 + m(t)] \gg \sqrt{ n_c^2(t)  + n_s^2(t) }
+\]</span> <span class="math inline">\(E(t)\)</span>可以化简为 <span
+class="math display">\[
+E(t) = A_0 + m(t) + n_c(t)
+\]</span></p>
+<ul>
+<li>注：利用近似公式<span class="math inline">\((1 + x)^{1/2} \approx 1
++ x/2\)</span></li>
+</ul>
+<p>输出信号功率为 <span class="math display">\[
+S_o = \overline{ m^2(t) }
+\]</span> 输出噪声功率 <span class="math display">\[
+N_o = \overline{ n_c^2(t) } = \overline{ n_i^2(t) } = n_0B
+\]</span> 输出信噪比 <span class="math display">\[
+\frac{S_o}{N_o} = \frac{ \overline{ m^2(t) } }{ n_0B }
+\]</span></p>
+<p>调制制度增益 <span class="math display">\[
+G = \frac{ 2\overline{ m^2(t) } }{ A_0^2 + \overline{ m^2(t) } }
+\]</span> <span class="math inline">\(G\)</span>最大为<span
+class="math inline">\(2/3\)</span></p>
+<p>小信噪比情况</p>
+<p><span class="math display">\[
+E(t) = R(t) \sqrt{ 1 + \frac{ 2[A_0 + m(t)] }{ R(t) } \cos \theta(t) }
+\]</span> 其中 <span class="math display">\[
+\begin{aligned}
+    R(t) = \sqrt{ n_c^2(t) + n_s^2(t) } \\
+    \theta(t) = \arctan \left[ \frac{ n_s(t) }{ n_c(t) } \right] \\
+    \cos \theta (t) = \frac{ n_c(t) }{R(t)}
+\end{aligned}
+\]</span></p>
+<p>再次利用近似公式<span class="math inline">\((1 + x)^{1/2} \approx 1 +
+x/2\)</span></p>
+<p><span class="math display">\[
+E(t) = R(t) + [A_0 + m(t)]\cos \theta(t)
+\]</span></p>
+<h3 id="非线性系统抗噪声性能">非线性系统抗噪声性能</h3>
+<figure>
+<img src="/images/FM鉴频器抗噪声性能.png" srcset="/img/loading.gif" lazyload title="FM鉴频器抗噪声性能"
+alt="FM鉴频器抗噪声性能" />
+<figcaption aria-hidden="true">FM鉴频器抗噪声性能</figcaption>
+</figure>
+<h3 id="性能比较">性能比较</h3>
+<figure>
+<img src="/images/性能比较.png" srcset="/img/loading.gif" lazyload title="性能比较" alt="性能比较" />
+<figcaption aria-hidden="true">性能比较</figcaption>
+</figure>
+<h2 id="频分复用fdm">频分复用FDM</h2>
+<figure>
+<img src="/images/频分复用FDM.png" srcset="/img/loading.gif" lazyload title="频分复用FDM"
+alt="频分复用FDM" />
+<figcaption aria-hidden="true">频分复用FDM</figcaption>
+</figure>
 
                 
               </div>
@@ -809,8 +966,6 @@ m_o(t) = \frac{ AK_f  }{ 2 } m(t)
   
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
-      
-        <a href="/tags/matlab/" class="print-no-link">#matlab</a>
       
         <a href="/tags/%E9%80%9A%E4%BF%A1%E5%8E%9F%E7%90%86/" class="print-no-link">#通信原理</a>
       

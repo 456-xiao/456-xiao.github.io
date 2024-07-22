@@ -1,0 +1,1215 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="xyh">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="数字频带传输系统 前言 《通信原理（第七版）》中的“数字基带传输系统”内容博主略过了，因为用不到[doge] 数字调制 把数字基带信号变换为数字带通信号（已调信号）的过程称为数字调制（digital modulation）。 通常把包括调制和解调过程的数字传输系统叫做数字带通传输系统。 数字调制技术分两种  模拟调制，把数字信号看成模拟调制的一个特例。 键控法，利用数字信号的离">
+<meta property="og:type" content="article">
+<meta property="og:title" content="通信笔记6">
+<meta property="og:url" content="http://456-xiao.github.io/2024/07/22/%E9%80%9A%E4%BF%A1%E7%AC%94%E8%AE%B06/index.html">
+<meta property="og:site_name" content="菜鸡研究生的自救记录">
+<meta property="og:description" content="数字频带传输系统 前言 《通信原理（第七版）》中的“数字基带传输系统”内容博主略过了，因为用不到[doge] 数字调制 把数字基带信号变换为数字带通信号（已调信号）的过程称为数字调制（digital modulation）。 通常把包括调制和解调过程的数字传输系统叫做数字带通传输系统。 数字调制技术分两种  模拟调制，把数字信号看成模拟调制的一个特例。 键控法，利用数字信号的离">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://456-xiao.github.io/images/2ASK%E6%B3%A2%E5%BD%A2.png">
+<meta property="og:image" content="http://456-xiao.github.io/images/%E6%A8%A1%E6%8B%9F2ASK.png">
+<meta property="og:image" content="http://456-xiao.github.io/images/%E9%94%AE%E6%8E%A72ASK.png">
+<meta property="og:image" content="http://456-xiao.github.io/images/%E5%8C%85%E7%BB%9C2ASK%E8%A7%A3%E8%B0%83.png">
+<meta property="og:image" content="http://456-xiao.github.io/images/%E7%9B%B8%E5%B9%B22ASK%E8%A7%A3%E8%B0%83.png">
+<meta property="og:image" content="http://456-xiao.github.io/images/2ASK%E5%8A%9F%E7%8E%87%E8%B0%B1.jpg">
+<meta property="og:image" content="http://456-xiao.github.io/images/2FSK%E6%B3%A2%E5%BD%A2.png">
+<meta property="og:image" content="http://456-xiao.github.io/images/%E9%94%AE%E6%8E%A7%E6%B3%952FSK.png">
+<meta property="og:image" content="http://456-xiao.github.io/images/%E5%8C%85%E7%BB%9C%E8%A7%A3%E8%B0%832FSK.png">
+<meta property="og:image" content="http://456-xiao.github.io/images/%E7%9B%B8%E5%B9%B2%E8%A7%A3%E8%B0%832FSK.png">
+<meta property="og:image" content="http://456-xiao.github.io/images/%E5%85%B6%E5%AE%83%E6%96%B9%E6%B3%95%E8%A7%A3%E8%B0%832FSK.png">
+<meta property="og:image" content="http://456-xiao.github.io/images/2FSK%E5%8A%9F%E7%8E%87%E8%B0%B1.jpg">
+<meta property="og:image" content="http://456-xiao.github.io/images/2PSK%E6%B3%A2%E5%BD%A2.png">
+<meta property="og:image" content="http://456-xiao.github.io/images/2PSK%E8%B0%83%E5%88%B6.png">
+<meta property="og:image" content="http://456-xiao.github.io/images/2PSK%E8%A7%A3%E8%B0%831.png">
+<meta property="og:image" content="http://456-xiao.github.io/images/2PSK%E8%A7%A3%E8%B0%832.png">
+<meta property="og:image" content="http://456-xiao.github.io/images/2PSK%E8%A7%A3%E8%B0%833.png">
+<meta property="og:image" content="http://456-xiao.github.io/images/2PSK%E8%A7%A3%E8%B0%834.png">
+<meta property="og:image" content="http://456-xiao.github.io/images/2DPSK%E4%BF%A1%E5%8F%B7%E4%BA%A7%E7%94%9F%E6%96%B9%E6%B3%95.png">
+<meta property="og:image" content="http://456-xiao.github.io/images/2DPSK%E4%BF%A1%E5%8F%B7%E8%A7%A3%E8%B0%83.png">
+<meta property="og:image" content="http://456-xiao.github.io/images/2DPSK%E4%BF%A1%E5%8F%B7%E8%A7%A3%E8%B0%832.png">
+<meta property="og:image" content="http://456-xiao.github.io/images/2PSK-2DPSK%E4%BF%A1%E5%8F%B7%E5%8A%9F%E7%8E%87%E8%B0%B1%E5%AF%86%E5%BA%A6.png">
+<meta property="og:image" content="http://456-xiao.github.io/images/2ASK%E8%AF%AF%E7%A0%81%E7%8E%87%E6%8E%A8%E5%AF%BC.png">
+<meta property="og:image" content="http://456-xiao.github.io/images/2ASK%E8%AF%AF%E7%A0%81%E7%8E%87%E6%8E%A8%E5%AF%BC2.png">
+<meta property="og:image" content="http://456-xiao.github.io/images/2ASK%E8%AF%AF%E7%A0%81%E7%8E%87%E6%8E%A8%E5%AF%BC3.png">
+<meta property="og:image" content="http://456-xiao.github.io/images/2ASK%E8%AF%AF%E7%A0%81%E7%8E%87%E6%8E%A8%E5%AF%BC4.png">
+<meta property="og:image" content="http://456-xiao.github.io/images/2ASK%E5%8C%85%E7%BB%9C%E6%A3%80%E6%B3%A2%E8%AF%AF%E7%A0%81%E7%8E%871.png">
+<meta property="og:image" content="http://456-xiao.github.io/images/2ASK%E5%8C%85%E7%BB%9C%E6%A3%80%E6%B3%A2%E8%AF%AF%E7%A0%81%E7%8E%872.png">
+<meta property="og:image" content="http://456-xiao.github.io/images/2ASK%E5%8C%85%E7%BB%9C%E6%A3%80%E6%B3%A2%E8%AF%AF%E7%A0%81%E7%8E%873.png">
+<meta property="og:image" content="http://456-xiao.github.io/images/2FSK%E7%9B%B8%E5%B9%B2%E8%A7%A3%E8%B0%83%E8%AF%AF%E7%A0%81%E7%8E%871.png">
+<meta property="og:image" content="http://456-xiao.github.io/images/2FSK%E7%9B%B8%E5%B9%B2%E8%A7%A3%E8%B0%83%E8%AF%AF%E7%A0%81%E7%8E%872.png">
+<meta property="og:image" content="http://456-xiao.github.io/images/2FSK%E7%9B%B8%E5%B9%B2%E8%A7%A3%E8%B0%83%E8%AF%AF%E7%A0%81%E7%8E%873.png">
+<meta property="og:image" content="http://456-xiao.github.io/images/2FSK%E5%8C%85%E7%BB%9C%E6%A3%80%E6%B3%A2%E8%AF%AF%E7%A0%81%E7%8E%871.png">
+<meta property="og:image" content="http://456-xiao.github.io/images/2FSK%E5%8C%85%E7%BB%9C%E6%A3%80%E6%B3%A2%E8%AF%AF%E7%A0%81%E7%8E%872.png">
+<meta property="og:image" content="http://456-xiao.github.io/images/2PSK%E7%9B%B8%E5%B9%B2%E8%A7%A3%E8%B0%83%E8%AF%AF%E7%A0%81%E7%8E%871.png">
+<meta property="og:image" content="http://456-xiao.github.io/images/2PSK%E7%9B%B8%E5%B9%B2%E8%A7%A3%E8%B0%83%E8%AF%AF%E7%A0%81%E7%8E%872.png">
+<meta property="og:image" content="http://456-xiao.github.io/images/2PSK%E7%9B%B8%E5%B9%B2%E8%A7%A3%E8%B0%83%E8%AF%AF%E7%A0%81%E7%8E%873.png">
+<meta property="og:image" content="http://456-xiao.github.io/images/2PSK%E7%9B%B8%E5%B9%B2%E8%A7%A3%E8%B0%83%E8%AF%AF%E7%A0%81%E7%8E%874.png">
+<meta property="og:image" content="http://456-xiao.github.io/images/2DPSK%E8%AF%AF%E7%A0%81%E7%8E%871.png">
+<meta property="og:image" content="http://456-xiao.github.io/images/2DPSK%E8%AF%AF%E7%A0%81%E7%8E%872.png">
+<meta property="og:image" content="http://456-xiao.github.io/images/2DPSK%E8%AF%AF%E7%A0%81%E7%8E%873.png">
+<meta property="og:image" content="http://456-xiao.github.io/images/2DPSK%E8%AF%AF%E7%A0%81%E7%8E%874.png">
+<meta property="og:image" content="http://456-xiao.github.io/images/%E6%8A%97%E5%99%AA%E5%A3%B0%E6%80%A7%E8%83%BD%E6%80%BB%E7%BB%931.png">
+<meta property="og:image" content="http://456-xiao.github.io/images/%E6%8A%97%E5%99%AA%E5%A3%B0%E6%80%A7%E8%83%BD%E6%80%BB%E7%BB%932.png">
+<meta property="og:image" content="http://456-xiao.github.io/images/%E6%8A%97%E5%99%AA%E5%A3%B0%E6%80%A7%E8%83%BD%E6%80%BB%E7%BB%933.png">
+<meta property="og:image" content="http://456-xiao.github.io/images/%E6%8A%97%E5%99%AA%E5%A3%B0%E6%80%A7%E8%83%BD%E6%80%BB%E7%BB%934.png">
+<meta property="og:image" content="http://456-xiao.github.io/images/%E6%8A%97%E5%99%AA%E5%A3%B0%E6%80%A7%E8%83%BD%E6%80%BB%E7%BB%935.png">
+<meta property="article:published_time" content="2024-07-22T14:04:20.000Z">
+<meta property="article:modified_time" content="2024-07-22T14:04:20.713Z">
+<meta property="article:author" content="xyh">
+<meta property="article:tag" content="通信原理">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://456-xiao.github.io/images/2ASK%E6%B3%A2%E5%BD%A2.png">
+  
+  
+  
+  <title>通信笔记6 - 菜鸡研究生的自救记录</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"456-xiao.github.io","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":50,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>菜鸡研究生的自救记录</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/death-stranding.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="通信笔记6"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-07-22 22:04" pubdate>
+          2024年7月22日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          19 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">通信笔记6</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="数字频带传输系统">数字频带传输系统</h1>
+<h2 id="前言">前言</h2>
+<p>《通信原理（第七版）》中的“数字基带传输系统”内容博主略过了，因为用不到[doge]</p>
+<h2 id="数字调制">数字调制</h2>
+<p>把数字基带信号变换为数字带通信号（已调信号）的过程称为数字调制（digital
+modulation）。</p>
+<p>通常把包括调制和解调过程的数字传输系统叫做数字带通传输系统。</p>
+<p>数字调制技术分两种</p>
+<ol type="1">
+<li>模拟调制，把数字信号看成模拟调制的一个特例。</li>
+<li>键控法，利用数字信号的离散取值特点通过开关键控载波</li>
+</ol>
+<p>键控法调制分类</p>
+<ul>
+<li>振幅键控（ASK）</li>
+<li>频移键控（FSK）</li>
+<li>相移键控（PSK）</li>
+</ul>
+<p>数字信息有二进制和多进制之分，因此数字调制可分为二进制调制和多进制调制。</p>
+<h2 id="二进制数字调制">二进制数字调制</h2>
+<h3 id="二进制振幅键控2ask">二进制振幅键控(2ASK)</h3>
+<p>载波幅度只有两种变化状态，频率相位不变。</p>
+<p>通断键控(OOK)</p>
+<p><span class="math display">\[
+e_{OOK}(t) = \left\{
+\begin{aligned}
+    &amp;A\cos w_c t ~~~~ 以概率P发送1 \\
+    &amp;0 ~~~~ 以概率1-P发送0
+\end{aligned}
+\right.
+\]</span></p>
+<p>2ASK信号一般表达式 <span class="math display">\[
+e_{2ASK} (t) = s(t)\cos w_c t
+\]</span> <span class="math display">\[
+s(t) = \sum_n a_n g(t - nT_B)
+\]</span> 式中<span
+class="math inline">\(T_B\)</span>为码元持续时间；<span
+class="math inline">\(g(t)\)</span>为持续时间为<span
+class="math inline">\(T_B\)</span>的基带脉冲波形。通常假设<span
+class="math inline">\(g(t)\)</span>是高度为1宽度等于<span
+class="math inline">\(T_B\)</span>的矩形脉冲；<span
+class="math inline">\(a_n\)</span>是第<span
+class="math inline">\(n\)</span>个符号的电平取值。 若取 <span
+class="math display">\[
+a_n = \left\{
+\begin{aligned}
+    &amp;1 ~~~~ 概率为P \\
+    &amp;0 ~~~~ 概率为1-P
+\end{aligned}
+\right.
+\]</span> 则相应2ASK信号就是OOK信号。</p>
+<figure>
+<img src="/images/2ASK波形.png" srcset="/img/loading.gif" lazyload title="2ASK波形"
+alt="2ASK波形https://www.bilibili.com/video/BV1wA4y1f7Co?p=37" />
+<figcaption
+aria-hidden="true">2ASK波形https://www.bilibili.com/video/BV1wA4y1f7Co?p=37</figcaption>
+</figure>
+<h4 id="askook信号产生方法">2ASK/OOK信号产生方法</h4>
+<p>模拟调制法</p>
+<figure>
+<img src="/images/模拟2ASK.png" srcset="/img/loading.gif" lazyload title="模拟2ASK"
+alt="模拟2ASKhttps://www.bilibili.com/video/BV1wA4y1f7Co?p=37" />
+<figcaption
+aria-hidden="true">模拟2ASKhttps://www.bilibili.com/video/BV1wA4y1f7Co?p=37</figcaption>
+</figure>
+<p>键控法</p>
+<figure>
+<img src="/images/键控2ASK.png" srcset="/img/loading.gif" lazyload title="键控2ASK"
+alt="键控2ASKhttps://www.bilibili.com/video/BV1wA4y1f7Co?p=37" />
+<figcaption
+aria-hidden="true">键控2ASKhttps://www.bilibili.com/video/BV1wA4y1f7Co?p=37</figcaption>
+</figure>
+<h4 id="askook信号解调方法">2ASK/OOK信号解调方法</h4>
+<p>非相干（noncoherent）解调（包络检波法）</p>
+<figure>
+<img src="/images/包络2ASK解调.png" srcset="/img/loading.gif" lazyload title="包络2ASK解调"
+alt="包络2ASK解调https://www.bilibili.com/video/BV1wA4y1f7Co?p=37" />
+<figcaption
+aria-hidden="true">包络2ASK解调https://www.bilibili.com/video/BV1wA4y1f7Co?p=37</figcaption>
+</figure>
+<p>相干（coherent）解调（同步检测法）</p>
+<figure>
+<img src="/images/相干2ASK解调.png" srcset="/img/loading.gif" lazyload title="相干2ASK解调"
+alt="相干2ASK解调https://www.bilibili.com/video/BV1wA4y1f7Co?p=37" />
+<figcaption
+aria-hidden="true">相干2ASK解调https://www.bilibili.com/video/BV1wA4y1f7Co?p=37</figcaption>
+</figure>
+<h4 id="ask功率谱密度">2ASK功率谱密度</h4>
+<p>由于2ASK信号是随机的功率信号，故研究它的频谱特性时，应该讨论它的功率谱密度。</p>
+<p>2ASK信号可以表示成 <span class="math display">\[
+e_{2ASK} (t) = s(t)\cos w_c t
+\]</span> 式中<span
+class="math inline">\(s(t)\)</span>为随机的单极性（single-polarity）二进制基带脉冲序列</p>
+<p>2ASK功率谱密度表达式 <span class="math display">\[
+P_{2ASK}(f) = \frac{1}{4} [P(f+ f_c) + P(f - f_c)]
+\]</span></p>
+<p>可见<span
+class="math inline">\(P_{2ASK}(f)\)</span>是单极性基带信号功率谱<span
+class="math inline">\(P_s(f)\)</span>的线性搬移</p>
+<figure>
+<img src="/images/2ASK功率谱.jpg" srcset="/img/loading.gif" lazyload title="2ASK功率谱" alt="2ASK功率谱" />
+<figcaption aria-hidden="true">2ASK功率谱</figcaption>
+</figure>
+<p>从图中可以看出，</p>
+<ul>
+<li>2ASK信号的功率谱由连续谱和离散谱两部分组成，连续谱取决于<span
+class="math inline">\(g(t)\)</span>经线性调制后的双边带谱，而离散谱由载波分量确定。</li>
+<li>2ASK信号的带宽<span
+class="math inline">\(B_{2ASK}\)</span>是基带信号带宽的两倍，若只记谱的主瓣（main
+lobe）（第一个谱零点位置），则有 <span class="math display">\[
+B_{2ASK} = 2f_B
+\]</span> 其中<span class="math inline">\(f_B = 1/T_B =
+R_B\)</span>（码元速率）</li>
+</ul>
+<p>可见2ASK信号传输带宽是码元速率的2倍</p>
+<h3 id="二进制频移键控2fsk">二进制频移键控(2FSK)</h3>
+<p>在2FSK中，载波的频率随二进制基带信号在<span
+class="math inline">\(f_1\)</span>和<span
+class="math inline">\(f_2\)</span>之间变化</p>
+<p>表达式为 <span class="math display">\[
+e_{2FSK} (t) = \left\{
+\begin{aligned}
+    &amp;A\cos(w_1 t + \phi_n) ~~~~ 发送1时 \\
+    &amp;A\cos(w_2 t + \theta_n) ~~~~ 发送0时
+\end{aligned}
+\right.
+\]</span></p>
+<p>2FSK信号可以看成两个不同的2ASK信号叠加，2FSK时域表达式又可以写成
+<span class="math display">\[
+e_{2FSK} (t) = s_1(t)A\cos(w_1 t + \phi_n) + s_2(t)A\cos(w_2 t +
+\theta_n) \tag{1}
+\]</span> 式中<span class="math inline">\(s_1(t)\)</span>和<span
+class="math inline">\(s_2(t)\)</span>都是单极性脉冲序列，两个信号极性相反。<span
+class="math inline">\(\phi_n\)</span>和<span
+class="math inline">\(\theta_n\)</span>不携带信息，通常取0。于是式（1）化简为
+<span class="math display">\[
+e_{2FSK} (t) = s_1(t)A\cos(w_1 t) + s_2(t)A\cos(w_2 t) \tag{2}
+\]</span></p>
+<figure>
+<img src="/images/2FSK波形.png" srcset="/img/loading.gif" lazyload title="2FSK波形"
+alt="2FSK波形https://www.bilibili.com/video/BV1wA4y1f7Co?p=37" />
+<figcaption
+aria-hidden="true">2FSK波形https://www.bilibili.com/video/BV1wA4y1f7Co?p=37</figcaption>
+</figure>
+<h4 id="fsk信号产生方法">2FSK信号产生方法</h4>
+<p>第一种方法是采用模拟调频电路</p>
+<p>第二种方法是键控法</p>
+<figure>
+<img src="/images/键控法2FSK.png" srcset="/img/loading.gif" lazyload title="键控法2FSK"
+alt="键控法2FSKhttps://www.bilibili.com/video/BV1wA4y1f7Co?p=37" />
+<figcaption
+aria-hidden="true">键控法2FSKhttps://www.bilibili.com/video/BV1wA4y1f7Co?p=37</figcaption>
+</figure>
+<h4 id="fsk信号解调方法">2FSK信号解调方法</h4>
+<p>非相干解调（包络检波）</p>
+<figure>
+<img src="/images/包络解调2FSK.png" srcset="/img/loading.gif" lazyload title="包络解调2FSK"
+alt="包络解调2FSKhttps://www.bilibili.com/video/BV1wA4y1f7Co?p=37" />
+<figcaption
+aria-hidden="true">包络解调2FSKhttps://www.bilibili.com/video/BV1wA4y1f7Co?p=37</figcaption>
+</figure>
+<p>相干解调</p>
+<figure>
+<img src="/images/相干解调2FSK.png" srcset="/img/loading.gif" lazyload title="相干解调2FSK"
+alt="相干解调2FSKhttps://www.bilibili.com/video/BV1wA4y1f7Co?p=37" />
+<figcaption
+aria-hidden="true">相干解调2FSKhttps://www.bilibili.com/video/BV1wA4y1f7Co?p=37</figcaption>
+</figure>
+<p>其它方法</p>
+<figure>
+<img src="/images/其它方法解调2FSK.png" srcset="/img/loading.gif" lazyload title="其它方法解调2FSK"
+alt="其它方法解调2FSKhttps://www.bilibili.com/video/BV1wA4y1f7Co?p=37" />
+<figcaption
+aria-hidden="true">其它方法解调2FSKhttps://www.bilibili.com/video/BV1wA4y1f7Co?p=37</figcaption>
+</figure>
+<h4 id="fsk功率谱密度">2FSK功率谱密度</h4>
+<p>相位不连续的2FSK信号可以看成是两个不同载频的2ASK信号叠加。因此2FSK的功率谱可以近似表示成中心频率分别为<span
+class="math inline">\(f_1\)</span>和<span
+class="math inline">\(f_2\)</span>的两个2ASK功率谱组合 <span
+class="math display">\[
+P_{2FSK}(f) = \frac{1}{4} [P_{s1}(f - f_1) + P_{s1}(f + f_1)] +
+\frac{1}{4} [P_{s2}(f - f_2) + P_{s2}(f + f_2)]
+\]</span> 其曲线如图</p>
+<figure>
+<img src="/images/2FSK功率谱.jpg" srcset="/img/loading.gif" lazyload title="2FSK功率谱" alt="2FSK功率谱" />
+<figcaption aria-hidden="true">2FSK功率谱</figcaption>
+</figure>
+<h3 id="二进制相移键控2psk">二进制相移键控(2PSK)</h3>
+<p>利用载波的相移变化来传递数字信息，振幅频率保持不变</p>
+<p>时域表达式 <span class="math display">\[
+e_{2PSK}(t) = A\cos (w_c t + \phi_n) \tag{3}
+\]</span> 式中<span
+class="math inline">\(\phi_n\)</span>表示第n个符号的绝对相位 <span
+class="math display">\[
+\phi_n = \left\{
+\begin{aligned}
+    &amp;0 ~~~~ 发送0时 \\
+    &amp;\pi ~~~~ 发送1时
+\end{aligned}
+\right.
+\]</span> 式（3）可以改写为 <span class="math display">\[
+\phi_n = \left\{
+\begin{aligned}
+    &amp;A\cos (w_c t) ~~~~ 概率为P \\
+    &amp;-A\cos (w_c t) ~~~~ 概率为1-P
+\end{aligned}
+\right.
+\tag{4}
+\]</span></p>
+<figure>
+<img src="/images/2PSK波形.png" srcset="/img/loading.gif" lazyload title="2PSK波形"
+alt="2PSK波形https://www.bilibili.com/video/BV1wA4y1f7Co?p=38" />
+<figcaption
+aria-hidden="true">2PSK波形https://www.bilibili.com/video/BV1wA4y1f7Co?p=38</figcaption>
+</figure>
+<p>由于表示2PSK信号的两种码元的波形相同，极性相反，故2PSK信号一般可以表述为一个双极性（bipolarity）全占空（100%
+duty ratio）矩形脉冲序列与一个正弦波的相乘 <span class="math display">\[
+e_{2PSK}(t) = s(t)\cos w_c t
+\]</span> <span class="math display">\[
+s(t) = \sum_n a_n g(t-nT_B)
+\]</span> 这里<span class="math inline">\(g(t)\)</span>为脉宽为<span
+class="math inline">\(T_B\)</span>的单个矩形脉冲；<span
+class="math inline">\(a_n\)</span>的统计特性为 <span
+class="math display">\[
+a_n = \left\{
+\begin{aligned}
+    &amp;1 ~~~~ 概率为P \\
+    &amp;-1 ~~~~ 概率为1-P
+\end{aligned}
+\right.
+\]</span></p>
+<p>以载波的不同相位直接表示相应二进制数字信号的调制方式，称为<strong>绝对相移方式</strong></p>
+<h4 id="psk信号产生方法">2PSK信号产生方法</h4>
+<figure>
+<img src="/images/2PSK调制.png" srcset="/img/loading.gif" lazyload title="2PSK调制"
+alt="2PSK调制https://www.bilibili.com/video/BV1wA4y1f7Co?p=38" />
+<figcaption
+aria-hidden="true">2PSK调制https://www.bilibili.com/video/BV1wA4y1f7Co?p=38</figcaption>
+</figure>
+<h4 id="psk信号解调方法">2PSK信号解调方法</h4>
+<figure>
+<img src="/images/2PSK解调1.png" srcset="/img/loading.gif" lazyload title="2PSK解调1"
+alt="2PSK解调1https://www.bilibili.com/video/BV1wA4y1f7Co?p=38" />
+<figcaption
+aria-hidden="true">2PSK解调1https://www.bilibili.com/video/BV1wA4y1f7Co?p=38</figcaption>
+</figure>
+<figure>
+<img src="/images/2PSK解调2.png" srcset="/img/loading.gif" lazyload title="2PSK解调2"
+alt="2PSK解调2https://www.bilibili.com/video/BV1wA4y1f7Co?p=38" />
+<figcaption
+aria-hidden="true">2PSK解调2https://www.bilibili.com/video/BV1wA4y1f7Co?p=38</figcaption>
+</figure>
+<figure>
+<img src="/images/2PSK解调3.png" srcset="/img/loading.gif" lazyload title="2PSK解调3"
+alt="2PSK解调3https://www.bilibili.com/video/BV1wA4y1f7Co?p=38" />
+<figcaption
+aria-hidden="true">2PSK解调3https://www.bilibili.com/video/BV1wA4y1f7Co?p=38</figcaption>
+</figure>
+<figure>
+<img src="/images/2PSK解调4.png" srcset="/img/loading.gif" lazyload title="2PSK解调4"
+alt="2PSK解调4https://www.bilibili.com/video/BV1wA4y1f7Co?p=38" />
+<figcaption
+aria-hidden="true">2PSK解调4https://www.bilibili.com/video/BV1wA4y1f7Co?p=38</figcaption>
+</figure>
+<h4 id="dpsk信号产生方法">2DPSK信号产生方法</h4>
+<figure>
+<img src="/images/2DPSK信号产生方法.png" srcset="/img/loading.gif" lazyload title="2DPSK信号产生方法"
+alt="2DPSK信号产生方法https://www.bilibili.com/video/BV1wA4y1f7Co?p=38" />
+<figcaption
+aria-hidden="true">2DPSK信号产生方法https://www.bilibili.com/video/BV1wA4y1f7Co?p=38</figcaption>
+</figure>
+<h4 id="dpsk信号解调">2DPSK信号解调</h4>
+<figure>
+<img src="/images/2DPSK信号解调.png" srcset="/img/loading.gif" lazyload title="2DPSK信号解调"
+alt="2DPSK信号解调https://www.bilibili.com/video/BV1wA4y1f7Co?p=38" />
+<figcaption
+aria-hidden="true">2DPSK信号解调https://www.bilibili.com/video/BV1wA4y1f7Co?p=38</figcaption>
+</figure>
+<figure>
+<img src="/images/2DPSK信号解调2.png" srcset="/img/loading.gif" lazyload title="2DPSK信号解调2"
+alt="2DPSK信号解调2https://www.bilibili.com/video/BV1wA4y1f7Co?p=38" />
+<figcaption
+aria-hidden="true">2DPSK信号解调2https://www.bilibili.com/video/BV1wA4y1f7Co?p=38</figcaption>
+</figure>
+<h4 id="psk2dpsk功率谱密度">2PSK/2DPSK功率谱密度</h4>
+<p><span class="math display">\[
+P_{2PSK}(f) = \frac{1}{4} [ P_s(f + f_c) + P_s(f - f_c) ]
+\]</span> <span
+class="math inline">\(P_s(f)\)</span>是双极性的随机矩形脉冲序列的功率谱</p>
+<p><span class="math display">\[
+P_{2PSK}(f) = \frac{T_B}{4} \left[ \left| \frac{ \sin \pi (f + f_c)T_B
+}{ \pi (f+f_c)T_B } \right|^2 + \left| \frac{ \sin \pi (f - f_c)T_B }{
+\pi (f-f_c)T_B } \right|^2 \right]
+\]</span></p>
+<p>2DPSK的功率谱密度和2PSK的功率谱密度是一样的。</p>
+<figure>
+<img src="/images/2PSK-2DPSK信号功率谱密度.png" srcset="/img/loading.gif" lazyload
+title="2PSK-2DPSK信号功率谱密度"
+alt="2PSK-2DPSK信号功率谱密度https://www.bilibili.com/video/BV1wA4y1f7Co?p=39" />
+<figcaption
+aria-hidden="true">2PSK-2DPSK信号功率谱密度https://www.bilibili.com/video/BV1wA4y1f7Co?p=39</figcaption>
+</figure>
+<p>可见2PSK/2DPSK带宽是基带信号的2倍。当<span
+class="math inline">\(P=1/2\)</span>时，谱中无离散谱（即载波分量）。2PSK信号相当于抑制载波的双边带信号，因此它可以看作是双极性基带信号作用下的调幅信号。</p>
+<h2 id="二进制数字调制系统抗噪声性能">二进制数字调制系统抗噪声性能</h2>
+<p>分析数字系统的抗噪声性能就是求系统在信道噪声干扰下的总误码率。</p>
+<p>性能指标：系统误码率<span class="math inline">\(P_e\)</span></p>
+<p>分析条件</p>
+<ul>
+<li>信道特性是恒参信道，在信道的频带范围内有理想矩形的传输特性（可取其传输系数为<span
+class="math inline">\(K\)</span>）</li>
+<li>信道噪声是加性高斯白噪声。噪声只对接收有影响。分析系统性能是在接收端进行的</li>
+</ul>
+<h3 id="ask抗噪声性能">2ASK抗噪声性能</h3>
+<figure>
+<img src="/images/2ASK误码率推导.png" srcset="/img/loading.gif" lazyload title="2ASK误码率推导"
+alt="2ASK误码率推导https://www.bilibili.com/video/BV1wA4y1f7Co?p=40" />
+<figcaption
+aria-hidden="true">2ASK误码率推导https://www.bilibili.com/video/BV1wA4y1f7Co?p=40</figcaption>
+</figure>
+<figure>
+<img src="/images/2ASK误码率推导2.png" srcset="/img/loading.gif" lazyload title="2ASK误码率推导2"
+alt="2ASK误码率推导2https://www.bilibili.com/video/BV1wA4y1f7Co?p=40" />
+<figcaption
+aria-hidden="true">2ASK误码率推导2https://www.bilibili.com/video/BV1wA4y1f7Co?p=40</figcaption>
+</figure>
+<figure>
+<img src="/images/2ASK误码率推导3.png" srcset="/img/loading.gif" lazyload title="2ASK误码率推导3"
+alt="2ASK误码率推导3https://www.bilibili.com/video/BV1wA4y1f7Co?p=40" />
+<figcaption
+aria-hidden="true">2ASK误码率推导3https://www.bilibili.com/video/BV1wA4y1f7Co?p=40</figcaption>
+</figure>
+<figure>
+<img src="/images/2ASK误码率推导4.png" srcset="/img/loading.gif" lazyload title="2ASK误码率推导4"
+alt="2ASK误码率推导4https://www.bilibili.com/video/BV1wA4y1f7Co?p=40" />
+<figcaption
+aria-hidden="true">2ASK误码率推导4https://www.bilibili.com/video/BV1wA4y1f7Co?p=40</figcaption>
+</figure>
+<p><span class="math display">\[
+P(0/1) = P(x \leq b) = \int_{-\infty}^b f_1(x)dx = 1 - \frac{1}{2}
+erfc(\frac{ b-a }{\sqrt{2} \sigma_n})
+\]</span> <span class="math display">\[
+erfc(x) = \frac{2}{\sqrt{\pi}} \int_{x}^{\infty} e^{-u^2}du
+\]</span></p>
+<figure>
+<img src="/images/2ASK包络检波误码率1.png" srcset="/img/loading.gif" lazyload title="2ASK包络检波误码率1"
+alt="2ASK包络检波误码率1https://www.bilibili.com/video/BV1wA4y1f7Co?p=40" />
+<figcaption
+aria-hidden="true">2ASK包络检波误码率1https://www.bilibili.com/video/BV1wA4y1f7Co?p=40</figcaption>
+</figure>
+<figure>
+<img src="/images/2ASK包络检波误码率2.png" srcset="/img/loading.gif" lazyload title="2ASK包络检波误码率2"
+alt="2ASK包络检波误码率2https://www.bilibili.com/video/BV1wA4y1f7Co?p=40" />
+<figcaption
+aria-hidden="true">2ASK包络检波误码率2https://www.bilibili.com/video/BV1wA4y1f7Co?p=40</figcaption>
+</figure>
+<figure>
+<img src="/images/2ASK包络检波误码率3.png" srcset="/img/loading.gif" lazyload title="2ASK包络检波误码率3"
+alt="2ASK包络检波误码率3https://www.bilibili.com/video/BV1wA4y1f7Co?p=40" />
+<figcaption
+aria-hidden="true">2ASK包络检波误码率3https://www.bilibili.com/video/BV1wA4y1f7Co?p=40</figcaption>
+</figure>
+<h3 id="fsk抗噪声性能">2FSK抗噪声性能</h3>
+<figure>
+<img src="/images/2FSK相干解调误码率1.png" srcset="/img/loading.gif" lazyload title="2FSK相干解调误码率1"
+alt="2FSK相干解调误码率1https://www.bilibili.com/video/BV1wA4y1f7Co?p=40" />
+<figcaption
+aria-hidden="true">2FSK相干解调误码率1https://www.bilibili.com/video/BV1wA4y1f7Co?p=40</figcaption>
+</figure>
+<figure>
+<img src="/images/2FSK相干解调误码率2.png" srcset="/img/loading.gif" lazyload title="2FSK相干解调误码率2"
+alt="2FSK相干解调误码率2https://www.bilibili.com/video/BV1wA4y1f7Co?p=40" />
+<figcaption
+aria-hidden="true">2FSK相干解调误码率2https://www.bilibili.com/video/BV1wA4y1f7Co?p=40</figcaption>
+</figure>
+<figure>
+<img src="/images/2FSK相干解调误码率3.png" srcset="/img/loading.gif" lazyload title="2FSK相干解调误码率3"
+alt="2FSK相干解调误码率3https://www.bilibili.com/video/BV1wA4y1f7Co?p=40" />
+<figcaption
+aria-hidden="true">2FSK相干解调误码率3https://www.bilibili.com/video/BV1wA4y1f7Co?p=40</figcaption>
+</figure>
+<figure>
+<img src="/images/2FSK包络检波误码率1.png" srcset="/img/loading.gif" lazyload title="2FSK包络检波误码率1"
+alt="2FSK包络检波误码率1https://www.bilibili.com/video/BV1wA4y1f7Co?p=40" />
+<figcaption
+aria-hidden="true">2FSK包络检波误码率1https://www.bilibili.com/video/BV1wA4y1f7Co?p=40</figcaption>
+</figure>
+<figure>
+<img src="/images/2FSK包络检波误码率2.png" srcset="/img/loading.gif" lazyload title="2FSK包络检波误码率2"
+alt="2FSK包络检波误码率2https://www.bilibili.com/video/BV1wA4y1f7Co?p=40" />
+<figcaption
+aria-hidden="true">2FSK包络检波误码率2https://www.bilibili.com/video/BV1wA4y1f7Co?p=40</figcaption>
+</figure>
+<h3 id="psk抗噪声性能">2PSK抗噪声性能</h3>
+<figure>
+<img src="/images/2PSK相干解调误码率1.png" srcset="/img/loading.gif" lazyload title="2PSK相干解调误码率1"
+alt="2PSK相干解调误码率1https://www.bilibili.com/video/BV1wA4y1f7Co?p=41" />
+<figcaption
+aria-hidden="true">2PSK相干解调误码率1https://www.bilibili.com/video/BV1wA4y1f7Co?p=41</figcaption>
+</figure>
+<figure>
+<img src="/images/2PSK相干解调误码率2.png" srcset="/img/loading.gif" lazyload title="2PSK相干解调误码率2"
+alt="2PSK相干解调误码率2https://www.bilibili.com/video/BV1wA4y1f7Co?p=41" />
+<figcaption
+aria-hidden="true">2PSK相干解调误码率2https://www.bilibili.com/video/BV1wA4y1f7Co?p=41</figcaption>
+</figure>
+<figure>
+<img src="/images/2PSK相干解调误码率3.png" srcset="/img/loading.gif" lazyload title="2PSK相干解调误码率3"
+alt="2PSK相干解调误码率3https://www.bilibili.com/video/BV1wA4y1f7Co?p=41" />
+<figcaption
+aria-hidden="true">2PSK相干解调误码率3https://www.bilibili.com/video/BV1wA4y1f7Co?p=41</figcaption>
+</figure>
+<figure>
+<img src="/images/2PSK相干解调误码率4.png" srcset="/img/loading.gif" lazyload title="2PSK相干解调误码率4"
+alt="2PSK相干解调误码率4https://www.bilibili.com/video/BV1wA4y1f7Co?p=41" />
+<figcaption
+aria-hidden="true">2PSK相干解调误码率4https://www.bilibili.com/video/BV1wA4y1f7Co?p=41</figcaption>
+</figure>
+<figure>
+<img src="/images/2DPSK误码率1.png" srcset="/img/loading.gif" lazyload title="2DPSK误码率1"
+alt="2DPSK误码率1https://www.bilibili.com/video/BV1wA4y1f7Co?p=41" />
+<figcaption
+aria-hidden="true">2DPSK误码率1https://www.bilibili.com/video/BV1wA4y1f7Co?p=41</figcaption>
+</figure>
+<figure>
+<img src="/images/2DPSK误码率2.png" srcset="/img/loading.gif" lazyload title="2DPSK误码率2"
+alt="2DPSK误码率2https://www.bilibili.com/video/BV1wA4y1f7Co?p=41" />
+<figcaption
+aria-hidden="true">2DPSK误码率2https://www.bilibili.com/video/BV1wA4y1f7Co?p=41</figcaption>
+</figure>
+<figure>
+<img src="/images/2DPSK误码率3.png" srcset="/img/loading.gif" lazyload title="2DPSK误码率3"
+alt="2DPSK误码率3https://www.bilibili.com/video/BV1wA4y1f7Co?p=41" />
+<figcaption
+aria-hidden="true">2DPSK误码率3https://www.bilibili.com/video/BV1wA4y1f7Co?p=41</figcaption>
+</figure>
+<figure>
+<img src="/images/2DPSK误码率4.png" srcset="/img/loading.gif" lazyload title="2DPSK误码率4"
+alt="2DPSK误码率4https://www.bilibili.com/video/BV1wA4y1f7Co?p=41" />
+<figcaption
+aria-hidden="true">2DPSK误码率4https://www.bilibili.com/video/BV1wA4y1f7Co?p=41</figcaption>
+</figure>
+<h3 id="抗噪声性能总结">抗噪声性能总结</h3>
+<figure>
+<img src="/images/抗噪声性能总结1.png" srcset="/img/loading.gif" lazyload title="抗噪声性能总结1"
+alt="抗噪声性能总结1https://www.bilibili.com/video/BV1wA4y1f7Co?p=42" />
+<figcaption
+aria-hidden="true">抗噪声性能总结1https://www.bilibili.com/video/BV1wA4y1f7Co?p=42</figcaption>
+</figure>
+<figure>
+<img src="/images/抗噪声性能总结2.png" srcset="/img/loading.gif" lazyload title="抗噪声性能总结2"
+alt="抗噪声性能总结2https://www.bilibili.com/video/BV1wA4y1f7Co?p=42" />
+<figcaption
+aria-hidden="true">抗噪声性能总结2https://www.bilibili.com/video/BV1wA4y1f7Co?p=42</figcaption>
+</figure>
+<figure>
+<img src="/images/抗噪声性能总结3.png" srcset="/img/loading.gif" lazyload title="抗噪声性能总结3"
+alt="抗噪声性能总结3https://www.bilibili.com/video/BV1wA4y1f7Co?p=42" />
+<figcaption
+aria-hidden="true">抗噪声性能总结3https://www.bilibili.com/video/BV1wA4y1f7Co?p=42</figcaption>
+</figure>
+<figure>
+<img src="/images/抗噪声性能总结4.png" srcset="/img/loading.gif" lazyload title="抗噪声性能总结4"
+alt="抗噪声性能总结4https://www.bilibili.com/video/BV1wA4y1f7Co?p=42" />
+<figcaption
+aria-hidden="true">抗噪声性能总结4https://www.bilibili.com/video/BV1wA4y1f7Co?p=42</figcaption>
+</figure>
+<figure>
+<img src="/images/抗噪声性能总结5.png" srcset="/img/loading.gif" lazyload title="抗噪声性能总结5"
+alt="抗噪声性能总结5https://www.bilibili.com/video/BV1wA4y1f7Co?p=42" />
+<figcaption
+aria-hidden="true">抗噪声性能总结5https://www.bilibili.com/video/BV1wA4y1f7Co?p=42</figcaption>
+</figure>
+<h1 id="通信笔记小结">通信笔记小结</h1>
+<p>先学到这，后面的内容用到再学。博主学这个不用考试，主打一个囫囵吞枣。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E9%80%9A%E4%BF%A1%E5%8E%9F%E7%90%86/" class="category-chain-item">通信原理</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E9%80%9A%E4%BF%A1%E5%8E%9F%E7%90%86/" class="print-no-link">#通信原理</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>通信笔记6</div>
+      <div>http://456-xiao.github.io/2024/07/22/通信笔记6/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>xyh</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年7月22日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/07/18/%E9%80%9A%E4%BF%A1%E7%AC%94%E8%AE%B05/" title="通信笔记5">
+                        <span class="hidden-mobile">通信笔记5</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

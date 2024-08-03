@@ -4,6 +4,492 @@
   
   
   <entry>
+    <title>hdlbits-Vector5</title>
+    <link href="/2024/08/03/hdlbits-Vector5/"/>
+    <url>/2024/08/03/hdlbits-Vector5/</url>
+    
+    <content type="html"><![CDATA[<h1 id="vector5">Vector5</h1><p>Given five 1-bit signals (a, b, c, d, and e), compute all 25 pairwiseone-bit comparisons in the 25-bit output vector. The output should be 1if the two bits being compared are equal. <figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs verilog">out[<span class="hljs-number">24</span>] = ~a ^ a;   <span class="hljs-comment">// a == a, so out[24] is always 1.</span><br>out[<span class="hljs-number">23</span>] = ~a ^ b;<br>out[<span class="hljs-number">22</span>] = ~a ^ c;<br>...<br>out[ <span class="hljs-number">1</span>] = ~e ^ d;<br>out[ <span class="hljs-number">0</span>] = ~e ^ e;<br></code></pre></td></tr></table></figure></p><figure><img src="/images/Vector5.png" title="Vector5" alt="Vector5" /><figcaption aria-hidden="true">Vector5</figcaption></figure><p>As the diagram shows, this can be done more easily using thereplication and concatenation operators.</p><ul><li>The top vector is a concatenation of 5 repeats of each input</li><li>The bottom vector is 5 repeats of a concatenation of the 5inputs</li></ul><h1 id="solution">solution</h1><figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs verilog"><span class="hljs-keyword">module</span> top_module (<br>    <span class="hljs-keyword">input</span> a, b, c, d, e,<br>    <span class="hljs-keyword">output</span> [<span class="hljs-number">24</span>:<span class="hljs-number">0</span>] out );<span class="hljs-comment">//</span><br><br>    <span class="hljs-comment">// The output is XNOR of two vectors created by </span><br>    <span class="hljs-comment">// concatenating and replicating the five inputs.</span><br>    <span class="hljs-comment">// assign out = ~&#123; ... &#125; ^ &#123; ... &#125;;</span><br>    <span class="hljs-keyword">assign</span> out = ~&#123; &#123;<span class="hljs-number">5</span>&#123;a&#125;&#125;, &#123;<span class="hljs-number">5</span>&#123;b&#125;&#125;, &#123;<span class="hljs-number">5</span>&#123;c&#125;&#125;, &#123;<span class="hljs-number">5</span>&#123;d&#125;&#125;, &#123;<span class="hljs-number">5</span>&#123;e&#125;&#125; &#125; ^ &#123; &#123;<span class="hljs-number">5</span>&#123;a,b,c,d,e&#125;&#125; &#125;;<br><span class="hljs-keyword">endmodule</span><br><br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>FPGA</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>verilog</tag>
+      
+      <tag>FPGA</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>hdlbits-Vector4</title>
+    <link href="/2024/08/03/hdlbits-Vector4/"/>
+    <url>/2024/08/03/hdlbits-Vector4/</url>
+    
+    <content type="html"><![CDATA[<h1 id="vector4">Vector4</h1><p>The concatenation operator allowed concatenating together vectors toform a larger vector. But sometimes you want the same thing concatenatedtogether many times, and it is still tedious to do something like assign<strong>a = {b,b,b,b,b,b};</strong>. The replication operator allowsrepeating a vector and concatenating them together: <figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs verilog">&#123;num&#123;vector&#125;&#125;<br></code></pre></td></tr></table></figure> Thisreplicates vector by num times. num must be a constant. Both sets ofbraces are required.</p><p>Examples: <figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs verilog">&#123;<span class="hljs-number">5</span>&#123;<span class="hljs-number">1&#x27;b1</span>&#125;&#125;           <span class="hljs-comment">// 5&#x27;b11111 (or 5&#x27;d31 or 5&#x27;h1f)</span><br>&#123;<span class="hljs-number">2</span>&#123;a,b,c&#125;&#125;          <span class="hljs-comment">// The same as &#123;a,b,c,a,b,c&#125;</span><br>&#123;<span class="hljs-number">3&#x27;d5</span>, &#123;<span class="hljs-number">2</span>&#123;<span class="hljs-number">3&#x27;d6</span>&#125;&#125;&#125;   <span class="hljs-comment">// 9&#x27;b101_110_110. It&#x27;s a concatenation of 101 with</span><br>                    <span class="hljs-comment">// the second vector, which is two copies of 3&#x27;b110.</span><br></code></pre></td></tr></table></figure></p><h1 id="practice">Practice</h1><p>One common place to see a replication operator is when sign-extendinga smaller number to a larger one, while preserving its signed value.This is done by replicating the sign bit (the most significant bit) ofthe smaller number to the left. For example, sign-extending 4'b0101 (5)to 8 bits results in 8'b00000101 (5), while sign-extending 4'b1101 (-3)to 8 bits results in 8'b11111101 (-3).</p><p>Build a circuit that sign-extends an 8-bit number to 32 bits. Thisrequires a concatenation of 24 copies of the sign bit (i.e., replicatebit[7] 24 times) followed by the 8-bit number itself.</p><h1 id="solution">solution</h1><figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs verilog"><span class="hljs-keyword">module</span> top_module (<br>    <span class="hljs-keyword">input</span> [<span class="hljs-number">7</span>:<span class="hljs-number">0</span>] in,<br>    <span class="hljs-keyword">output</span> [<span class="hljs-number">31</span>:<span class="hljs-number">0</span>] out );<span class="hljs-comment">//</span><br><br>    <span class="hljs-comment">// assign out = &#123; replicate-sign-bit , the-input &#125;;</span><br>    <span class="hljs-keyword">assign</span> out = &#123; &#123;<span class="hljs-number">24</span>&#123;in[<span class="hljs-number">7</span>]&#125;&#125;, in &#125;; <span class="hljs-comment">// 一个大括号都不能少</span><br><br><span class="hljs-keyword">endmodule</span><br><br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>FPGA</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>verilog</tag>
+      
+      <tag>FPGA</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>hdlbits-Vectorr</title>
+    <link href="/2024/08/03/hdlbits-Vectorr/"/>
+    <url>/2024/08/03/hdlbits-Vectorr/</url>
+    
+    <content type="html"><![CDATA[<h1 id="vectorr">Vectorr</h1><p>Given an 8-bit input vector [7:0], reverse its bit ordering.</p><h1 id="solution">solution</h1><p>module top_module( input [7:0] in, output [7:0] out ); assign out ={in[0], in[1], in[2], in[3], in[4], in[5], in[6], in[7]}; endmodule</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>FPGA</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>verilog</tag>
+      
+      <tag>FPGA</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>hdlbits-Vector3</title>
+    <link href="/2024/08/03/hdlbits-Vector3/"/>
+    <url>/2024/08/03/hdlbits-Vector3/</url>
+    
+    <content type="html"><![CDATA[<h1 id="vector3">Vector3</h1><p>Part selection was used to select portions of a vector. Theconcatenation operator {a,b,c} is used to create larger vectors byconcatenating smaller portions of a vector together. <figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs verilog">&#123;<span class="hljs-number">3&#x27;b111</span>, <span class="hljs-number">3&#x27;b000</span>&#125; =&gt; <span class="hljs-number">6&#x27;b111000</span><br>&#123;<span class="hljs-number">1&#x27;b1</span>, <span class="hljs-number">1&#x27;b0</span>, <span class="hljs-number">3&#x27;b101</span>&#125; =&gt; <span class="hljs-number">5&#x27;b10101</span><br>&#123;<span class="hljs-number">4&#x27;ha</span>, <span class="hljs-number">4&#x27;d10</span>&#125; =&gt; <span class="hljs-number">8&#x27;b10101010</span>     <span class="hljs-comment">// 4&#x27;ha and 4&#x27;d10 are both 4&#x27;b1010 in binary</span><br></code></pre></td></tr></table></figure>Concatenation needs to know the width of every component (or how wouldyou know the length of the result?). Thus, {1, 2, 3} is illegal andresults in the error message: unsized constants are not allowed inconcatenations.</p><p>The concatenation operator can be used on both the left and rightsides of assignments. <figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs verilog"><span class="hljs-keyword">input</span> [<span class="hljs-number">15</span>:<span class="hljs-number">0</span>] in;<br><span class="hljs-keyword">output</span> [<span class="hljs-number">23</span>:<span class="hljs-number">0</span>] out;<br><span class="hljs-keyword">assign</span> &#123;out[<span class="hljs-number">7</span>:<span class="hljs-number">0</span>], out[<span class="hljs-number">15</span>:<span class="hljs-number">8</span>]&#125; = in;         <span class="hljs-comment">// Swap two bytes. Right side and left side are both 16-bit vectors.</span><br><span class="hljs-keyword">assign</span> out[<span class="hljs-number">15</span>:<span class="hljs-number">0</span>] = &#123;in[<span class="hljs-number">7</span>:<span class="hljs-number">0</span>], in[<span class="hljs-number">15</span>:<span class="hljs-number">8</span>]&#125;;    <span class="hljs-comment">// This is the same thing.</span><br><span class="hljs-keyword">assign</span> out = &#123;in[<span class="hljs-number">7</span>:<span class="hljs-number">0</span>], in[<span class="hljs-number">15</span>:<span class="hljs-number">8</span>]&#125;;       <span class="hljs-comment">// This is different. The 16-bit vector on the right is extended to</span><br>                                        <span class="hljs-comment">// match the 24-bit vector on the left, so out[23:16] are zero.</span><br>                                        <span class="hljs-comment">// In the first two examples, out[23:16] are not assigned.</span><br></code></pre></td></tr></table></figure></p><h1 id="practice">Practice</h1><p>Given several input vectors, concatenate them together then splitthem up into several output vectors. There are six 5-bit input vectors:a, b, c, d, e, and f, for a total of 30 bits of input. There are four8-bit output vectors: w, x, y, and z, for 32 bits of output. The outputshould be a concatenation of the input vectors followed by two 1bits:</p><figure><img src="/images/Vector3.png" title="Vector3" alt="Vector3" /><figcaption aria-hidden="true">Vector3</figcaption></figure><h1 id="solution">solution</h1><figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs verilog"><span class="hljs-keyword">module</span> top_module (<br>    <span class="hljs-keyword">input</span> [<span class="hljs-number">4</span>:<span class="hljs-number">0</span>] a, b, c, d, e, f,<br>    <span class="hljs-keyword">output</span> [<span class="hljs-number">7</span>:<span class="hljs-number">0</span>] w, x, y, z );<span class="hljs-comment">//</span><br><br>    <span class="hljs-comment">// assign &#123; ... &#125; = &#123; ... &#125;;</span><br>    <span class="hljs-keyword">assign</span> &#123;w, x, y, z&#125; = &#123;a, b, c, d, e, f, <span class="hljs-number">2&#x27;b11</span>&#125;;<br><span class="hljs-keyword">endmodule</span><br><br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>FPGA</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>verilog</tag>
+      
+      <tag>FPGA</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>hdlbits-Gates4</title>
+    <link href="/2024/08/03/hdlbits-Gates4/"/>
+    <url>/2024/08/03/hdlbits-Gates4/</url>
+    
+    <content type="html"><![CDATA[<h1 id="gates4">Gates4</h1><p>Build a combinational circuit with four inputs, in[3:0].</p><p>There are 3 outputs:</p><ul><li>out_and: output of a 4-input AND gate.</li><li>out_or: output of a 4-input OR gate.</li><li>out_xor: output of a 4-input XOR gate.</li></ul><h1 id="solution">solution</h1><figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs verilog"><span class="hljs-keyword">module</span> top_module( <br>    <span class="hljs-keyword">input</span> [<span class="hljs-number">3</span>:<span class="hljs-number">0</span>] in,<br>    <span class="hljs-keyword">output</span> out_and,<br>    <span class="hljs-keyword">output</span> out_or,<br>    <span class="hljs-keyword">output</span> out_xor<br>);<br>    <span class="hljs-keyword">assign</span> out_and = in[<span class="hljs-number">0</span>] &amp; in[<span class="hljs-number">1</span>] &amp; in[<span class="hljs-number">2</span>] &amp; in[<span class="hljs-number">3</span>];<br>    <span class="hljs-keyword">assign</span> out_or  = in[<span class="hljs-number">0</span>] | in[<span class="hljs-number">1</span>] | in[<span class="hljs-number">2</span>] | in[<span class="hljs-number">3</span>];<br>    <span class="hljs-keyword">assign</span> out_xor = in[<span class="hljs-number">0</span>] ^ in[<span class="hljs-number">1</span>] ^ in[<span class="hljs-number">2</span>] ^ in[<span class="hljs-number">3</span>];<br><span class="hljs-keyword">endmodule</span><br><br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>FPGA</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>verilog</tag>
+      
+      <tag>FPGA</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>hdlbits-Vectorgates</title>
+    <link href="/2024/08/03/hdlbits-Vectorgates/"/>
+    <url>/2024/08/03/hdlbits-Vectorgates/</url>
+    
+    <content type="html"><![CDATA[<h1 id="vectorgates">Vectorgates</h1><p>Build a circuit that has two 3-bit inputs that computes thebitwise-OR of the two vectors, the logical-OR of the two vectors, andthe inverse (NOT) of both vectors. Place the inverse of b in the upperhalf of out_not (i.e., bits [5:3]), and the inverse of a in the lowerhalf.</p><h2 id="bitwise-vs.-logical-operators">Bitwise vs. LogicalOperators</h2><p>Earlier, we mentioned that there are bitwise and logical versions ofthe various boolean operators (e.g., norgate). When using vectors, thedistinction between the two operator types becomes important. A bitwiseoperation between two N-bit vectors replicates the operation for eachbit of the vector and produces a N-bit output, while a logical operationtreats the entire vector as a boolean value (true = non-zero, false =zero) and produces a 1-bit output.</p><p>Look at the simulation waveforms at how the bitwise-OR and logical-ORdiffer.</p><figure><img src="/images/Vectorgates.png" title="Vectorgates"alt="Vectorgates" /><figcaption aria-hidden="true">Vectorgates</figcaption></figure><blockquote><p>Hint</p></blockquote><blockquote><blockquote><p>Even though you cannot assign to a wire more than once, you can use apart select on the left-hand-side of an assign. You don't need to assignto the entire vector all in one statement.</p></blockquote></blockquote><h1 id="solution">solution</h1><figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs verilog"><span class="hljs-keyword">module</span> top_module( <br>    <span class="hljs-keyword">input</span> [<span class="hljs-number">2</span>:<span class="hljs-number">0</span>] a,<br>    <span class="hljs-keyword">input</span> [<span class="hljs-number">2</span>:<span class="hljs-number">0</span>] b,<br>    <span class="hljs-keyword">output</span> [<span class="hljs-number">2</span>:<span class="hljs-number">0</span>] out_or_bitwise,<br>    <span class="hljs-keyword">output</span> out_or_logical,<br>    <span class="hljs-keyword">output</span> [<span class="hljs-number">5</span>:<span class="hljs-number">0</span>] out_not<br>);<br><span class="hljs-keyword">assign</span> out_or_bitwise = a|b;<br>    <span class="hljs-keyword">assign</span> out_or_logical = a || b;<br>    <span class="hljs-keyword">assign</span> out_not = &#123;~b, ~a&#125;;<br><span class="hljs-keyword">endmodule</span><br><br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>FPGA</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>verilog</tag>
+      
+      <tag>FPGA</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>hdlbits-Vector2</title>
+    <link href="/2024/08/03/hdlbits-Vector2/"/>
+    <url>/2024/08/03/hdlbits-Vector2/</url>
+    
+    <content type="html"><![CDATA[<h1 id="vector2">Vector2</h1><p>A 32-bit vector can be viewed as containing 4 bytes (bits [31:24],[23:16], etc.). Build a circuit that will reverse the byte ordering ofthe 4-byte word.</p><p>AaaaaaaaBbbbbbbbCcccccccDddddddd =&gt;DdddddddCcccccccBbbbbbbbAaaaaaaa</p><p>This operation is often used when the endianness of a piece of dataneeds to be swapped, for example between little-endian x86 systems andthe big-endian formats used in many Internet protocols.</p><blockquote><p>Hint</p></blockquote><blockquote><blockquote><p>Part-select can be used on both the left side and right side of anassignment.</p></blockquote></blockquote><h1 id="solution">solution</h1><figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs verilog"><span class="hljs-keyword">module</span> top_module( <br>    <span class="hljs-keyword">input</span> [<span class="hljs-number">31</span>:<span class="hljs-number">0</span>] in,<br>    <span class="hljs-keyword">output</span> [<span class="hljs-number">31</span>:<span class="hljs-number">0</span>] out );<span class="hljs-comment">//</span><br><br>    <span class="hljs-comment">// assign out[31:24] = ...;</span><br>    <span class="hljs-keyword">assign</span> out[<span class="hljs-number">31</span>:<span class="hljs-number">24</span>] = in[ <span class="hljs-number">7</span>: <span class="hljs-number">0</span>];<br>    <span class="hljs-keyword">assign</span> out[<span class="hljs-number">23</span>:<span class="hljs-number">16</span>] = in[<span class="hljs-number">15</span>: <span class="hljs-number">8</span>];<br>    <span class="hljs-keyword">assign</span> out[<span class="hljs-number">15</span>: <span class="hljs-number">8</span>] = in[<span class="hljs-number">23</span>:<span class="hljs-number">16</span>];<br>    <span class="hljs-keyword">assign</span> out[ <span class="hljs-number">7</span>: <span class="hljs-number">0</span>] = in[<span class="hljs-number">31</span>:<span class="hljs-number">24</span>];<br><span class="hljs-keyword">endmodule</span><br><br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>FPGA</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>verilog</tag>
+      
+      <tag>FPGA</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>hdlbits-Vector1</title>
+    <link href="/2024/08/03/hdlbits-Vector1/"/>
+    <url>/2024/08/03/hdlbits-Vector1/</url>
+    
+    <content type="html"><![CDATA[<h1 id="vector1">Vector1</h1><p>Vectors are used to group related signals using one name to make itmore convenient to manipulate. For example, wire [7:0] w; declares an8-bit vector named w that is equivalent to having 8 separate wires.</p><h2 id="declaring-vectors">Declaring Vectors</h2><p>Vectors must be declared:</p><p>type [upper:lower] vector_name;</p><p>type specifies the datatype of the vector. This is usually wire orreg. If you are declaring a input or output port, the type canadditionally include the port type (e.g., input or output) as well. Someexamples: <figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs verilog"><span class="hljs-keyword">wire</span> [<span class="hljs-number">7</span>:<span class="hljs-number">0</span>] w;         <span class="hljs-comment">// 8-bit wire</span><br><span class="hljs-keyword">reg</span>  [<span class="hljs-number">4</span>:<span class="hljs-number">1</span>] x;         <span class="hljs-comment">// 4-bit reg</span><br><span class="hljs-keyword">output</span> <span class="hljs-keyword">reg</span> [<span class="hljs-number">0</span>:<span class="hljs-number">0</span>] y;   <span class="hljs-comment">// 1-bit reg that is also an output port (this is still a vector)</span><br><span class="hljs-keyword">input</span> <span class="hljs-keyword">wire</span> [<span class="hljs-number">3</span>:-<span class="hljs-number">2</span>] z;  <span class="hljs-comment">// 6-bit wire input (negative ranges are allowed)</span><br><span class="hljs-keyword">output</span> [<span class="hljs-number">3</span>:<span class="hljs-number">0</span>] a;       <span class="hljs-comment">// 4-bit output wire. Type is &#x27;wire&#x27; unless specified otherwise.</span><br><span class="hljs-keyword">wire</span> [<span class="hljs-number">0</span>:<span class="hljs-number">7</span>] b;         <span class="hljs-comment">// 8-bit wire where b[0] is the most-significant bit.</span><br></code></pre></td></tr></table></figure></p><p>The endianness (or, informally, "direction") of a vector is whetherthe the least significant bit has a lower index (little-endian, e.g.,[3:0]) or a higher index (big-endian, e.g., [0:3]). In Verilog, once avector is declared with a particular endianness, it must always be usedthe same way. e.g., writing vec[0:3] when vec is declared wire [3:0]vec; is illegal. Being consistent with endianness is good practice, asweird bugs occur if vectors of different endianness are assigned or usedtogether.</p><h2 id="implicit-nets">Implicit nets</h2><p>Implicit nets are often a source of hard-to-detect bugs. In Verilog,net-type signals can be implicitly created by an assign statement or byattaching something undeclared to a module port. Implicit nets arealways one-bit wires and causes bugs if you had intended to use avector. Disabling creation of implicit nets can be done using the`default_nettype none directive.</p><figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs verilog"><span class="hljs-keyword">wire</span> [<span class="hljs-number">2</span>:<span class="hljs-number">0</span>] a, c;   <span class="hljs-comment">// Two vectors</span><br><span class="hljs-keyword">assign</span> a = <span class="hljs-number">3&#x27;b101</span>;  <span class="hljs-comment">// a = 101</span><br><span class="hljs-keyword">assign</span> b = a;       <span class="hljs-comment">// b =   1  implicitly-created wire</span><br><span class="hljs-keyword">assign</span> c = b;       <span class="hljs-comment">// c = 001  &lt;-- bug</span><br>my_module i1 (d,e); <span class="hljs-comment">// d and e are implicitly one-bit wide if not declared.</span><br>                    <span class="hljs-comment">// This could be a bug if the port was intended to be a vector.</span><br></code></pre></td></tr></table></figure><p>Adding `default_nettype none would make the second line of code anerror, which makes the bug more visible.</p><h2 id="unpacked-vs.-packed-arrays">Unpacked vs. Packed Arrays</h2><p>You may have noticed that in declarations, the vector indices arewritten before the vector name. This declares the "packed" dimensions ofthe array, where the bits are "packed" together into a blob (this isrelevant in a simulator, but not in hardware). The unpacked dimensionsare declared after the name. They are generally used to declare memoryarrays. Since ECE253 didn't cover memory arrays, we have not used packedarrays in this course. Seehttp://www.asic-world.com/systemverilog/data_types10.html for moredetails.</p><figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs verilog"><span class="hljs-keyword">reg</span> [<span class="hljs-number">7</span>:<span class="hljs-number">0</span>] mem [<span class="hljs-number">255</span>:<span class="hljs-number">0</span>];   <span class="hljs-comment">// 256 unpacked elements, each of which is a 8-bit packed vector of reg.</span><br><span class="hljs-keyword">reg</span> mem2 [<span class="hljs-number">28</span>:<span class="hljs-number">0</span>];         <span class="hljs-comment">// 29 unpacked elements, each of which is a 1-bit reg.</span><br></code></pre></td></tr></table></figure><h2 id="accessing-vector-elements-part-select">Accessing VectorElements: Part-Select</h2><p>Accessing an entire vector is done using the vector name. Forexample:</p><p>assign w = a;</p><p>takes the entire 4-bit vector a and assigns it to the entire 8-bitvector w (declarations are taken from above). If the lengths of theright and left sides don't match, it is zero-extended or truncated asappropriate.</p><p>The part-select operator can be used to access a portion of a vector:<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs verilog">w[<span class="hljs-number">3</span>:<span class="hljs-number">0</span>]      <span class="hljs-comment">// Only the lower 4 bits of w</span><br>x[<span class="hljs-number">1</span>]        <span class="hljs-comment">// The lowest bit of x</span><br>x[<span class="hljs-number">1</span>:<span class="hljs-number">1</span>]      <span class="hljs-comment">// ...also the lowest bit of x</span><br>z[-<span class="hljs-number">1</span>:-<span class="hljs-number">2</span>]    <span class="hljs-comment">// Two lowest bits of z</span><br>b[<span class="hljs-number">3</span>:<span class="hljs-number">0</span>]      <span class="hljs-comment">// Illegal. Vector part-select must match the direction of the declaration.</span><br>b[<span class="hljs-number">0</span>:<span class="hljs-number">3</span>]      <span class="hljs-comment">// The *upper* 4 bits of b.</span><br><span class="hljs-keyword">assign</span> w[<span class="hljs-number">3</span>:<span class="hljs-number">0</span>] = b[<span class="hljs-number">0</span>:<span class="hljs-number">3</span>];    <span class="hljs-comment">// Assign upper 4 bits of b to lower 4 bits of w. w[3]=b[0], w[2]=b[1], etc.</span><br></code></pre></td></tr></table></figure></p><h1 id="practice">Practice</h1><p>Build a combinational circuit that splits an input half-word (16bits, [15:0] ) into lower [7:0] and upper [15:8] bytes.</p><h1 id="solution">solution</h1><figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs verilog"><span class="hljs-meta">`<span class="hljs-keyword">default_nettype</span> none     </span><span class="hljs-comment">// Disable implicit nets. Reduces some types of bugs.</span><br><span class="hljs-keyword">module</span> top_module( <br>    <span class="hljs-keyword">input</span> <span class="hljs-keyword">wire</span> [<span class="hljs-number">15</span>:<span class="hljs-number">0</span>] in,<br>    <span class="hljs-keyword">output</span> <span class="hljs-keyword">wire</span> [<span class="hljs-number">7</span>:<span class="hljs-number">0</span>] out_hi,<br>    <span class="hljs-keyword">output</span> <span class="hljs-keyword">wire</span> [<span class="hljs-number">7</span>:<span class="hljs-number">0</span>] out_lo );<br>    <span class="hljs-keyword">assign</span> &#123;out_hi, out_lo&#125; = in;<br><span class="hljs-keyword">endmodule</span><br><br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>FPGA</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>verilog</tag>
+      
+      <tag>FPGA</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>hdlbits-Vector0</title>
+    <link href="/2024/08/03/hdlbits-Vector0/"/>
+    <url>/2024/08/03/hdlbits-Vector0/</url>
+    
+    <content type="html"><![CDATA[<h1 id="vector0">Vector0</h1><p>Vectors are used to group related signals using one name to make itmore convenient to manipulate. For example, wire [7:0] w; declares an8-bit vector named w that is functionally equivalent to having 8separate wires.</p><p>Notice that the declaration of a vector places the dimensions beforethe name of the vector, which is unusual compared to C syntax. However,the part select has the dimensions after the vector name as you wouldexpect.</p><figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs verilog"><span class="hljs-keyword">wire</span> [<span class="hljs-number">99</span>:<span class="hljs-number">0</span>] my_vector;      <span class="hljs-comment">// Declare a 100-element vector</span><br><span class="hljs-keyword">assign</span> out = my_vector[<span class="hljs-number">10</span>]; <span class="hljs-comment">// Part-select one bit out of the vector</span><br></code></pre></td></tr></table></figure><p>Build a circuit that has one 3-bit input, then outputs the samevector, and also splits it into three separate 1-bit outputs. Connectoutput o0 to the input vector's position 0, o1 to position 1, etc.</p><p>In a diagram, a tick mark with a number next to it indicates thewidth of the vector (or "bus"), rather than drawing a separate line foreach bit in the vector.</p><figure><img src="/images/Vector0.png" title="Vector0" alt="Vector0" /><figcaption aria-hidden="true">Vector0</figcaption></figure><h1 id="solution">solution</h1><figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs verilog"><span class="hljs-keyword">module</span> top_module ( <br>    <span class="hljs-keyword">input</span> <span class="hljs-keyword">wire</span> [<span class="hljs-number">2</span>:<span class="hljs-number">0</span>] vec,<br>    <span class="hljs-keyword">output</span> <span class="hljs-keyword">wire</span> [<span class="hljs-number">2</span>:<span class="hljs-number">0</span>] outv,<br>    <span class="hljs-keyword">output</span> <span class="hljs-keyword">wire</span> o2,<br>    <span class="hljs-keyword">output</span> <span class="hljs-keyword">wire</span> o1,<br>    <span class="hljs-keyword">output</span> <span class="hljs-keyword">wire</span> o0  ); <span class="hljs-comment">// Module body starts after module declaration</span><br><br>    <span class="hljs-keyword">assign</span> outv = vec;<br>    <span class="hljs-keyword">assign</span> &#123;o2, o1, o0&#125; = vec;<br>    <br><span class="hljs-keyword">endmodule</span><br><br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>FPGA</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>verilog</tag>
+      
+      <tag>FPGA</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>hdlbits-7458</title>
+    <link href="/2024/08/03/hdlbits-7458/"/>
+    <url>/2024/08/03/hdlbits-7458/</url>
+    
+    <content type="html"><![CDATA[<h1 id="section">7458</h1><p>The 7458 is a chip with four AND gates and two OR gates. This problemis slightly more complex than 7420.</p><p>Create a module with the same functionality as the 7458 chip. It has10 inputs and 2 outputs. You may choose to use an assign statement todrive each of the output wires, or you may choose to declare (four)wires for use as intermediate signals, where each internal wire isdriven by the output of one of the AND gates. For extra practice, try itboth ways.</p><figure><img src="/images/7458.png" title="7458" alt="7458" /><figcaption aria-hidden="true">7458</figcaption></figure><blockquote><p>Hint</p></blockquote><blockquote><blockquote><p>You need to drive two signals (p1y and p2y) with a value.</p></blockquote></blockquote><h1 id="solution">solution</h1><figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs verilog"><span class="hljs-keyword">module</span> top_module ( <br>    <span class="hljs-keyword">input</span> p1a, p1b, p1c, p1d, p1e, p1f,<br>    <span class="hljs-keyword">output</span> p1y,<br>    <span class="hljs-keyword">input</span> p2a, p2b, p2c, p2d,<br>    <span class="hljs-keyword">output</span> p2y );<br><br>    <span class="hljs-keyword">assign</span> p1y = (p1a &amp; p1b &amp; p1c) | ( p1d &amp; p1e &amp; p1f );<br>    <span class="hljs-keyword">assign</span> p2y = (p2a &amp; p2b) | (p2c &amp; p2d);<br><br><span class="hljs-keyword">endmodule</span><br><br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>FPGA</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>verilog</tag>
+      
+      <tag>FPGA</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>hdlbits-Declaring-wires</title>
+    <link href="/2024/08/03/hdlbits-Declaring-wires/"/>
+    <url>/2024/08/03/hdlbits-Declaring-wires/</url>
+    
+    <content type="html"><![CDATA[<h1 id="declaring-wires">Declaring wires</h1><p>The circuits so far have been simple enough that the outputs aresimple functions of the inputs. As circuits become more complex, youwill need wires to connect internal components together. When you needto use a wire, you should declare it in the body of the module,somewhere before it is first used. (In the future, you will encountermore types of signals and variables that are also declared the same way,but for now, we'll start with a signal of type wire).</p><figure><img src="/images/Wiredecl1.png" title="Wiredecl1" alt="Wiredecl1" /><figcaption aria-hidden="true">Wiredecl1</figcaption></figure><h1 id="example">example</h1><figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs verilog"><span class="hljs-keyword">module</span> top_module (<br>    <span class="hljs-keyword">input</span> in,              <span class="hljs-comment">// Declare an input wire named &quot;in&quot;</span><br>    <span class="hljs-keyword">output</span> out             <span class="hljs-comment">// Declare an output wire named &quot;out&quot;</span><br>);<br><br>    <span class="hljs-keyword">wire</span> not_in;           <span class="hljs-comment">// Declare a wire named &quot;not_in&quot;</span><br><br>    <span class="hljs-keyword">assign</span> out = ~not_in;  <span class="hljs-comment">// Assign a value to out (create a NOT gate).</span><br>    <span class="hljs-keyword">assign</span> not_in = ~in;   <span class="hljs-comment">// Assign a value to not_in (create another NOT gate).</span><br><br><span class="hljs-keyword">endmodule</span>   <span class="hljs-comment">// End of module &quot;top_module&quot;</span><br><br></code></pre></td></tr></table></figure><h1 id="practice">Practice</h1><p>Implement the following circuit. Create two intermediate wires (namedanything you want) to connect the AND and OR gates together. Note thatthe wire that feeds the NOT gate is really wire out, so you do notnecessarily need to declare a third wire here. Notice how wires aredriven by exactly one source (output of a gate), but can feed multipleinputs.</p><p>If you're following the circuit structure in the diagram, you shouldend up with four assign statements, as there are four signals that needa value assigned.</p><figure><img src="/images/Wiredecl2.png" title="Wiredecl2" alt="Wiredecl2" /><figcaption aria-hidden="true">Wiredecl2</figcaption></figure><h1 id="solution">solution</h1><figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs verilog"><span class="hljs-meta">`<span class="hljs-keyword">default_nettype</span> none</span><br><span class="hljs-keyword">module</span> top_module(<br>    <span class="hljs-keyword">input</span> a,<br>    <span class="hljs-keyword">input</span> b,<br>    <span class="hljs-keyword">input</span> c,<br>    <span class="hljs-keyword">input</span> d,<br>    <span class="hljs-keyword">output</span> out,<br>    <span class="hljs-keyword">output</span> out_n   ); <br><br>    <span class="hljs-keyword">wire</span> p;<br>    <span class="hljs-keyword">assign</span> p = a&amp;b | c&amp;d;<br>    <br>    <span class="hljs-keyword">assign</span> out = p;<br>    <span class="hljs-keyword">assign</span> out_n = ~p;<br>    <br><span class="hljs-keyword">endmodule</span><br><br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>FPGA</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>verilog</tag>
+      
+      <tag>FPGA</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>hdlbits-Xnorgate</title>
+    <link href="/2024/08/03/hdlbits-Xnorgate/"/>
+    <url>/2024/08/03/hdlbits-Xnorgate/</url>
+    
+    <content type="html"><![CDATA[<h1 id="xnorgate">Xnorgate</h1><p>Create a module that implements an XNOR gate.</p><figure><img src="/images/Nxorgate.png" title="xnorgate" alt="xnorgate" /><figcaption aria-hidden="true">xnorgate</figcaption></figure><blockquote><p>Hint</p></blockquote><blockquote><blockquote><p>The bitwise-XOR operator is ^. There is no logical-XOR operator.</p></blockquote></blockquote><h1 id="solution">solution</h1><figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs verilog"><span class="hljs-keyword">module</span> top_module( <br>    <span class="hljs-keyword">input</span> a, <br>    <span class="hljs-keyword">input</span> b, <br>    <span class="hljs-keyword">output</span> out );<br>    <span class="hljs-keyword">assign</span> out = ~(a^b);<br><span class="hljs-keyword">endmodule</span><br><br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>FPGA</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>verilog</tag>
+      
+      <tag>FPGA</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>hdlbits-Norgate</title>
+    <link href="/2024/08/03/hdlbits-Norgate/"/>
+    <url>/2024/08/03/hdlbits-Norgate/</url>
+    
+    <content type="html"><![CDATA[<h1 id="norgate">Norgate</h1><p>Create a module that implements a NOR gate. A NOR gate is an OR gatewith its output inverted. A NOR function needs two operators whenwritten in Verilog.</p><p>An assign statement drives a wire (or "net", as it's more formallycalled) with a value. This value can be as complex a function as youwant, as long as it's a combinational (i.e., memory-less, with no hiddenstate) function. An assign statement is a continuous assignment becausethe output is "recomputed" whenever any of its inputs change, forever,much like a simple logic gate.</p><figure><img src="/images/Norgate.png" title="norgate" alt="norgate" /><figcaption aria-hidden="true">norgate</figcaption></figure><blockquote><p>Hint</p></blockquote><blockquote><blockquote><p>Verilog has separate bitwise-OR (|) and logical-OR (||) operators,like C. Since we're working with a one-bit here, it doesn't matter whichwe choose.</p></blockquote></blockquote><h1 id="solution">solution</h1><figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs verilog"><span class="hljs-keyword">module</span> top_module( <br>    <span class="hljs-keyword">input</span> a, <br>    <span class="hljs-keyword">input</span> b, <br>    <span class="hljs-keyword">output</span> out );<br>    <span class="hljs-keyword">assign</span> out = ~(a | b);<br><span class="hljs-keyword">endmodule</span><br><br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>FPGA</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>verilog</tag>
+      
+      <tag>FPGA</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>hdlbits-Andgate</title>
+    <link href="/2024/08/03/hdlbits-Andgate/"/>
+    <url>/2024/08/03/hdlbits-Andgate/</url>
+    
+    <content type="html"><![CDATA[<h1 id="andgate">Andgate</h1><p>Create a module that implements an AND gate.</p><p>This circuit now has three wires (a, b, and out). Wires a and balready have values driven onto them by the input ports. But wire outcurrently is not driven by anything. Write an assign statement thatdrives out with the AND of signals a and b.</p><p>Note that this circuit is very similar to the NOT gate, just with onemore input. If it sounds different, it's because I've started describingsignals as being driven (has a known value determined by somethingattached to it) or not driven by something. Input wires are driven bysomething outside the module. assign statements will drive a logic levelonto a wire. As you might expect, a wire cannot have more than onedriver (what is its logic level if there is ?), and a wire that has nodrivers will have an undefined value (often treated as 0 whensynthesizing hardware).</p><figure><img src="/images/Andgate.png" title="andgate" alt="andgate" /><figcaption aria-hidden="true">andgate</figcaption></figure><blockquote><p>Hint</p></blockquote><blockquote><blockquote><p>Verilog has separate bitwise-AND (&amp;) and logical-AND (&amp;&amp;)operators, like C. Since we're working with a one-bit here, it doesn'tmatter which we choose.</p></blockquote></blockquote><h1 id="solution">solution</h1><figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs verilog"><span class="hljs-keyword">module</span> top_module( <br>    <span class="hljs-keyword">input</span> a, <br>    <span class="hljs-keyword">input</span> b, <br>    <span class="hljs-keyword">output</span> out );<br><span class="hljs-keyword">assign</span> out = a&amp;b;<br><span class="hljs-keyword">endmodule</span><br><br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>FPGA</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>verilog</tag>
+      
+      <tag>FPGA</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>hdlbits-Notgate</title>
+    <link href="/2024/08/03/hdlbits-Notgate/"/>
+    <url>/2024/08/03/hdlbits-Notgate/</url>
+    
+    <content type="html"><![CDATA[<h1 id="notgate">Notgate</h1><p>Create a module that implements a NOT gate.</p><p>This circuit is similar to wire, but with a slight difference. Whenmaking the connection from the wire in to the wire out we're going toimplement an inverter (or "NOT-gate") instead of a plain wire.</p><p>Use an assign statement. The assign statement will continuously drivethe inverse of in onto wire out</p><figure><img src="/images/Notgate.png" title="notgate" alt="notgate" /><figcaption aria-hidden="true">notgate</figcaption></figure><blockquote><p>Hint</p></blockquote><blockquote><blockquote><p>Verilog has separate bitwise-NOT (~) and logical-NOT (!) operators,like C. Since we're working with a one-bit here, it doesn't matter whichwe choose.</p></blockquote></blockquote><h1 id="solution">solution</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs veilog">module top_module( input in, output out );<br>assign out = ~in;<br>endmodule<br><br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>FPGA</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>verilog</tag>
+      
+      <tag>FPGA</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>hdlbits-Wire4</title>
+    <link href="/2024/08/03/hdlbits-Wire4/"/>
+    <url>/2024/08/03/hdlbits-Wire4/</url>
+    
+    <content type="html"><![CDATA[<h1 id="wire4">Wire4</h1><p>Create a module with 3 inputs and 4 outputs that behaves like wiresthat makes these connections:</p><p>a -&gt; w b -&gt; x b -&gt; y c -&gt; z</p><p>The diagram below illustrates how each part of the circuitcorresponds to each bit of Verilog code. From outside the module, thereare three input ports and four output ports.</p><p>When you have multiple assign statements, the order in which theyappear in the code does not matter. Unlike a programming language,assign statements ("continuous assignments") describe connectionsbetween things, not the action of copying a value from one thing toanother.</p><p>One potential source of confusion that should perhaps be clarifiednow: The green arrows here represent connections between wires, but arenot wires in themselves. The module itself already has 7 wires declared(named a, b, c, w, x, y, and z). This is because input and outputdeclarations actually declare a wire unless otherwise specified. Writinginput wire a is the same as input a. Thus, the assign statements are notcreating wires, they are creating the connections between the 7 wiresthat already exist.</p><figure><img src="/images/Wire4.png" title="wire4" alt="wire4" /><figcaption aria-hidden="true">wire4</figcaption></figure><blockquote><p>Hint</p></blockquote><blockquote><blockquote><p>The concatenation operator { signal1, signal2, signal3, ... } wouldbe useful here.</p></blockquote></blockquote><h1 id="solution">solution</h1><figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs verilog"><span class="hljs-keyword">module</span> top_module( <br>    <span class="hljs-keyword">input</span> a,b,c,<br>    <span class="hljs-keyword">output</span> w,x,y,z );<br>    <span class="hljs-keyword">assign</span> &#123;w,x,y,z&#125; = &#123;a,b,b,c&#125;;<br><span class="hljs-keyword">endmodule</span><br><br></code></pre></td></tr></table></figure><p>or</p><figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs verilog"><span class="hljs-keyword">module</span> top_module (<br><span class="hljs-keyword">input</span> a,<br><span class="hljs-keyword">input</span> b,<br><span class="hljs-keyword">input</span> c,<br><span class="hljs-keyword">output</span> w,<br><span class="hljs-keyword">output</span> x,<br><span class="hljs-keyword">output</span> y,<br><span class="hljs-keyword">output</span> z  );<br><br><span class="hljs-keyword">assign</span> w = a;<br><span class="hljs-keyword">assign</span> x = b;<br><span class="hljs-keyword">assign</span> y = b;<br><span class="hljs-keyword">assign</span> z = c;<br><br><span class="hljs-comment">// If we&#x27;re certain about the width of each signal, using </span><br><span class="hljs-comment">// the concatenation operator is equivalent and shorter:</span><br><span class="hljs-comment">// assign &#123;w,x,y,z&#125; = &#123;a,b,b,c&#125;;</span><br><br><span class="hljs-keyword">endmodule</span><br><br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>FPGA</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>verilog</tag>
+      
+      <tag>FPGA</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>hdlbits-Wire</title>
+    <link href="/2024/08/03/hdlbits-Wire/"/>
+    <url>/2024/08/03/hdlbits-Wire/</url>
+    
+    <content type="html"><![CDATA[<h1 id="wire">Wire</h1><p>Create a module with one input and one output that behaves like awire.</p><p>Unlike physical wires, wires (and other signals) in Verilog aredirectional. This means information flows in only one direction, from(usually one) source to the sinks (The source is also often called adriver that drives a value onto a wire). In a Verilog "continuousassignment" (assign left_side = right_side;), the value of the signal onthe right side is driven onto the wire on the left side. The assignmentis "continuous" because the assignment continues all the time even ifthe right side's value changes. A continuous assignment is not aone-time event.</p><p>The ports on a module also have a direction (usually input oroutput). An input port is driven by something from outside the module,while an output port drives something outside. When viewed from insidethe module, an input port is a driver or source, while an output port isa sink.</p><p>The diagram below illustrates how each part of the circuitcorresponds to each bit of Verilog code. The module and portdeclarations create the black portions of the circuit. Your task is tocreate a wire (in green) by adding an assign statement to connect in toout. The parts outside the box are not your concern, but you should knowthat your circuit is tested by connecting signals from our test harnessto the ports on your top_module.</p><figure><img src="/images/Wire.png" title="wire" alt="wire" /><figcaption aria-hidden="true">wire</figcaption></figure><p>In addition to continuous assignments, Verilog has three otherassignment types that are used in procedural blocks, two of which aresynthesizable. We won't be using them until we start using proceduralblocks.</p><blockquote><p>Hint</p></blockquote><blockquote><blockquote><p>A continuous assignment assigns the right side to the left sidecontinuously, so any change to the RHS is immediately seen in theLHS.</p></blockquote></blockquote><h1 id="solution">solution</h1><figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs verilog"><span class="hljs-keyword">module</span> top_module( <span class="hljs-keyword">input</span> in, <span class="hljs-keyword">output</span> out );<br><span class="hljs-keyword">assign</span> out = in;<br><span class="hljs-keyword">endmodule</span><br><br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>FPGA</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>verilog</tag>
+      
+      <tag>FPGA</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>hdlbits-Zero</title>
+    <link href="/2024/08/03/hdlbits-Zero/"/>
+    <url>/2024/08/03/hdlbits-Zero/</url>
+    
+    <content type="html"><![CDATA[<h1 id="zero">Zero</h1><p>Build a circuit with no inputs and one output that outputs a constant0</p><p>Now that you've worked through the previous problem, let's see if youcan do a simple problem without the hints.</p><blockquote><p>HDLBits uses Verilog-2001 ANSI-style port declaration syntax becauseit's easier to read and reduces typos. You may use the olderVerilog-1995 syntax if you wish. For example, the two moduledeclarations below are acceptable and equivalent:</p></blockquote><figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs verilog"><span class="hljs-keyword">module</span> top_module ( zero );<br>    <span class="hljs-keyword">output</span> zero;<br>    <span class="hljs-comment">// Verilog-1995</span><br><span class="hljs-keyword">endmodule</span><br><br></code></pre></td></tr></table></figure><figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs verilog"><span class="hljs-keyword">module</span> top_module ( <span class="hljs-keyword">output</span> zero ); <br><br>    <span class="hljs-comment">// Verilog-2001</span><br><span class="hljs-keyword">endmodule</span><br><br></code></pre></td></tr></table></figure><blockquote><p>Hint</p></blockquote><blockquote><blockquote><p>Fun fact: For Quartus synthesis, not assigning a value to a signalusually results in 0. This problem is actually easier than the previousone.</p></blockquote></blockquote><h1 id="solution">solution</h1><figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs verilog"><span class="hljs-keyword">module</span> top_module(<br>    <span class="hljs-keyword">output</span> zero<br>);<span class="hljs-comment">// Module body starts after semicolon</span><br><span class="hljs-keyword">assign</span> zero = <span class="hljs-number">0</span>; <span class="hljs-comment">//写1&#x27;b0更好</span><br><span class="hljs-keyword">endmodule</span><br><br><br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>FPGA</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>verilog</tag>
+      
+      <tag>FPGA</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>hdlbits Step one</title>
     <link href="/2024/08/03/hdlbits-Step-one/"/>
     <url>/2024/08/03/hdlbits-Step-one/</url>

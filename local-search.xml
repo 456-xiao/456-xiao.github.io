@@ -4,6 +4,33 @@
   
   
   <entry>
+    <title>hdlbits Step one</title>
+    <link href="/2024/08/03/hdlbits-Step-one/"/>
+    <url>/2024/08/03/hdlbits-Step-one/</url>
+    
+    <content type="html"><![CDATA[<h1 id="前言">前言</h1><p>博主在2024-8-1刷完了hdlbits上的所有题目，打算把hdlbits上的自己写的（有些是抄的，打算后面慢慢理解）题解搬运过来做备份。</p><h1 id="step-one">Step one</h1><p>Welcome to HDLBits!</p><p>Getting started in digital logic design can be overwhelming at firstbecause you need to learn new concepts, a new Hardware DescriptionLanguage (e.g., Verilog), several new software packages, and often anFPGA board, all at the same time. HDLBits provides a way to practicedesigning and debugging simple circuits with a single click of"Simulate".</p><p>Designing a circuit requires several steps: Writing HDL (Verilog)code, compiling the code to produce a circuit, then simulating thecircuit and fixing bugs.</p><h1 id="writing-code">Writing Code</h1><p>The easiest way to write your code is to do so in the code editor boxbelow. For this problem, we have filled in most of the code for youalready. Go ahead and finish the code for this circuit.</p><p>Click Simulate to compile and simulate your design.</p><h1 id="compiling-logic-synthesis">Compiling (Logic Synthesis)</h1><p>Your code is compiled using Altera Quartus to produce a circuit.Quartus produces a large number of messages. Click Show Quartus messagesto show/hide them. It's good practice to reduce the number of warnings,but it is sometimes not practical to remove them all.</p><h1 id="simulation">Simulation</h1><p>Your compiled circuit is simulated to test whether it functionscorrectly. HDLBits use ModelSim to simulate your circuit and ourreference solution in parallel, then compares the outputs of themodules. The simulation reports back two things:</p><p>First, it reports whether your circuit matches the reference circuitexactly (zero "mismatches") or how many "mismatches" occurred. Amismatch is the number of samples where the output of your circuit doesnot match the reference output.</p><p>Second, it may produce timing diagrams that show your circuit outputswhen running our test vectors. The simulation waveform is grouped intothree sections: "Inputs", "Yours", and "Ref". In a correct circuit,"Your" outputs will be the same as the "Ref" outputs. The "Mismatch"signals tells you which samples have a mismatch.</p><blockquote><p>The module name and port names of the top-level top_module must notbe changed, or you will get a simulation error.</p></blockquote><h1 id="final-status">Final Status</h1><p>If your circuit was correct, you will see Status: Success!. There area few other possibilities:</p><ol type="1"><li>Compile Error — Circuit did not compile.</li><li>Simulation Error — Circuit compiled successfully, but simulation didnot complete.</li><li>Incorrect — Circuit compiled and simulated, but the outputs did notmatch the reference.</li><li>Success! — Circuit was correct</li></ol><p>You can track or share your progress on the My Stats page.</p><h1 id="problem-statement">Problem Statement</h1><p>We're going to start with a small bit of HDL to get familiar with theinterface used by HDLBits. Here's the description of the circuit youneed to build for this exercise:</p><p>Build a circuit with no inputs and one output. That output shouldalways drive 1 (or logic high).</p><blockquote><p>Module Declaration</p></blockquote><blockquote><blockquote><p>module top_module( output one );</p></blockquote></blockquote><blockquote><p>Hint</p></blockquote><blockquote><blockquote><p>We want to assign 1 to the output one.</p></blockquote></blockquote><h1 id="solution">solution</h1><figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs verilog"><span class="hljs-keyword">module</span> top_module( <span class="hljs-keyword">output</span> one );<br><br><span class="hljs-keyword">assign</span> one = <span class="hljs-number">1&#x27;b1</span>;<br><br><span class="hljs-keyword">endmodule</span><br><br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>FPGA</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>verilog</tag>
+      
+      <tag>FPGA</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>通信笔记6</title>
     <link href="/2024/07/22/%E9%80%9A%E4%BF%A1%E7%AC%94%E8%AE%B06/"/>
     <url>/2024/07/22/%E9%80%9A%E4%BF%A1%E7%AC%94%E8%AE%B06/</url>

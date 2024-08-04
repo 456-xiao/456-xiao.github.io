@@ -62,7 +62,7 @@
     <link href="/2024/08/03/hdlbits-Vectorr/"/>
     <url>/2024/08/03/hdlbits-Vectorr/</url>
     
-    <content type="html"><![CDATA[<h1 id="vectorr">Vectorr</h1><p>Given an 8-bit input vector [7:0], reverse its bit ordering.</p><h1 id="solution">solution</h1><p>module top_module( input [7:0] in, output [7:0] out ); assign out ={in[0], in[1], in[2], in[3], in[4], in[5], in[6], in[7]}; endmodule</p>]]></content>
+    <content type="html"><![CDATA[<h1 id="vectorr">Vectorr</h1><p>Given an 8-bit input vector [7:0], reverse its bit ordering.</p><h1 id="solution">solution</h1><figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs verilog"><span class="hljs-keyword">module</span> top_module( <br>    <span class="hljs-keyword">input</span> [<span class="hljs-number">7</span>:<span class="hljs-number">0</span>] in,<br>    <span class="hljs-keyword">output</span> [<span class="hljs-number">7</span>:<span class="hljs-number">0</span>] out<br>);<br>    <span class="hljs-keyword">assign</span> out = &#123;in[<span class="hljs-number">0</span>], in[<span class="hljs-number">1</span>], in[<span class="hljs-number">2</span>], in[<span class="hljs-number">3</span>], in[<span class="hljs-number">4</span>], in[<span class="hljs-number">5</span>], in[<span class="hljs-number">6</span>], in[<span class="hljs-number">7</span>]&#125;;<br><span class="hljs-keyword">endmodule</span><br><br></code></pre></td></tr></table></figure>]]></content>
     
     
     <categories>

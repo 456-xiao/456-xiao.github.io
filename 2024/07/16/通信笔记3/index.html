@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://456-xiao.github.io/images/%E6%AD%A3%E5%BC%A6%E6%B3%A2%E9%AB%98%E6%96%AF%E5%99%AA%E5%A3%B0.png">
 <meta property="article:published_time" content="2024-07-16T13:10:48.000Z">
-<meta property="article:modified_time" content="2024-07-16T13:10:48.260Z">
+<meta property="article:modified_time" content="2024-08-06T09:08:16.109Z">
 <meta property="article:author" content="xyh">
 <meta property="article:tag" content="通信原理">
 <meta name="twitter:card" content="summary_large_image">
@@ -587,29 +587,38 @@ class="math inline">\(\sigma_{\xi}^2\)</span> <span
 class="math display">\[
 \xi(t) = \xi_c(t)cos(w_ct) - \xi_s(t)sin(w_ct)
 \]</span></p>
-<p>结论： - <span class="math inline">\(\xi_c(t)\)</span>和<span
+<p>结论：</p>
+<ul>
+<li><span class="math inline">\(\xi_c(t)\)</span>和<span
 class="math inline">\(\xi_s(t)\)</span>的数学期望均为0；<span
-class="math inline">\(E[\xi_c(t)] = E[\xi_s(t)]=0\)</span> - <span
-class="math inline">\(\xi_c(t)\)</span>和<span
-class="math inline">\(\xi_s(t)\)</span>的相关函数均只与时间间隔有关，平稳
-- <span class="math inline">\(\xi_c(t)\)</span>和<span
-class="math inline">\(\xi_s(t)\)</span>的自相关函数相同 - <span
-class="math inline">\(\xi_c(t)\)</span>和<span
+class="math inline">\(E[\xi_c(t)] = E[\xi_s(t)]=0\)</span></li>
+<li><span class="math inline">\(\xi_c(t)\)</span>和<span
+class="math inline">\(\xi_s(t)\)</span>的相关函数均只与时间间隔有关，平稳</li>
+<li><span class="math inline">\(\xi_c(t)\)</span>和<span
+class="math inline">\(\xi_s(t)\)</span>的自相关函数相同</li>
+<li><span class="math inline">\(\xi_c(t)\)</span>和<span
 class="math inline">\(\xi_s(t)\)</span>的方差相同：<span
 class="math inline">\(\sigma_{\xi}^2 = \sigma_{c}^2 =
-\sigma_{s}^2\)</span> - <span
-class="math inline">\(\xi_c(t)\)</span>和<span
-class="math inline">\(\xi_s(t)\)</span>是互不相关，统计独立的高斯变量</p>
+\sigma_{s}^2\)</span></li>
+<li><span class="math inline">\(\xi_c(t)\)</span>和<span
+class="math inline">\(\xi_s(t)\)</span>是互不相关，统计独立的高斯变量</li>
+</ul>
 <h2 id="随机包络和随机相位的统计特性">随机包络和随机相位的统计特性</h2>
-<p>随机包络<span class="math inline">\(a_{\xi}(t)\)</span>的统计特性： -
-服从瑞利分布 <span class="math display">\[
+<p>随机包络<span
+class="math inline">\(a_{\xi}(t)\)</span>的统计特性：</p>
+<ul>
+<li>服从瑞利分布 <span class="math display">\[
 f(a_{\xi}) = \frac{a_{\xi}}{\sigma_{\xi}^2} \exp \left[ -
 \frac{a_{\xi}^2}{2 \sigma_{\xi}^2}  \right] ~~~~ a_{\xi} \geq 0
-\]</span></p>
-<p>随机相位<span class="math inline">\(\phi_{\xi}(t)\)</span>的统计特性
-- 服从均匀分布 <span class="math display">\[
+\]</span></li>
+</ul>
+<p>随机相位<span
+class="math inline">\(\phi_{\xi}(t)\)</span>的统计特性</p>
+<ul>
+<li>服从均匀分布 <span class="math display">\[
 f(\phi_{\xi}) = \frac{1}{2\pi} ~~~~ 0 \leq \phi_{\xi} \leq 2\pi
-\]</span></p>
+\]</span></li>
+</ul>
 <p>随机相位和随机包络统计独立 <span class="math display">\[
 f(a_{\xi}, \phi_{\xi}) = f(a_{\xi})\cdot f(\phi_{\xi})
 \]</span></p>

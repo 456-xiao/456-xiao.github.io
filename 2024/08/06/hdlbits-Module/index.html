@@ -16,25 +16,25 @@
   <meta name="author" content="xyh">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Vector5 Given five 1-bit signals (a, b, c, d, and e), compute all 25 pairwise one-bit comparisons in the 25-bit output vector. The output should be 1 if the two bits being compared are equal. 12345">
+    <meta name="description" content="Module https:&#x2F;&#x2F;hdlbits.01xz.net&#x2F;wiki&#x2F;Module By now, you&#39;re familiar with a module, which is a circuit that interacts with its outside through input and output ports. Larger, more complex circuits">
 <meta property="og:type" content="article">
-<meta property="og:title" content="hdlbits-Vector5">
-<meta property="og:url" content="http://456-xiao.github.io/2024/08/03/hdlbits-Vector5/index.html">
+<meta property="og:title" content="hdlbits_Module">
+<meta property="og:url" content="http://456-xiao.github.io/2024/08/06/hdlbits-Module/index.html">
 <meta property="og:site_name" content="菜鸡研究生的自救记录">
-<meta property="og:description" content="Vector5 Given five 1-bit signals (a, b, c, d, and e), compute all 25 pairwise one-bit comparisons in the 25-bit output vector. The output should be 1 if the two bits being compared are equal. 12345">
+<meta property="og:description" content="Module https:&#x2F;&#x2F;hdlbits.01xz.net&#x2F;wiki&#x2F;Module By now, you&#39;re familiar with a module, which is a circuit that interacts with its outside through input and output ports. Larger, more complex circuits">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://456-xiao.github.io/images/Vector5.png">
-<meta property="article:published_time" content="2024-08-03T08:24:41.000Z">
-<meta property="article:modified_time" content="2024-08-03T08:27:27.693Z">
+<meta property="og:image" content="http://456-xiao.github.io/images/Module.png">
+<meta property="article:published_time" content="2024-08-06T07:55:16.000Z">
+<meta property="article:modified_time" content="2024-08-06T08:02:47.585Z">
 <meta property="article:author" content="xyh">
 <meta property="article:tag" content="verilog">
 <meta property="article:tag" content="FPGA">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://456-xiao.github.io/images/Vector5.png">
+<meta name="twitter:image" content="http://456-xiao.github.io/images/Module.png">
   
   
   
-  <title>hdlbits-Vector5 - 菜鸡研究生的自救记录</title>
+  <title>hdlbits_Module - 菜鸡研究生的自救记录</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -204,7 +204,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="hdlbits-Vector5"></span>
+            <span id="subtitle" data-typed-text="hdlbits_Module"></span>
           
         </div>
 
@@ -215,8 +215,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-08-03 16:24" pubdate>
-          2024年8月3日 下午
+        <time datetime="2024-08-06 15:55" pubdate>
+          2024年8月6日 下午
         </time>
       </span>
     
@@ -227,7 +227,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          101 字
+          112 字
         
       </span>
     
@@ -275,28 +275,64 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">hdlbits-Vector5</h1>
+            <h1 id="seo-header">hdlbits_Module</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="vector5">Vector5</h1>
-<p>Given five 1-bit signals (a, b, c, d, and e), compute all 25 pairwise
-one-bit comparisons in the 25-bit output vector. The output should be 1
-if the two bits being compared are equal. <figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs verilog">out[<span class="hljs-number">24</span>] = ~a ^ a;   <span class="hljs-comment">// a == a, so out[24] is always 1.</span><br>out[<span class="hljs-number">23</span>] = ~a ^ b;<br>out[<span class="hljs-number">22</span>] = ~a ^ c;<br>...<br>out[ <span class="hljs-number">1</span>] = ~e ^ d;<br>out[ <span class="hljs-number">0</span>] = ~e ^ e;<br></code></pre></td></tr></table></figure></p>
+                <h1 id="module">Module</h1>
+<p>https://hdlbits.01xz.net/wiki/Module</p>
+<p>By now, you're familiar with a module, which is a circuit that
+interacts with its outside through input and output ports. Larger, more
+complex circuits are built by composing bigger modules out of smaller
+modules and other pieces (such as assign statements and always blocks)
+connected together. This forms a hierarchy, as modules can contain
+instances of other modules.</p>
+<p>The figure below shows a very simple circuit with a sub-module. In
+this exercise, create one instance of module mod_a, then connect the
+module's three pins (in1, in2, and out) to your top-level module's three
+ports (wires a, b, and out). The module mod_a is provided for you — you
+must instantiate it.</p>
+<p>When connecting modules, only the ports on the module are important.
+You do not need to know the code inside the module. The code for module
+mod_a looks like this:</p>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs verilog"><span class="hljs-keyword">module</span> mod_a ( <span class="hljs-keyword">input</span> in1, <span class="hljs-keyword">input</span> in2, <span class="hljs-keyword">output</span> out );<br>    <span class="hljs-comment">// Module body</span><br><span class="hljs-keyword">endmodule</span><br></code></pre></td></tr></table></figure>
+<p>The hierarchy of modules is created by instantiating one module
+inside another, as long as all of the modules used belong to the same
+project (so the compiler knows where to find the module). The code for
+one module is not written inside another module's body (Code for
+different modules are not nested).</p>
+<p>You may connect signals to the module by port name or port position.
+For extra practice, try both methods.</p>
 <figure>
-<img src="/images/Vector5.png" srcset="/img/loading.gif" lazyload title="Vector5" alt="Vector5" />
-<figcaption aria-hidden="true">Vector5</figcaption>
+<img src="/images/Module.png" srcset="/img/loading.gif" lazyload title="Module" alt="Module" />
+<figcaption aria-hidden="true">Module</figcaption>
 </figure>
-<p>As the diagram shows, this can be done more easily using the
-replication and concatenation operators.</p>
-<ul>
-<li>The top vector is a concatenation of 5 repeats of each input</li>
-<li>The bottom vector is 5 repeats of a concatenation of the 5
-inputs</li>
-</ul>
+<h2 id="connecting-signals-to-module-ports">Connecting Signals to Module
+Ports</h2>
+<p>There are two commonly-used methods to connect a wire to a port: by
+position or by name. By position</p>
+<p>The syntax to connect wires to ports by position should be familiar,
+as it uses a C-like syntax. When instantiating a module, ports are
+connected left to right according to the module's declaration. For
+example: <figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs verilog">mod_a instance1 ( wa, wb, wc );<br></code></pre></td></tr></table></figure> This instantiates a module of type mod_a and
+gives it an instance name of "instance1", then connects signal wa
+(outside the new module) to the first port (in1) of the new module, wb
+to the second port (in2), and wc to the third port (out). One drawback
+of this syntax is that if the module's port list changes, all
+instantiations of the module will also need to be found and changed to
+match the new module. By name</p>
+<p>Connecting signals to a module's ports by name allows wires to remain
+correctly connected even if the port list changes. This syntax is more
+verbose, however. <figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs verilog">mod_a instance2 ( <span class="hljs-variable">.out</span>(wc), <span class="hljs-variable">.in1</span>(wa), <span class="hljs-variable">.in2</span>(wb) );<br></code></pre></td></tr></table></figure> The above line instantiates a module of
+type mod_a named "instance2", then connects signal wa (outside the
+module) to the port named in1, wb to the port named in2, and wc to the
+port named out. Notice how the ordering of ports is irrelevant here
+because the connection will be made to the correct name, regardless of
+its position in the sub-module's port list. Also notice the period
+immediately preceding the port name in this syntax.</p>
 <h1 id="solution">solution</h1>
-<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs verilog"><span class="hljs-keyword">module</span> top_module (<br>    <span class="hljs-keyword">input</span> a, b, c, d, e,<br>    <span class="hljs-keyword">output</span> [<span class="hljs-number">24</span>:<span class="hljs-number">0</span>] out );<span class="hljs-comment">//</span><br><br>    <span class="hljs-comment">// The output is XNOR of two vectors created by </span><br>    <span class="hljs-comment">// concatenating and replicating the five inputs.</span><br>    <span class="hljs-comment">// assign out = ~&#123; ... &#125; ^ &#123; ... &#125;;</span><br>    <span class="hljs-keyword">assign</span> out = ~&#123; &#123;<span class="hljs-number">5</span>&#123;a&#125;&#125;, &#123;<span class="hljs-number">5</span>&#123;b&#125;&#125;, &#123;<span class="hljs-number">5</span>&#123;c&#125;&#125;, &#123;<span class="hljs-number">5</span>&#123;d&#125;&#125;, &#123;<span class="hljs-number">5</span>&#123;e&#125;&#125; &#125; ^ &#123; &#123;<span class="hljs-number">5</span>&#123;a,b,c,d,e&#125;&#125; &#125;;<br><span class="hljs-keyword">endmodule</span><br><br></code></pre></td></tr></table></figure>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs verilog"><span class="hljs-keyword">module</span> top_module ( <span class="hljs-keyword">input</span> a, <span class="hljs-keyword">input</span> b, <span class="hljs-keyword">output</span> out );<br>    mod_a instance_a(<span class="hljs-variable">.in1</span>(a), <span class="hljs-variable">.in2</span>(b), <span class="hljs-variable">.out</span>(out));<br><span class="hljs-keyword">endmodule</span><br><br></code></pre></td></tr></table></figure>
 
                 
               </div>
@@ -344,8 +380,8 @@ inputs</li>
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>hdlbits-Vector5</div>
-      <div>http://456-xiao.github.io/2024/08/03/hdlbits-Vector5/</div>
+      <div>hdlbits_Module</div>
+      <div>http://456-xiao.github.io/2024/08/06/hdlbits-Module/</div>
     </div>
     <div class="license-meta">
       
@@ -357,7 +393,7 @@ inputs</li>
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年8月3日</div>
+          <div>2024年8月6日</div>
         </div>
       
       
@@ -389,9 +425,9 @@ inputs</li>
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/08/06/hdlbits-Module/" title="hdlbits_Module">
+                      <a href="/2024/08/06/hdlbits-Module-pos/" title="hdlbits_Module_pos">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">hdlbits_Module</span>
+                        <span class="hidden-mobile">hdlbits_Module_pos</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -399,8 +435,8 @@ inputs</li>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/08/03/hdlbits-Vector4/" title="hdlbits-Vector4">
-                        <span class="hidden-mobile">hdlbits-Vector4</span>
+                      <a href="/2024/08/03/hdlbits-Vector5/" title="hdlbits-Vector5">
+                        <span class="hidden-mobile">hdlbits-Vector5</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

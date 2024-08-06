@@ -4,6 +4,249 @@
   
   
   <entry>
+    <title>hdlbits_Module_addsub</title>
+    <link href="/2024/08/06/hdlbits-Module-addsub/"/>
+    <url>/2024/08/06/hdlbits-Module-addsub/</url>
+    
+    <content type="html"><![CDATA[<h1 id="module_addsub">Module_addsub</h1><p>An adder-subtractor can be built from an adder by optionally negatingone of the inputs, which is equivalent to inverting the input thenadding 1. The net result is a circuit that can do two operations: (a + b+ 0) and (a + ~b + 1). See Wikipedia if you want a more detailedexplanation of how this circuit works.</p><p>Build the adder-subtractor below.</p><p>You are provided with a 16-bit adder module, which you need toinstantiate twice:</p><p>module add16 ( input[15:0] a, input[15:0] b, input cin, output[15:0]sum, output cout );</p><p>Use a 32-bit wide XOR gate to invert the b input whenever sub is 1.(This can also be viewed as b[31:0] XORed with sub replicated 32 times.See replication operator.). Also connect the sub input to the carry-inof the adder.</p><figure><img src="/images/Module_addsub.png" title="Module_addsub"alt="Module_addsub" /><figcaption aria-hidden="true">Module_addsub</figcaption></figure><blockquote><p>Hint</p><blockquote><p>An XOR gate can also be viewed as a programmable inverter, where oneinput controls whether the other should be inverted.</p></blockquote></blockquote><h1 id="solution">solution</h1><figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs verilog"><span class="hljs-keyword">module</span> top_module(<br>    <span class="hljs-keyword">input</span> [<span class="hljs-number">31</span>:<span class="hljs-number">0</span>] a,<br>    <span class="hljs-keyword">input</span> [<span class="hljs-number">31</span>:<span class="hljs-number">0</span>] b,<br>    <span class="hljs-keyword">input</span> sub,<br>    <span class="hljs-keyword">output</span> [<span class="hljs-number">31</span>:<span class="hljs-number">0</span>] sum<br>);<br><br>    <span class="hljs-keyword">wire</span> [<span class="hljs-number">31</span>:<span class="hljs-number">0</span>] bb;<br>    <span class="hljs-keyword">wire</span> co;<br>    <span class="hljs-keyword">assign</span> bb = &#123; &#123;<span class="hljs-number">32</span>&#123;sub&#125;&#125; &#125; ^ b;<br>    add16 add1(<span class="hljs-variable">.a</span>(a[<span class="hljs-number">15</span>:<span class="hljs-number">0</span>]), <span class="hljs-variable">.b</span>(bb[<span class="hljs-number">15</span>:<span class="hljs-number">0</span>]), <span class="hljs-variable">.cin</span>(sub), <span class="hljs-variable">.cout</span>(co), <span class="hljs-variable">.sum</span>(sum[<span class="hljs-number">15</span>:<span class="hljs-number">0</span>]));<br>    add16 add2(<span class="hljs-variable">.a</span>(a[<span class="hljs-number">31</span>:<span class="hljs-number">16</span>]), <span class="hljs-variable">.b</span>(bb[<span class="hljs-number">31</span>:<span class="hljs-number">16</span>]), <span class="hljs-variable">.cin</span>(co), <span class="hljs-variable">.sum</span>(sum[<span class="hljs-number">31</span>:<span class="hljs-number">16</span>]));<br>    <br><span class="hljs-keyword">endmodule</span><br><br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>FPGA</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>verilog</tag>
+      
+      <tag>FPGA</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>hdlbits_Module_cseladd</title>
+    <link href="/2024/08/06/hdlbits-Module-cseladd/"/>
+    <url>/2024/08/06/hdlbits-Module-cseladd/</url>
+    
+    <content type="html"><![CDATA[<h1 id="module_cseladd">Module_cseladd</h1><p>One drawback of the ripple carry adder (See previous exercise) isthat the delay for an adder to compute the carry out (from the carry-in,in the worst case) is fairly slow, and the second-stage adder cannotbegin computing its carry-out until the first-stage adder has finished.This makes the adder slow. One improvement is a carry-select adder,shown below. The first-stage adder is the same as before, but weduplicate the second-stage adder, one assuming carry-in=0 and oneassuming carry-in=1, then using a fast 2-to-1 multiplexer to selectwhich result happened to be correct.</p><p>In this exercise, you are provided with the same module add16 as theprevious exercise, which adds two 16-bit numbers with carry-in andproduces a carry-out and 16-bit sum. You must instantiate three of theseto build the carry-select adder, using your own 16-bit 2-to-1multiplexer.</p><p>Connect the modules together as shown in the diagram below. Theprovided module add16 has the following declaration:</p><p>module add16 ( input[15:0] a, input[15:0] b, input cin, output[15:0]sum, output cout );</p><figure><img src="/images/Module_cseladd.png" title="Module_cseladd"alt="Module_cseladd" /><figcaption aria-hidden="true">Module_cseladd</figcaption></figure><h1 id="solution">solution</h1><figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs verilog"><span class="hljs-keyword">module</span> top_module(<br>    <span class="hljs-keyword">input</span> [<span class="hljs-number">31</span>:<span class="hljs-number">0</span>] a,<br>    <span class="hljs-keyword">input</span> [<span class="hljs-number">31</span>:<span class="hljs-number">0</span>] b,<br>    <span class="hljs-keyword">output</span> [<span class="hljs-number">31</span>:<span class="hljs-number">0</span>] sum<br>);<br><br>    <span class="hljs-keyword">wire</span> sel;<br>    <span class="hljs-keyword">wire</span> [<span class="hljs-number">15</span>:<span class="hljs-number">0</span>] s1, s2;<br>    add16 add1(<span class="hljs-variable">.a</span>(a[<span class="hljs-number">15</span>:<span class="hljs-number">0</span>]), <span class="hljs-variable">.b</span>(b[<span class="hljs-number">15</span>:<span class="hljs-number">0</span>]), <span class="hljs-variable">.cin</span>(<span class="hljs-number">0</span>), <span class="hljs-variable">.sum</span>(sum[<span class="hljs-number">15</span>:<span class="hljs-number">0</span>]), <span class="hljs-variable">.cout</span>(sel));<br>    add16 add2(<span class="hljs-variable">.a</span>(a[<span class="hljs-number">31</span>:<span class="hljs-number">16</span>]), <span class="hljs-variable">.b</span>(b[<span class="hljs-number">31</span>:<span class="hljs-number">16</span>]), <span class="hljs-variable">.cin</span>(<span class="hljs-number">0</span>), <span class="hljs-variable">.sum</span>(s1) );<br>    add16 add3(<span class="hljs-variable">.a</span>(a[<span class="hljs-number">31</span>:<span class="hljs-number">16</span>]), <span class="hljs-variable">.b</span>(b[<span class="hljs-number">31</span>:<span class="hljs-number">16</span>]), <span class="hljs-variable">.cin</span>(<span class="hljs-number">1</span>), <span class="hljs-variable">.sum</span>(s2) );<br>    <br>    <span class="hljs-keyword">assign</span> sum[<span class="hljs-number">31</span>:<span class="hljs-number">16</span>] = &#123; &#123;<span class="hljs-number">16</span>&#123;sel&#125;&#125; &#125; &amp; s2 | &#123; ~&#123;<span class="hljs-number">16</span>&#123;sel&#125;&#125; &#125; &amp; s1;<br><span class="hljs-keyword">endmodule</span><br><br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>FPGA</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>verilog</tag>
+      
+      <tag>FPGA</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>hdlbits_Module_fadd</title>
+    <link href="/2024/08/06/hdlbits-Module-fadd/"/>
+    <url>/2024/08/06/hdlbits-Module-fadd/</url>
+    
+    <content type="html"><![CDATA[<h1 id="module_fadd">Module_fadd</h1><p>In this exercise, you will create a circuit with two levels ofhierarchy. Your top_module will instantiate two copies of add16(provided), each of which will instantiate 16 copies of add1 (which youmust write). Thus, you must write two modules: top_module and add1.</p><p>Like module_add, you are given a module add16 that performs a 16-bitaddition. You must instantiate two of them to create a 32-bit adder. Oneadd16 module computes the lower 16 bits of the addition result, whilethe second add16 module computes the upper 16 bits of the result. Your32-bit adder does not need to handle carry-in (assume 0) or carry-out(ignored).</p><p>Connect the add16 modules together as shown in the diagram below. Theprovided module add16 has the following declaration:</p><p>module add16 ( input[15:0] a, input[15:0] b, input cin, output[15:0]sum, output cout );</p><p>Within each add16, 16 full adders (module add1, not provided) areinstantiated to actually perform the addition. You must write the fulladder module that has the following declaration:</p><p>module add1 ( input a, input b, input cin, output sum, output cout);</p><p>Recall that a full adder computes the sum and carry-out ofa+b+cin.</p><p>In summary, there are three modules in this design:</p><ul><li>top_module — Your top-level module that contains two of...</li><li>add16, provided — A 16-bit adder module that is composed of 16of...</li><li>add1 — A 1-bit full adder module.</li></ul><p>If your submission is missing a module add1, you will get an errormessage that says Error (12006): Node instance "user_fadd[0].a1"instantiates undefined entity "add1".</p><figure><img src="/images/Module_fadd.png" title="Module_fadd"alt="Module_fadd" /><figcaption aria-hidden="true">Module_fadd</figcaption></figure><blockquote><p>Hint</p><blockquote><p>Full adder equations:</p><p>sum = a ^ b ^ cin</p><p>cout = a&amp;b | a&amp;cin | b&amp;cin</p></blockquote></blockquote><h1 id="solution">solution</h1><figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs verilog"><span class="hljs-keyword">module</span> top_module (<br>    <span class="hljs-keyword">input</span> [<span class="hljs-number">31</span>:<span class="hljs-number">0</span>] a,<br>    <span class="hljs-keyword">input</span> [<span class="hljs-number">31</span>:<span class="hljs-number">0</span>] b,<br>    <span class="hljs-keyword">output</span> [<span class="hljs-number">31</span>:<span class="hljs-number">0</span>] sum<br>);<span class="hljs-comment">//</span><br><br>    <span class="hljs-keyword">wire</span> cout;<br>    add16 add1(<span class="hljs-variable">.a</span>(a[<span class="hljs-number">15</span>:<span class="hljs-number">0</span>]), <span class="hljs-variable">.b</span>(b[<span class="hljs-number">15</span>:<span class="hljs-number">0</span>]), <span class="hljs-variable">.cin</span>(<span class="hljs-number">1&#x27;b0</span>), <span class="hljs-variable">.cout</span>(cout), <span class="hljs-variable">.sum</span>(sum[<span class="hljs-number">15</span>:<span class="hljs-number">0</span>]));<br>    add16 add2(<span class="hljs-variable">.a</span>(a[<span class="hljs-number">31</span>:<span class="hljs-number">16</span>]), <span class="hljs-variable">.b</span>(b[<span class="hljs-number">31</span>:<span class="hljs-number">16</span>]), <span class="hljs-variable">.cin</span>(cout), <span class="hljs-variable">.sum</span>(sum[<span class="hljs-number">31</span>:<span class="hljs-number">16</span>]));<br>    <br><span class="hljs-keyword">endmodule</span><br><br><span class="hljs-keyword">module</span> add1 ( <span class="hljs-keyword">input</span> a, <span class="hljs-keyword">input</span> b, <span class="hljs-keyword">input</span> cin,   <span class="hljs-keyword">output</span> sum, <span class="hljs-keyword">output</span> cout );<br><br><span class="hljs-comment">// Full adder module here</span><br><span class="hljs-keyword">assign</span> sum  = a^b^cin;<br>    <span class="hljs-keyword">assign</span> cout = a&amp;b | a&amp;cin | b&amp;cin;<br>    <br><span class="hljs-keyword">endmodule</span><br><br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>FPGA</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>verilog</tag>
+      
+      <tag>FPGA</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>hdlbits_Module_add</title>
+    <link href="/2024/08/06/hdlbits-Module-add/"/>
+    <url>/2024/08/06/hdlbits-Module-add/</url>
+    
+    <content type="html"><![CDATA[<h1 id="module_add">Module_add</h1><p>You are given a module add16 that performs a 16-bit addition.Instantiate two of them to create a 32-bit adder. One add16 modulecomputes the lower 16 bits of the addition result, while the secondadd16 module computes the upper 16 bits of the result, after receivingthe carry-out from the first adder. Your 32-bit adder does not need tohandle carry-in (assume 0) or carry-out (ignored), but the internalmodules need to in order to function correctly. (In other words, theadd16 module performs 16-bit a + b + cin, while your module performs32-bit a + b).</p><p>Connect the modules together as shown in the diagram below. Theprovided module add16 has the following declaration:</p><p>module add16 ( input[15:0] a, input[15:0] b, input cin, output[15:0]sum, output cout );</p><figure><img src="/images/Module_add.png" title="Module_add" alt="Module_add" /><figcaption aria-hidden="true">Module_add</figcaption></figure><h1 id="solution">solution</h1><figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs verilog"><span class="hljs-keyword">module</span> top_module(<br>    <span class="hljs-keyword">input</span> [<span class="hljs-number">31</span>:<span class="hljs-number">0</span>] a,<br>    <span class="hljs-keyword">input</span> [<span class="hljs-number">31</span>:<span class="hljs-number">0</span>] b,<br>    <span class="hljs-keyword">output</span> [<span class="hljs-number">31</span>:<span class="hljs-number">0</span>] sum<br>);<br><span class="hljs-keyword">wire</span> cout;<br>    add16 add1(<span class="hljs-variable">.a</span>(a[<span class="hljs-number">15</span>:<span class="hljs-number">0</span>]), <span class="hljs-variable">.b</span>(b[<span class="hljs-number">15</span>:<span class="hljs-number">0</span>]), <span class="hljs-variable">.cin</span>(<span class="hljs-number">1&#x27;b0</span>), <span class="hljs-variable">.cout</span>(cout), <span class="hljs-variable">.sum</span>(sum[<span class="hljs-number">15</span>:<span class="hljs-number">0</span>]));<br>    add16 add2(<span class="hljs-variable">.a</span>(a[<span class="hljs-number">31</span>:<span class="hljs-number">16</span>]), <span class="hljs-variable">.b</span>(b[<span class="hljs-number">31</span>:<span class="hljs-number">16</span>]), <span class="hljs-variable">.cin</span>(cout), <span class="hljs-variable">.sum</span>(sum[<span class="hljs-number">31</span>:<span class="hljs-number">16</span>]));<br>    <br>    <br><span class="hljs-keyword">endmodule</span><br><br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>FPGA</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>verilog</tag>
+      
+      <tag>FPGA</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>hdlbits_Module_shift8</title>
+    <link href="/2024/08/06/hdlbits-Module-shift8/"/>
+    <url>/2024/08/06/hdlbits-Module-shift8/</url>
+    
+    <content type="html"><![CDATA[<h1 id="module_shift8">Module_shift8</h1><p>Instead of module ports being only single pins, we now have moduleswith vectors as ports, to which you will attach wire vectors instead ofplain wires. Like everywhere else in Verilog, the vector length of theport does not have to match the wire connecting to it, but this willcause zero-padding or trucation of the vector. This exercise does notuse connections with mismatched vector lengths.</p><p>You are given a module my_dff8 with two inputs and one output (thatimplements a set of 8 D flip-flops). Instantiate three of them, thenchain them together to make a 8-bit wide shift register of length 3. Inaddition, create a 4-to-1 multiplexer (not provided) that chooses whatto output depending on sel[1:0]: The value at the input d, after thefirst, after the second, or after the third D flip-flop. (Essentially,sel selects how many cycles to delay the input, from zero to three clockcycles.)</p><p>The module provided to you is: module my_dff8 ( input clk, input[7:0] d, output [7:0] q );</p><p>The multiplexer is not provided. One possible way to write one isinside an always block with a case statement inside.</p><figure><img src="/images/Module_shift8.png" title="Module_shift8"alt="Module_shift8" /><figcaption aria-hidden="true">Module_shift8</figcaption></figure><h1 id="solution">solution</h1><figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs verilog"><span class="hljs-keyword">module</span> top_module ( <br>    <span class="hljs-keyword">input</span> clk, <br>    <span class="hljs-keyword">input</span> [<span class="hljs-number">7</span>:<span class="hljs-number">0</span>] d, <br>    <span class="hljs-keyword">input</span> [<span class="hljs-number">1</span>:<span class="hljs-number">0</span>] sel, <br>    <span class="hljs-keyword">output</span> [<span class="hljs-number">7</span>:<span class="hljs-number">0</span>] q <br>);<br>    <span class="hljs-keyword">wire</span> [<span class="hljs-number">7</span>:<span class="hljs-number">0</span>] q1;<br>    <span class="hljs-keyword">wire</span> [<span class="hljs-number">7</span>:<span class="hljs-number">0</span>] q2;<br>    <span class="hljs-keyword">wire</span> [<span class="hljs-number">7</span>:<span class="hljs-number">0</span>] q3;<br>    my_dff8 dff1(clk, d, q1);<br>    my_dff8 dff2(clk, q1, q2);<br>    my_dff8 dff3(clk, q2, q3);<br>    <span class="hljs-comment">// 当时不会写case语句doge</span><br>    <span class="hljs-keyword">assign</span> q = &#123; &#123;<span class="hljs-number">8</span>&#123;sel[<span class="hljs-number">0</span>]&#125;&#125; &#125; &amp; &#123; &#123;<span class="hljs-number">8</span>&#123;sel[<span class="hljs-number">1</span>]&#125;&#125; &#125; &amp; q3 | &#123; ~&#123;<span class="hljs-number">8</span>&#123;sel[<span class="hljs-number">0</span>]&#125;&#125; &#125; &amp; &#123; &#123;<span class="hljs-number">8</span>&#123;sel[<span class="hljs-number">1</span>]&#125;&#125; &#125; &amp; q2 | &#123; &#123;<span class="hljs-number">8</span>&#123;sel[<span class="hljs-number">0</span>]&#125;&#125; &#125; &amp; &#123; ~&#123;<span class="hljs-number">8</span>&#123;sel[<span class="hljs-number">1</span>]&#125;&#125; &#125; &amp; q1 | &#123; ~&#123;<span class="hljs-number">8</span>&#123;sel[<span class="hljs-number">0</span>]&#125;&#125; &#125; &amp; &#123; ~&#123;<span class="hljs-number">8</span>&#123;sel[<span class="hljs-number">1</span>]&#125;&#125; &#125; &amp; d;<br><span class="hljs-keyword">endmodule</span><br><br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>FPGA</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>verilog</tag>
+      
+      <tag>FPGA</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>hdlbits_Module_shift</title>
+    <link href="/2024/08/06/hdlbits-Module-shift/"/>
+    <url>/2024/08/06/hdlbits-Module-shift/</url>
+    
+    <content type="html"><![CDATA[<h1 id="module_shift">Module_shift</h1><p>You are given a module my_dff with two inputs and one output (thatimplements a D flip-flop). Instantiate three of them, then chain themtogether to make a shift register of length 3. The clk port needs to beconnected to all instances.</p><p>The module provided to you is: module my_dff ( input clk, input d,output q );</p><p>Note that to make the internal connections, you will need to declaresome wires. Be careful about naming your wires and module instances: thenames must be unique.</p><figure><img src="/images/Module_shift.png" title="Module_shift"alt="Module_shift" /><figcaption aria-hidden="true">Module_shift</figcaption></figure><h1 id="solution">solution</h1><figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs verilog"><span class="hljs-keyword">module</span> top_module ( <span class="hljs-keyword">input</span> clk, <span class="hljs-keyword">input</span> d, <span class="hljs-keyword">output</span> q );<br>    <span class="hljs-keyword">wire</span> q1,q2;<br>    my_dff dffins1(clk, d, q1);<br>    my_dff dffins2(clk, q1, q2);<br>    my_dff dffins3(clk, q2, q);<br><br><span class="hljs-keyword">endmodule</span><br><br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>FPGA</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>verilog</tag>
+      
+      <tag>FPGA</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>hdlbits_Module_name</title>
+    <link href="/2024/08/06/hdlbits-Module-name/"/>
+    <url>/2024/08/06/hdlbits-Module-name/</url>
+    
+    <content type="html"><![CDATA[<h1 id="module_name">Module_name</h1><p>You are given a module named mod_a that has 2 outputs and 4 inputs,in some order. You must connect the 6 ports by name to your top-levelmodule's ports:</p><table><thead><tr class="header"><th>Port in mod_a</th><th>Port in top_module</th></tr></thead><tbody><tr class="odd"><td>output out1</td><td>out1</td></tr><tr class="even"><td>output out2</td><td>out2</td></tr><tr class="odd"><td>input in1</td><td>a</td></tr><tr class="even"><td>input in2</td><td>b</td></tr><tr class="odd"><td>input in3</td><td>c</td></tr><tr class="even"><td>input in4</td><td>d</td></tr></tbody></table><p>You are given the following module:</p><p>module mod_a ( output out1, output out2, input in1, input in2, inputin3, input in4);</p><figure><img src="/images/Module_name.png" title="Module_name"alt="Module_name" /><figcaption aria-hidden="true">Module_name</figcaption></figure><h1 id="solution">solution</h1><figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs verilog"><span class="hljs-keyword">module</span> top_module ( <br>    <span class="hljs-keyword">input</span> a, <br>    <span class="hljs-keyword">input</span> b, <br>    <span class="hljs-keyword">input</span> c,<br>    <span class="hljs-keyword">input</span> d,<br>    <span class="hljs-keyword">output</span> out1,<br>    <span class="hljs-keyword">output</span> out2<br>);<br>    mod_a instance_a(<span class="hljs-variable">.out1</span>(out1), <span class="hljs-variable">.out2</span>(out2), <span class="hljs-variable">.in1</span>(a), <span class="hljs-variable">.in2</span>(b), <span class="hljs-variable">.in3</span>(c), <span class="hljs-variable">.in4</span>(d));<br><span class="hljs-keyword">endmodule</span><br><br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>FPGA</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>verilog</tag>
+      
+      <tag>FPGA</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>hdlbits_Module_pos</title>
+    <link href="/2024/08/06/hdlbits-Module-pos/"/>
+    <url>/2024/08/06/hdlbits-Module-pos/</url>
+    
+    <content type="html"><![CDATA[<h1 id="module-pos">Module pos</h1><p>You are given a module named mod_a that has 2 outputs and 4 inputs,in that order. You must connect the 6 ports by position to yourtop-level module's ports out1, out2, a, b, c, and d, in that order.</p><p>You are given the following module:</p><p>module mod_a ( output, output, input, input, input, input );</p><figure><img src="/images/Module_pos.png" title="Module_pos" alt="Module_pos" /><figcaption aria-hidden="true">Module_pos</figcaption></figure><h1 id="solution">solution</h1><figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs verilog"><span class="hljs-keyword">module</span> top_module ( <br>    <span class="hljs-keyword">input</span> a, <br>    <span class="hljs-keyword">input</span> b, <br>    <span class="hljs-keyword">input</span> c,<br>    <span class="hljs-keyword">input</span> d,<br>    <span class="hljs-keyword">output</span> out1,<br>    <span class="hljs-keyword">output</span> out2<br>);<br>    mod_a instance_a(out1, out2, a, b, c, d);<br><span class="hljs-keyword">endmodule</span><br><br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>FPGA</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>verilog</tag>
+      
+      <tag>FPGA</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>hdlbits_Module</title>
+    <link href="/2024/08/06/hdlbits-Module/"/>
+    <url>/2024/08/06/hdlbits-Module/</url>
+    
+    <content type="html"><![CDATA[<h1 id="module">Module</h1><p>https://hdlbits.01xz.net/wiki/Module</p><p>By now, you're familiar with a module, which is a circuit thatinteracts with its outside through input and output ports. Larger, morecomplex circuits are built by composing bigger modules out of smallermodules and other pieces (such as assign statements and always blocks)connected together. This forms a hierarchy, as modules can containinstances of other modules.</p><p>The figure below shows a very simple circuit with a sub-module. Inthis exercise, create one instance of module mod_a, then connect themodule's three pins (in1, in2, and out) to your top-level module's threeports (wires a, b, and out). The module mod_a is provided for you — youmust instantiate it.</p><p>When connecting modules, only the ports on the module are important.You do not need to know the code inside the module. The code for modulemod_a looks like this:</p><figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs verilog"><span class="hljs-keyword">module</span> mod_a ( <span class="hljs-keyword">input</span> in1, <span class="hljs-keyword">input</span> in2, <span class="hljs-keyword">output</span> out );<br>    <span class="hljs-comment">// Module body</span><br><span class="hljs-keyword">endmodule</span><br></code></pre></td></tr></table></figure><p>The hierarchy of modules is created by instantiating one moduleinside another, as long as all of the modules used belong to the sameproject (so the compiler knows where to find the module). The code forone module is not written inside another module's body (Code fordifferent modules are not nested).</p><p>You may connect signals to the module by port name or port position.For extra practice, try both methods.</p><figure><img src="/images/Module.png" title="Module" alt="Module" /><figcaption aria-hidden="true">Module</figcaption></figure><h2 id="connecting-signals-to-module-ports">Connecting Signals to ModulePorts</h2><p>There are two commonly-used methods to connect a wire to a port: byposition or by name. By position</p><p>The syntax to connect wires to ports by position should be familiar,as it uses a C-like syntax. When instantiating a module, ports areconnected left to right according to the module's declaration. Forexample: <figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs verilog">mod_a instance1 ( wa, wb, wc );<br></code></pre></td></tr></table></figure> This instantiates a module of type mod_a andgives it an instance name of "instance1", then connects signal wa(outside the new module) to the first port (in1) of the new module, wbto the second port (in2), and wc to the third port (out). One drawbackof this syntax is that if the module's port list changes, allinstantiations of the module will also need to be found and changed tomatch the new module. By name</p><p>Connecting signals to a module's ports by name allows wires to remaincorrectly connected even if the port list changes. This syntax is moreverbose, however. <figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs verilog">mod_a instance2 ( <span class="hljs-variable">.out</span>(wc), <span class="hljs-variable">.in1</span>(wa), <span class="hljs-variable">.in2</span>(wb) );<br></code></pre></td></tr></table></figure> The above line instantiates a module oftype mod_a named "instance2", then connects signal wa (outside themodule) to the port named in1, wb to the port named in2, and wc to theport named out. Notice how the ordering of ports is irrelevant herebecause the connection will be made to the correct name, regardless ofits position in the sub-module's port list. Also notice the periodimmediately preceding the port name in this syntax.</p><h1 id="solution">solution</h1><figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs verilog"><span class="hljs-keyword">module</span> top_module ( <span class="hljs-keyword">input</span> a, <span class="hljs-keyword">input</span> b, <span class="hljs-keyword">output</span> out );<br>    mod_a instance_a(<span class="hljs-variable">.in1</span>(a), <span class="hljs-variable">.in2</span>(b), <span class="hljs-variable">.out</span>(out));<br><span class="hljs-keyword">endmodule</span><br><br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>FPGA</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>verilog</tag>
+      
+      <tag>FPGA</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>hdlbits-Vector5</title>
     <link href="/2024/08/03/hdlbits-Vector5/"/>
     <url>/2024/08/03/hdlbits-Vector5/</url>

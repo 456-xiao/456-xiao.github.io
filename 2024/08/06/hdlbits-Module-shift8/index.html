@@ -16,25 +16,25 @@
   <meta name="author" content="xyh">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Vector5 Given five 1-bit signals (a, b, c, d, and e), compute all 25 pairwise one-bit comparisons in the 25-bit output vector. The output should be 1 if the two bits being compared are equal. 12345">
+    <meta name="description" content="Module_shift8 Instead of module ports being only single pins, we now have modules with vectors as ports, to which you will attach wire vectors instead of plain wires. Like everywhere else in Verilo">
 <meta property="og:type" content="article">
-<meta property="og:title" content="hdlbits-Vector5">
-<meta property="og:url" content="http://456-xiao.github.io/2024/08/03/hdlbits-Vector5/index.html">
+<meta property="og:title" content="hdlbits_Module_shift8">
+<meta property="og:url" content="http://456-xiao.github.io/2024/08/06/hdlbits-Module-shift8/index.html">
 <meta property="og:site_name" content="菜鸡研究生的自救记录">
-<meta property="og:description" content="Vector5 Given five 1-bit signals (a, b, c, d, and e), compute all 25 pairwise one-bit comparisons in the 25-bit output vector. The output should be 1 if the two bits being compared are equal. 12345">
+<meta property="og:description" content="Module_shift8 Instead of module ports being only single pins, we now have modules with vectors as ports, to which you will attach wire vectors instead of plain wires. Like everywhere else in Verilo">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://456-xiao.github.io/images/Vector5.png">
-<meta property="article:published_time" content="2024-08-03T08:24:41.000Z">
-<meta property="article:modified_time" content="2024-08-03T08:27:27.693Z">
+<meta property="og:image" content="http://456-xiao.github.io/images/Module_shift8.png">
+<meta property="article:published_time" content="2024-08-06T08:19:08.000Z">
+<meta property="article:modified_time" content="2024-08-06T08:22:20.136Z">
 <meta property="article:author" content="xyh">
 <meta property="article:tag" content="verilog">
 <meta property="article:tag" content="FPGA">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://456-xiao.github.io/images/Vector5.png">
+<meta name="twitter:image" content="http://456-xiao.github.io/images/Module_shift8.png">
   
   
   
-  <title>hdlbits-Vector5 - 菜鸡研究生的自救记录</title>
+  <title>hdlbits_Module_shift8 - 菜鸡研究生的自救记录</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -204,7 +204,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="hdlbits-Vector5"></span>
+            <span id="subtitle" data-typed-text="hdlbits_Module_shift8"></span>
           
         </div>
 
@@ -215,8 +215,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-08-03 16:24" pubdate>
-          2024年8月3日 下午
+        <time datetime="2024-08-06 16:19" pubdate>
+          2024年8月6日 下午
         </time>
       </span>
     
@@ -227,7 +227,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          101 字
+          174 字
         
       </span>
     
@@ -238,7 +238,7 @@
         
         
         
-          1 分钟
+          2 分钟
         
       </span>
     
@@ -275,28 +275,37 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">hdlbits-Vector5</h1>
+            <h1 id="seo-header">hdlbits_Module_shift8</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="vector5">Vector5</h1>
-<p>Given five 1-bit signals (a, b, c, d, and e), compute all 25 pairwise
-one-bit comparisons in the 25-bit output vector. The output should be 1
-if the two bits being compared are equal. <figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs verilog">out[<span class="hljs-number">24</span>] = ~a ^ a;   <span class="hljs-comment">// a == a, so out[24] is always 1.</span><br>out[<span class="hljs-number">23</span>] = ~a ^ b;<br>out[<span class="hljs-number">22</span>] = ~a ^ c;<br>...<br>out[ <span class="hljs-number">1</span>] = ~e ^ d;<br>out[ <span class="hljs-number">0</span>] = ~e ^ e;<br></code></pre></td></tr></table></figure></p>
+                <h1 id="module_shift8">Module_shift8</h1>
+<p>Instead of module ports being only single pins, we now have modules
+with vectors as ports, to which you will attach wire vectors instead of
+plain wires. Like everywhere else in Verilog, the vector length of the
+port does not have to match the wire connecting to it, but this will
+cause zero-padding or trucation of the vector. This exercise does not
+use connections with mismatched vector lengths.</p>
+<p>You are given a module my_dff8 with two inputs and one output (that
+implements a set of 8 D flip-flops). Instantiate three of them, then
+chain them together to make a 8-bit wide shift register of length 3. In
+addition, create a 4-to-1 multiplexer (not provided) that chooses what
+to output depending on sel[1:0]: The value at the input d, after the
+first, after the second, or after the third D flip-flop. (Essentially,
+sel selects how many cycles to delay the input, from zero to three clock
+cycles.)</p>
+<p>The module provided to you is: module my_dff8 ( input clk, input
+[7:0] d, output [7:0] q );</p>
+<p>The multiplexer is not provided. One possible way to write one is
+inside an always block with a case statement inside.</p>
 <figure>
-<img src="/images/Vector5.png" srcset="/img/loading.gif" lazyload title="Vector5" alt="Vector5" />
-<figcaption aria-hidden="true">Vector5</figcaption>
+<img src="/images/Module_shift8.png" srcset="/img/loading.gif" lazyload title="Module_shift8"
+alt="Module_shift8" />
+<figcaption aria-hidden="true">Module_shift8</figcaption>
 </figure>
-<p>As the diagram shows, this can be done more easily using the
-replication and concatenation operators.</p>
-<ul>
-<li>The top vector is a concatenation of 5 repeats of each input</li>
-<li>The bottom vector is 5 repeats of a concatenation of the 5
-inputs</li>
-</ul>
 <h1 id="solution">solution</h1>
-<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs verilog"><span class="hljs-keyword">module</span> top_module (<br>    <span class="hljs-keyword">input</span> a, b, c, d, e,<br>    <span class="hljs-keyword">output</span> [<span class="hljs-number">24</span>:<span class="hljs-number">0</span>] out );<span class="hljs-comment">//</span><br><br>    <span class="hljs-comment">// The output is XNOR of two vectors created by </span><br>    <span class="hljs-comment">// concatenating and replicating the five inputs.</span><br>    <span class="hljs-comment">// assign out = ~&#123; ... &#125; ^ &#123; ... &#125;;</span><br>    <span class="hljs-keyword">assign</span> out = ~&#123; &#123;<span class="hljs-number">5</span>&#123;a&#125;&#125;, &#123;<span class="hljs-number">5</span>&#123;b&#125;&#125;, &#123;<span class="hljs-number">5</span>&#123;c&#125;&#125;, &#123;<span class="hljs-number">5</span>&#123;d&#125;&#125;, &#123;<span class="hljs-number">5</span>&#123;e&#125;&#125; &#125; ^ &#123; &#123;<span class="hljs-number">5</span>&#123;a,b,c,d,e&#125;&#125; &#125;;<br><span class="hljs-keyword">endmodule</span><br><br></code></pre></td></tr></table></figure>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs verilog"><span class="hljs-keyword">module</span> top_module ( <br>    <span class="hljs-keyword">input</span> clk, <br>    <span class="hljs-keyword">input</span> [<span class="hljs-number">7</span>:<span class="hljs-number">0</span>] d, <br>    <span class="hljs-keyword">input</span> [<span class="hljs-number">1</span>:<span class="hljs-number">0</span>] sel, <br>    <span class="hljs-keyword">output</span> [<span class="hljs-number">7</span>:<span class="hljs-number">0</span>] q <br>);<br>    <span class="hljs-keyword">wire</span> [<span class="hljs-number">7</span>:<span class="hljs-number">0</span>] q1;<br>    <span class="hljs-keyword">wire</span> [<span class="hljs-number">7</span>:<span class="hljs-number">0</span>] q2;<br>    <span class="hljs-keyword">wire</span> [<span class="hljs-number">7</span>:<span class="hljs-number">0</span>] q3;<br>    my_dff8 dff1(clk, d, q1);<br>    my_dff8 dff2(clk, q1, q2);<br>    my_dff8 dff3(clk, q2, q3);<br>    <span class="hljs-comment">// 当时不会写case语句doge</span><br>    <span class="hljs-keyword">assign</span> q = &#123; &#123;<span class="hljs-number">8</span>&#123;sel[<span class="hljs-number">0</span>]&#125;&#125; &#125; &amp; &#123; &#123;<span class="hljs-number">8</span>&#123;sel[<span class="hljs-number">1</span>]&#125;&#125; &#125; &amp; q3 | &#123; ~&#123;<span class="hljs-number">8</span>&#123;sel[<span class="hljs-number">0</span>]&#125;&#125; &#125; &amp; &#123; &#123;<span class="hljs-number">8</span>&#123;sel[<span class="hljs-number">1</span>]&#125;&#125; &#125; &amp; q2 | &#123; &#123;<span class="hljs-number">8</span>&#123;sel[<span class="hljs-number">0</span>]&#125;&#125; &#125; &amp; &#123; ~&#123;<span class="hljs-number">8</span>&#123;sel[<span class="hljs-number">1</span>]&#125;&#125; &#125; &amp; q1 | &#123; ~&#123;<span class="hljs-number">8</span>&#123;sel[<span class="hljs-number">0</span>]&#125;&#125; &#125; &amp; &#123; ~&#123;<span class="hljs-number">8</span>&#123;sel[<span class="hljs-number">1</span>]&#125;&#125; &#125; &amp; d;<br><span class="hljs-keyword">endmodule</span><br><br></code></pre></td></tr></table></figure>
 
                 
               </div>
@@ -344,8 +353,8 @@ inputs</li>
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>hdlbits-Vector5</div>
-      <div>http://456-xiao.github.io/2024/08/03/hdlbits-Vector5/</div>
+      <div>hdlbits_Module_shift8</div>
+      <div>http://456-xiao.github.io/2024/08/06/hdlbits-Module-shift8/</div>
     </div>
     <div class="license-meta">
       
@@ -357,7 +366,7 @@ inputs</li>
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年8月3日</div>
+          <div>2024年8月6日</div>
         </div>
       
       
@@ -389,9 +398,9 @@ inputs</li>
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/08/06/hdlbits-Module/" title="hdlbits_Module">
+                      <a href="/2024/08/06/hdlbits-Module-add/" title="hdlbits_Module_add">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">hdlbits_Module</span>
+                        <span class="hidden-mobile">hdlbits_Module_add</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -399,8 +408,8 @@ inputs</li>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/08/03/hdlbits-Vector4/" title="hdlbits-Vector4">
-                        <span class="hidden-mobile">hdlbits-Vector4</span>
+                      <a href="/2024/08/06/hdlbits-Module-shift/" title="hdlbits_Module_shift">
+                        <span class="hidden-mobile">hdlbits_Module_shift</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

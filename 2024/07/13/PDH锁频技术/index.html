@@ -24,8 +24,13 @@
 <meta property="og:description" content="PDH激光稳频技术 介绍 基于频率调制（FM）。PHD技术是提高激光频率稳定性的技术。激光频率由FP腔测得，测量结果反馈到激光器中抑制频率漂移。好处是系统不会被FP腔的响应时间限制，频率浮动比腔的响应速度快。 概念模型 很多现代激光器是可调谐的，自带能反馈电信号的输入接口调节输出频率。如果能精确测量激光频率，并反馈回调谐接口，借助控制系统，能保持频率不变。 FP腔原理 在光学中，法布里">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://456-xiao.github.io/images/M1M2.jpg">
+<meta property="og:image" content="http://456-xiao.github.io/images/PDH%E5%8E%9F%E7%90%86%E5%9B%BE.jpg">
+<meta property="og:image" content="http://456-xiao.github.io/images/PDH_FIG4.jpg">
+<meta property="og:image" content="http://456-xiao.github.io/images/PDH_FIG5.jpg">
+<meta property="og:image" content="http://456-xiao.github.io/images/PDH_matlab%E6%A8%A1%E6%8B%9F.png">
+<meta property="og:image" content="http://456-xiao.github.io/images/PDH_FIG6.jpg">
 <meta property="article:published_time" content="2024-07-13T12:35:21.000Z">
-<meta property="article:modified_time" content="2024-07-13T14:36:45.346Z">
+<meta property="article:modified_time" content="2024-08-13T16:18:53.213Z">
 <meta property="article:author" content="xyh">
 <meta property="article:tag" content="光学">
 <meta name="twitter:card" content="summary_large_image">
@@ -226,7 +231,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          793 字
+          3.1k 字
         
       </span>
     
@@ -237,7 +242,7 @@
         
         
         
-          7 分钟
+          26 分钟
         
       </span>
     
@@ -346,6 +351,254 @@ F(w) &amp;= \frac{ E_{ref} }{ E_{in} } = -r + \frac{ (1-r^2)r e^{iw
 <p>精细度 <span class="math display">\[
 F=\frac{\pi r}{1-r^2}
 \]</span></p>
+<figure>
+<img src="/images/PDH原理图.jpg" srcset="/img/loading.gif" lazyload title="PDH原理图" alt="PDH原理图" />
+<figcaption aria-hidden="true">PDH原理图</figcaption>
+</figure>
+<p>PDH技术之前的激光锁定有些缺陷：无法区分激光频率的波动和激光器本身光强波动。</p>
+<p>反射光强关于共振点对称，若不共振，无法区分频率是高于还是低于共振频率（通过观察反射光强的谱线）。注意到共振点两侧斜率（导数）有正负之分，可以用来区分，这个误差信号可以用来锁定激光。</p>
+<blockquote>
+<p>Pocket cell 泡克尔斯盒 用于电光相位调制<span
+class="math inline">\(E_{入} = A\cos wt,~~~~ E_{出} = A\cos (wt + \beta
+\sin w_mt)\)</span>，<span
+class="math inline">\(\beta\)</span>为调制深度。</p>
+</blockquote>
+<p>光隔离器由偏振分束PBS和<span
+class="math inline">\(\lambda/4\)</span>波片组成。</p>
+<p>反射光经过光隔离器打入光探测器，其输出与本地振荡器的信号通过混频器作比较，其输出包含直流（或低频）和两倍调制频率信号，我们要用低频成分计算误差并送入伺服系统控制反馈。</p>
+<p>如果缓慢抖动激光频率，此概念模型可以生效。如果抖动太快，腔内共振光不能及时完全上升或下降，输出将不会按照FIG4显示。此PDH技术在高频调制下仍能工作，噪声和伺服系统的带宽都提高了，在解决在用于高频区的概念模型之前，可建立量化模型。</p>
+<figure>
+<img src="/images/PDH_FIG4.jpg" srcset="/img/loading.gif" lazyload title="PDH_FIG4" alt="PDH_FIG4" />
+<figcaption aria-hidden="true">PDH_FIG4</figcaption>
+</figure>
+<h2 id="量化模型">量化模型</h2>
+<h3 id="a-fp腔单色光的反射">A FP腔单色光的反射</h3>
+<p>FP腔反射光实际由两方面组成</p>
+<ol type="1">
+<li>快速反射光（被M反射后再没进入腔）</li>
+<li>漏光（驻波在腔内往返过程中漏出的透射光）</li>
+</ol>
+<p>这两种光有相同的频率，近共振（在无损对称腔中）其强度也几乎相同，但其相位严重依赖激光频率。</p>
+<blockquote>
+<p>case 1 若完美共振，则<span class="math inline">\(\nu = N\cdot \Delta
+\nu_{fsr}\)</span></p>
+<p>反射光中类型1和2有相同的振幅和相反相位，两光干涉相消，若反射光消失，即<span
+class="math inline">\(F(w)=0\)</span></p>
+</blockquote>
+<blockquote>
+<p>case 2 若不完美共振，则<span class="math inline">\(\nu \neq N\cdot
+\Delta \nu_{fsr}\)</span></p>
+<p>不完美指有小偏差。<span class="math inline">\(\nu\)</span>与<span
+class="math inline">\(N\cdot \Delta
+\nu_{fsr}\)</span>足够接近，能建立驻波。反射光中类型1和2的相位差不是180度，不会完全相消。部分光反射出腔，其相位彰显激光频率位于共振点左侧/右侧，如图FIG5所示。</p>
+</blockquote>
+<figure>
+<img src="/images/PDH_FIG5.jpg" srcset="/img/loading.gif" lazyload title="PDH_FIG5" alt="PDH_FIG5" />
+<figcaption aria-hidden="true">PDH_FIG5</figcaption>
+</figure>
+<p>FIG6中，随着激光频率<span class="math inline">\(w\)</span>增加，<span
+class="math inline">\(F(w)\)</span>沿着园作逆时针运动（当<span
+class="math inline">\(w\)</span>均匀增加的时候，函数在B点附近对<span
+class="math inline">\(w\)</span>变化敏感，在A点附近对<span
+class="math inline">\(w\)</span>变化不敏感）。 通过matlab模拟<span
+class="math inline">\(F(w)\)</span>的复数值，大多数情况下靠近-1（A点）</p>
+<figure>
+<img src="/images/PDH_matlab模拟.png" srcset="/img/loading.gif" lazyload title="PDH_matlab模拟"
+alt="PDH_matlab模拟" />
+<figcaption aria-hidden="true">PDH_matlab模拟</figcaption>
+</figure>
+<figure>
+<img src="/images/PDH_FIG6.jpg" srcset="/img/loading.gif" lazyload title="PDH_FIG6" alt="PDH_FIG6" />
+<figcaption aria-hidden="true">PDH_FIG6</figcaption>
+</figure>
+<p>可见在近共振时，灵敏度较大</p>
+<h3 id="b-测量反射光相位">B 测量反射光相位</h3>
+<p>若抖动激光频率，将提供足够信息表明处于共振哪一侧，更量化的思考方式是，调制激光器的频率（或相位）将产生与入射光和反射光具有确定相位关系的边带，这些边带与入射光和反射光频率不同，但仍存在确定相位关系，若用反射光束干涉这些边带，则总和会显示调制频率下的拍频，拍频相位将告知反射光束的相位，边带设定了一个相位标准。通过该标准可以测量反射光束的相位。</p>
+<h3 id="c-调制激光边带">C 调制激光：边带</h3>
+<p>量化模型中调制频率，实际中调制相位更容易，结果相同，但描述相位的数字方式更简单。通过pockets
+cell电光调制相位后，其入射电场变为</p>
+<p><span class="math display">\[
+E_{inc} = E_0 e^{i(wt + \beta \sin \Omega t)}~~~~ \Omega 是调制频率,
+~~~~ \beta 是调制深度
+\]</span></p>
+<p>用贝塞尔函数展开</p>
+<p><span class="math display">\[
+\begin{aligned}
+    E_{inc} &amp;\approx [J_0(\beta) + 2\sigma J_1(\beta)\sin \Omega
+t]e^{iwt} \cdot E_0 \\
+    &amp;= E_0 [J_0(\beta)e^{iwt} + J_1(\beta)e^{i(w+\Omega)t} -
+J_1(\beta)e^{i(w-\Omega)t}]
+\end{aligned}
+\]</span></p>
+<p>若<span class="math inline">\(P_0 =
+|E_0|^2\)</span>是入射光总功率，忽略干涉效应<span
+class="math inline">\(P_c = J_0^2(\beta)P_0\)</span></p>
+<p>一阶边带功率<span class="math inline">\(P_s =
+J_1^2(\beta)P_0\)</span>。当<span class="math inline">\(\beta &lt;
+1\)</span>时，<span class="math inline">\(P_c + 2P_s \approx
+P_0\)</span></p>
+<h3 id="d-调制信号的反射误差信号">D 调制信号的反射：误差信号</h3>
+<p><span class="math display">\[
+\begin{aligned}
+    E_{ref} &amp;= E_{in}\cdot F(w) \\
+            &amp;= E_0[F(w)J_0(\beta)e^{iwt} + F(w +
+\Omega)J_1(\beta)e^{i(w+\Omega)t} -
+F(w-\Omega)J_1(\beta)e^{i(w-\Omega)t}]
+\end{aligned}
+\]</span></p>
+<p>由于光电二极管作为误差信号探测器，实际上测量的是光强<span
+class="math inline">\(P_{ref} =
+|E_{ref}^2|\)</span>，故光电二极管起到一个混频器的作用，每项与另外两项混频得到</p>
+<p><span class="math display">\[
+P_{ref} = |E_{ref}|^2 = E_{ref} \cdot E_{ref}^*
+\]</span></p>
+<blockquote>
+<p><span class="math inline">\(P_c = E_0^2J_0^2(\beta)~~~~P_s =
+E_0^2J_1^2(\beta)\)</span></p>
+</blockquote>
+<p><span class="math display">\[
+E_{ref} = E_0[F(w)J_0(\beta)e^{iwt} + F(w +
+\Omega)J_1(\beta)e^{i(w+\Omega)t} -
+F(w-\Omega)J_1(\beta)e^{i(w-\Omega)t}]
+\]</span> <span class="math display">\[
+E_{ref}^* = E_0[F^*(w)J_0(\beta)e^{iwt} + F^*(w +
+\Omega)J_1(\beta)e^{i(w+\Omega)t} -
+F^*(w-\Omega)J_1(\beta)e^{i(w-\Omega)t}]
+\]</span></p>
+<p>所以</p>
+<p><span class="math display">\[
+\begin{aligned}
+    P_{ref} &amp;= |E_{ref}|^2 = E_{ref} \cdot E_{ref}^* \\
+            &amp;= E_0^2 |F(w)|^2J_0^2(\beta) + E_0^2
+F(w+\Omega)F^*(w+\Omega)J_1^2(\beta) \\
+            &amp;~~~~+ E_0^2 F(w-\Omega)F^*(w-\Omega)J_1^2(\beta) +
+E_0^2 F(w)F^*(w+\Omega)J_0(\beta)J_1(\beta)e^{-i\Omega t} \\
+            &amp;~~~~- E_0^2
+F(w)F^*(w-\Omega)J_0(\beta)J_1(\beta)e^{i\Omega t} + E_0^2
+F^*(w)F(w+\Omega)J_0(\beta)J_1(\beta)e^{i\Omega t} \\
+            &amp;~~~~- E_0^2
+F(w+\Omega)F^*(w-\Omega)J_1^2(\beta)e^{2i\Omega t} - E_0^2
+F^*(w)F(w-\Omega)J_0(\beta)J_1(\beta)e^{-i\Omega t} \\
+            &amp;~~~~- E_0^2 F(w-\Omega)F^*(w+\Omega)J_1^2(\beta)
+e^{-2i\Omega t} \\
+            &amp;= P_c|F(w)|^2 + P_s \{ |F(w + \Omega)|^2 +
+|F(w-\Omega)|^2 \} \\
+            &amp;~~~~ +[F(w)F^*(w+\Omega) -
+F^*(w)F(w-\Omega)]E_0^2J_0(\beta)J_1(\beta)e^{-i\Omega t} \\
+            &amp;~~~~ +[F^*(w)F(w+\Omega) -
+F(w)F^*(w-\Omega)]E_0^2J_0(\beta)J_1(\beta)e^{i\Omega t} + ~~其余2\Omega
+项
+\end{aligned}
+\]</span></p>
+<p>设<span class="math inline">\(F(w)F^*(w+\Omega)=a+bi\)</span></p>
+<p>则<span class="math inline">\(F^*(w)F(w+\Omega)=a-bi\)</span></p>
+<p>原式变为 <span class="math display">\[
+P_{ref} = P_c|F(w)|^2 + P_s \{ |F(w + \Omega)|^2 + |F(w-\Omega)|^2 \} +
+E_0^2J_0(\beta)J_1(\beta)[ (a+bi)e^{-i\Omega t} + (a-bi)e^{i\Omega t} ]
+\]</span></p>
+<p>而 <span class="math display">\[
+\begin{aligned}
+    &amp;(a+bi)e^{-i\Omega t} + (a-bi)e^{i\Omega t} \\
+    &amp;= (a+bi)(\cos \Omega t - i \sin \Omega t) + (a-bi)(\cos\Omega t
++ i\sin\Omega t) \\
+    &amp;= 2a\cos \Omega t + 2b\sin \Omega t
+\end{aligned}
+\]</span></p>
+<p>所以 <span class="math display">\[
+P_{ref} = P_c|F(w)|^2 + P_s \{ |F(w + \Omega)|^2 + |F(w-\Omega)|^2 \} +
+2\sqrt{P_c P_s}( a\cos \Omega t + b\sin \Omega t )
+\]</span></p>
+<p>我们只对<span class="math inline">\(\cos \Omega t\)</span>或<span
+class="math inline">\(\sin \Omega t\)</span>感兴趣，因为其反映了相移</p>
+<ul>
+<li>若调制频率很小（<span class="math inline">\(\Omega \ll \Delta
+\nu_c\)</span>），则<span class="math inline">\(F(w)F^*(w+\Omega) -
+F^*(w)F(w-\Omega)\)</span>为实数，正弦项为0，留住余弦项。</li>
+<li>若调制频率很大（<span class="math inline">\(\Omega \gg \Delta
+\nu_c\)</span>），则<span class="math inline">\(F(w\pm \Omega) \approx
+-1,~~~~ F(w)F^*(w+\Omega)
+-F*(w)F(w-\Omega)\)</span>为虚数，余弦项为0，留正弦项。</li>
+</ul>
+<blockquote>
+<p>证明：</p>
+<p>当<span
+class="math inline">\(\Omega\)</span>很小，用泰勒公式展开，保留前两项</p>
+<p><span class="math inline">\(F(w)F^*(w+\Omega) -
+F^*(w)F(w-\Omega)\)</span></p>
+<p><span class="math inline">\(=F(w)(F^*(w) + \frac{dF^*(w)}{dw} \cdot
+\Omega) - F^*(w)(F(w) - \frac{dF(w)}{dw} \cdot \Omega)\)</span></p>
+<p><span class="math inline">\(=[F(w)\frac{dF^*(w)}{dw} +
+F^*(w)\frac{dF(w)}{dw}] \Omega\)</span></p>
+<p><span class="math inline">\(= \frac{d[F(w)F^*(w)]}{dw} \Omega
+=\frac{d|F|^2}{dw}\Omega\)</span></p>
+<p>结果为实数</p>
+<p>通过matlab计算，当<span class="math inline">\(\Omega \gg \Delta
+\nu_c\)</span>时，确实有<span class="math inline">\(F(w\pm \Omega)
+\approx -1\)</span>，众多值集中在复平面（FIG6）的A点，故</p>
+<p><span class="math inline">\(F(w)F^*(w+\Omega) - F^*(w)F(w-\Omega) =
+-2bi = -i \cdot 2Im[F(w)]\)</span></p>
+<p>结果为虚数</p>
+</blockquote>
+<p>取正弦或余弦的一次分量，可通过使用混频器与滤波器来实现。</p>
+<p>如果输入信号都是sin，那么<span class="math inline">\(\sin(\Omega
+t)\sin(\Omega&#39; t) = 1/2 \{ \cos[(\Omega - \Omega&#39;)t] -
+\cos[(\Omega + \Omega&#39;)t] \}\)</span>。若<span
+class="math inline">\(\Omega = \Omega&#39;\)</span>，则<span
+class="math inline">\(\cos(\Omega -
+\Omega&#39;)t\)</span>为直流分量，正是我们需要的，可以用一个低通滤波器滤除<span
+class="math inline">\(\cos(\Omega + \Omega&#39;)t\)</span>而保留<span
+class="math inline">\(\cos(\Omega - \Omega&#39;)t\)</span></p>
+<p>如果输入信号是sin和cos，那么<span class="math inline">\(\sin(\Omega
+t)\cos(\Omega&#39; t) = 1/2 [\sin(\Omega - \Omega&#39; t) - \sin(\Omega
++ \Omega&#39;)t]\)</span> 当<span class="math inline">\(\Omega =
+\Omega&#39;\)</span>，<span class="math inline">\(\sin(\Omega -
+\Omega&#39;)t=0\)</span>无意义。故需要注意混频器两端输入信号相位，使混频器项均为正弦项。实际上，由于不同系统输入到混频器两端的信号相位不同，往往在混频器前加一个可调移相器，以便混频时能使两信号相位适配。</p>
+<h2 id="理解量化模型">理解量化模型</h2>
+<h3 id="a-慢调制概念模型的量化">A 慢调制概念模型的量化</h3>
+<p>当驻波锁定时，<span
+class="math inline">\(w\)</span>是一个定值，在未锁定时，<span
+class="math inline">\(w\)</span>会有一个变化的漂移范围，是一个变量。用<span
+class="math inline">\(w(t)\)</span>表示。即<span
+class="math inline">\(w(t)\)</span>缓慢抖动</p>
+<p><span class="math display">\[
+E_{in} = E_0 \cos(wt + \beta \sin \Omega t)
+\]</span></p>
+<p>相位是<span class="math inline">\(wt + \beta \sin \Omega
+t\)</span>，则瞬时频率<span class="math inline">\(w(t) =
+\frac{d\phi}{dt} = \frac{d(wt + \beta \sin \Omega t)}{dt} =
+w+\Omega\beta\cos\Omega t\)</span></p>
+<p>慢调制下<span class="math inline">\(\Omega \approx 0\)</span></p>
+<p><span class="math display">\[
+P_{ref} = P_0|F(w)|^2
+\]</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+    P_{ref}(w + \Omega\beta\cos\Omega t) &amp;\approx P_ref(w) +
+\frac{dP_ref}{dw} \cdot \Omega\beta \cos \Omega t \\
+    &amp;\approx P_ref(w) + P_0\frac{d|F(w)|^2}{dw} \cdot
+\Omega\beta\cos\Omega t
+\end{aligned}
+\]</span></p>
+<p>概念模型中，在隔热环境下缓慢抖动激光频率w，使腔内驻波总是与入射光束相均衡，在量化模型中可用很小的<span
+class="math inline">\(\Omega\)</span>表达</p>
+<p>前面证明了<span class="math inline">\(F(w)F^*(w+\Omega) -
+F^*(w)F(w-\Omega) = \frac{d|F(w)|^2}{dw}\cdot
+\Omega\)</span>是实数，只有余弦项。若我们使<span
+class="math inline">\(\sqrt{P_c P_s}\)</span>约等于<span
+class="math inline">\(P_0\beta / 2\)</span></p>
+<p>那么<span class="math inline">\(P_{ref} = 常数项 +
+P_0\frac{d|F(w)|^2}{dw} \cdot \Omega\beta\cos\Omega t + (2\Omega
+项)\)</span></p>
+<p>量化模型与概念模型抑制，混频器会消除除<span
+class="math inline">\(\cos\Omega t\)</span>之外的其余项</p>
+<p>PDH误差信号<span class="math inline">\(\varepsilon =
+P_0\frac{d|F(w)|^2}{dw}\Omega\beta \approx 2\sqrt{P_c
+P_s}\frac{d|F(w)|^2}{dw}\Omega\)</span> 其中<span
+class="math inline">\(|F(w)|^2\)</span>表征输出光强，<span
+class="math inline">\(\frac{d|F(w)|^2}{dw}\)</span>可表示光强I随<span
+class="math inline">\(w\)</span>变化的导数，在共振两侧，导数有正负之分，在误差图中<span
+class="math inline">\(\varepsilon\)</span>有正负之分。</p>
+<h3 id="b-近共振快调制实操中的pdh">B 近共振快调制，实操中的PDH</h3>
 
                 
               </div>
